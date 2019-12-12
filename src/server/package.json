@@ -1,0 +1,12 @@
+{
+  "name": "courza-server",
+  "version": "1.0.0",
+  "description": "Backend for Courza",
+  "main": "index.js",
+  "author": "Nilay Majorwar",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "mongoose": "^5.8.0"
+  }
+}
