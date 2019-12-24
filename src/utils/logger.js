@@ -41,12 +41,3 @@ export function info(logMessage: string, logArea?: string) {
 }
 
 export default { log, err, warn, info, boldenLog };
-
-log('Created new document in students', 'db');
-log('Started server at port 8000', 'server');
-log('Clicked!!!', 'web');
-log('Without logArea defined!');
-console.log();
-err('DB connection failed.', 'db');
-warn('useOldOption is deprecated', 'db');
-info('Successfully connected', 'db');

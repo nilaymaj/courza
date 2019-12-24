@@ -1,4 +1,4 @@
-import { Schema } from '../db';
+import { Schema, Types } from '../db';
 import { COURSE_CODE_REGEX } from '../../utils/constants';
 
 const courseSchema = new Schema({
@@ -11,6 +11,14 @@ const courseSchema = new Schema({
     required: true,
     unique: true,
     match: COURSE_CODE_REGEX
+  },
+  students: {
+    type: [Types.ObjectId],
+    required: true
+  },
+  chats: {
+    type: [Types.ObjectId],
+    required: true
   }
 });
 
