@@ -7,17 +7,18 @@ const chatSchema = new Schema({
     maxlength: 30,
     required: true
   },
-  course: {
+  courseId: {
     type: Types.ObjectId,
     required: true
   },
-  creator: {
+  creatorId: {
     type: Types.ObjectId,
     required: true
   },
   messages: {
     type: [Types.ObjectId],
-    required: true
+    required: true,
+    default: []
   }
 });
 

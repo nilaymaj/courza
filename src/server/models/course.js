@@ -16,9 +16,14 @@ const courseSchema = new Schema({
     type: [Types.ObjectId],
     required: true
   },
+  creatorId: {
+    type: Types.ObjectId,
+    required: true
+  },
   chats: {
     type: [Types.ObjectId],
-    required: true
+    required: true,
+    default: []
   }
 });
 

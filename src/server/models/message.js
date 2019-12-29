@@ -14,6 +14,7 @@ const messageSchema = new Schema({
   votes: {
     type: Number,
     min: 0,
+    default: 0,
     required: true
   },
   chatId: {

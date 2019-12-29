@@ -1,6 +1,6 @@
 import { createConnection } from 'mongoose';
 import { DEV_DB_URL } from '../../utils/constants';
-import { getEnvVariable as env } from '../../utils/base';
+import { getEnvVariable as env } from '../utils';
 import { DbSchema, DbTypes } from './schema';
 
 /**
