@@ -1,24 +1,35 @@
 // @flow
 import Poll from '../models/poll';
-import { Student } from '../models/student';
 import { remove } from 'lodash';
+import { Student } from '../models/student';
+import { NotFoundError } from '../utils/errors';
 
 export default class PollService {
   /**
+   * INTERNAL FUNCTION
+   *
    * Creates new Poll object (does not update course)
    *
    * @param {Object} data Object with courseId, description and optionsText (Array<String>)
-   * @returns {Object} Newly created poll object
+   * @returns {Poll} Newly created poll object
    */
-  static async create(data: {
-    courseId: string,
-    description: string,
-    optionsText: Array<string>
-  }): Poll {
+  static async create(data: { courseId: string, description: string, optionsText: Array<string> }): Poll {
     const { description, courseId, optionsText } = data;
     const options = optionsText.map(text => ({ text, students: [] }));
     const poll = new Poll({ description, courseId, options });
     await poll.save();
+    return poll;
+  }
+
+  /**
+   * Finds and returns Poll object by ID
+   *
+   * @param {string} pollId ID of the poll
+   * @returns {Poll} Poll object
+   */
+  static async get(pollId: string): Poll {
+    const poll = await Poll.findById(pollId);
+    if (!poll) throw new NotFoundError('Poll does not exist.');
     return poll;
   }
 
@@ -29,19 +40,10 @@ export default class PollService {
    * @param {Object} data Object with studentId and option no.
    * @returns {Poll} Updated poll object
    */
-  static async poll(
-    pollId: string,
-    data: { studentId: string, option: number }
-  ): Poll {
-    const poll = await Poll.findById(pollId);
-    if (!poll) throw new Error('Poll does not exist.');
-
-    const student = await Student.findById(data.studentId);
-    if (!student) throw new Error('Student does not exist.');
-
+  static async poll(poll: Poll, data: { student: Student, option: number }): Poll {
     const studentVotes = poll.options[data.option];
-    remove(studentVotes, id => id === student._id);
-    poll.options[data.option].push(student._id);
+    remove(studentVotes, id => id === data.student._id);
+    poll.options[data.option].push(data.student._id);
     await poll.save();
     return poll;
   }

@@ -1,5 +1,6 @@
 // @flow
 import { Message } from '../models';
+import { NotFoundError } from '../utils/errors';
 
 export default class MessageService {
   /**
@@ -19,15 +20,24 @@ export default class MessageService {
   }
 
   /**
+   * Finds and returns a Message object by its _id.
+   *
+   * @param {string} messageId ID of the message
+   * @returns {Message} Message object
+   */
+  static async get(messageId: string): Message {
+    const message = await Message.findById(messageId);
+    if (!message) throw new NotFoundError('Message does not exist.');
+    return message;
+  }
+
+  /**
    * Upvotes a message
    *
-   * @param {string} messageId ID of the message to upvote
+   * @param {Message} message Message to upvote
    * @returns {Message} Updated Message object
    */
-  static async upvote(messageId: string): Message {
-    const message = await Message.findById(messageId);
-    if (!message) throw new Error('Message does not exist.');
-
+  static async upvote(message: Message): Message {
     message.votes++;
     await message.save();
     return message;

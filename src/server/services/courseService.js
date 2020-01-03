@@ -1,43 +1,58 @@
 // @flow
-import { Course, Student, Chat } from '../models';
+import { Course, Student } from '../models';
 import ChatService from './chatService';
-import { toObjectID } from '../utils';
+import { NotFoundError } from '../utils/errors';
+import { validate } from '../utils/validator';
+import { newCourseValidator } from '../validators';
 
-export class CourseService {
+export default class CourseService {
   /**
    * Creates new course in database
    *
-   * @param {Object} data Object with name, code and creatorId of course
-   * @returns {Course} Newly created course object
+   * @param {Object} data Object with name, code and creatorId
+   * @returns {Promise} Newly created course object
    */
-  static async create(data: {
-    name: string,
-    code: string,
-    creatorId: string
-  }): Course {
+  static async create(data: { name: string, code: string, creatorId: string }): Promise<Course> {
+    validate(data, newCourseValidator);
     const course = new Course({
       ...data,
-      students: [toObjectID(data.creatorId)]
+      students: [data.creatorId]
     });
     await course.save();
     return course;
   }
 
   /**
-   * Creates new course chat
+   * Finds and returns new Course object
    *
    * @param {string} courseId ID of the course
-   * @param {Object} data Object with title and creatorId of chat
-   * @returns {Object} Updated course object
+   * @returns {Promise} Course object
    */
-  static async createNewChat(
-    courseId: string,
-    data: { title: string, creatorId: string }
-  ): Chat {
+  static async get(courseId: string): Promise<Course> {
     const course = await Course.findById(courseId);
-    if (!course) throw new Error('Course does not exist.');
+    if (!course) throw new NotFoundError('Course does not exist.');
+    return course;
+  }
 
-    const chat = await ChatService.create({ ...data, courseId });
+  /**
+   * Returns array of all Course objects in database
+   *
+   * @returns {Promise} Promise, resolves with array of Course objects
+   */
+  static async viewAll(): Promise<Course[]> {
+    const arr = await Course.find();
+    return arr;
+  }
+
+  /**
+   * Creates new course chat
+   *
+   * @param {Course} course Course object
+   * @param {Object} data Object with title and creatorId of chat
+   * @returns {Promise} Updated course object
+   */
+  static async createNewChat(course: Course, data: { title: string, creatorId: string }): Promise<Course> {
+    const chat = await ChatService.create({ ...data, courseId: course._id });
     const chatId = chat._id.toString();
     course.chats.push(chatId);
     await course.save();
@@ -45,21 +60,16 @@ export class CourseService {
   }
 
   /**
+   * INTERNAL FUNCTION
+   *
    * Add new student to the course (does not update student object)
    *
-   * @param {string} courseId ID of the course
-   * @param {string} studentId ID of the new student
-   * @returns {Course} Updated course object
+   * @param {Course} course Course object
+   * @param {Student} student Student object
+   * @returns {Promise} Updated course object
    */
-  static async addNewStudent(courseId: string, studentId: string): Course {
-    const course = await Course.findById(courseId);
-    if (!course) throw new Error('Course does not exist.');
-
-    const student = await Student.findById(studentId);
-    if (!student) throw new Error('Student does not exist.');
-
-    if (course.students.includes(student._id))
-      throw new Error('Student already in course');
+  static async addNewStudent(course: Course, student: Student): Promise<Course> {
+    if (course.students.includes(student._id)) throw new Error('Student already in course');
 
     course.students.push(student._id);
     await course.save();

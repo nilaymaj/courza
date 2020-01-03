@@ -4,10 +4,7 @@ import MessageService from './messageService';
 import StudentService from './studentService';
 import PollService from './pollService';
 
-export default {
-  CourseService,
-  ChatService,
-  MessageService,
-  PollService,
-  StudentService
-};
+const Services = { CourseService, ChatService, MessageService, StudentService, PollService };
+
+export default Services;
+export { CourseService, ChatService, MessageService, StudentService, PollService };

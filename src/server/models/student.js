@@ -1,5 +1,5 @@
 import { Schema, Types } from '../db';
-import { IITK_EMAIL_REGEX } from '../../utils/constants';
+import { IITK_EMAIL_REGEX } from '../utils/constants';
 
 const studentSchema = new Schema({
   name: {
@@ -38,4 +38,4 @@ const studentSchema = new Schema({
   }
 });
 
-export const Student = studentSchema.model();
+export default studentSchema.model('Student');

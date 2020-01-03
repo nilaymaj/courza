@@ -1,5 +1,5 @@
 import { Schema, Types } from '../db';
-import { COURSE_CODE_REGEX } from '../../utils/constants';
+import { COURSE_CODE_REGEX } from '../utils/constants';
 
 const courseSchema = new Schema({
   name: {
@@ -27,4 +27,4 @@ const courseSchema = new Schema({
   }
 });
 
-export const Course = courseSchema.model();
+export default courseSchema.model('Course');

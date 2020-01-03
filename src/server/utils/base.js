@@ -1,6 +1,6 @@
 // @flow
 import bcrypt from 'bcrypt';
-import { IITK_EMAIL_REGEX } from '../utils/constants';
+import { IITK_EMAIL_REGEX } from './constants';
 import { ObjectId } from 'mongoose';
 
 /**
@@ -27,8 +27,7 @@ export function error(errorName: string, errorMessage: string): Error {
 export function getUsernameFromEmail(email: string): Object {
   // Capture username and subdomain from given email
   const groups = email.match(IITK_EMAIL_REGEX);
-  if (groups === null)
-    throw error('EmailError', 'Email is not a valid IITK email ID.');
+  if (groups === null) throw error('EmailError', 'Email is not a valid IITK email ID.');
   const username = groups[1];
   return username;
 }
@@ -41,10 +40,7 @@ export function getUsernameFromEmail(email: string): Object {
  * @returns {*} Value of the environment variable
  *
  */
-export function getEnvVariable(
-  varName: string,
-  defaultValue?: string
-): ?string {
+export function getEnvVariable(varName: string, defaultValue?: string): ?string {
   const fullVarName = `process.env.COURZA_${varName.toUpperCase()}`;
   let envValue = eval(fullVarName);
   if (envValue === undefined) envValue = defaultValue;

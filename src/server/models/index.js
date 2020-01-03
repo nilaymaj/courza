@@ -9,3 +9,5 @@ export default {
   Student,
   Message
 };
+
+export { Chat, Course, Student, Message };

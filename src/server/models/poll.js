@@ -18,4 +18,4 @@ const pollSchema = new Schema({
   }
 });
 
-export default pollSchema.model();
+export default pollSchema.model('Poll');

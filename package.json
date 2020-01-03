@@ -11,15 +11,6 @@
     "test": "npx jest --silent"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "@babel/preset-flow": "^7.7.4",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-flowtype": "^4.5.2",
-    "eslint-plugin-react": "^7.17.0",
-    "flow-bin": "^0.113.0",
     "jest": "^24.9.0"
   },
   "dependencies": {

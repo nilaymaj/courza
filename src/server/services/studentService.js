@@ -1,7 +1,8 @@
 // @flow
 import { Student, Course } from '../models';
-import { hash, compareHash } from '../utils';
-import { CourseService } from './courseService';
+import { hash, compareHash } from '../utils/base';
+import CourseService from './courseService';
+import { NotFoundError, CredentialsError } from '../utils/errors';
 
 export default class StudentService {
   /**
@@ -10,16 +11,22 @@ export default class StudentService {
    * @param {Object} data Object containing name, iitkEmail, rollNo and password
    * @returns {Student} Newly created student object
    */
-  static async create(data: {
-    name: string,
-    iitkEmail: string,
-    rollNo: Number,
-    password: string
-  }): Student {
-    const hashedPwd = hash(data.password);
+  static async create(data: { name: string, iitkEmail: string, rollNo: Number, password: string }): Student {
+    const hashedPwd = await hash(data.password);
     const student = new Student({ ...data, password: hashedPwd });
     await student.save();
     return student;
+  }
+
+  /**
+   * Finds and returns Student object by ID
+   *
+   * @param {string} studentId ID of the student
+   * @returns {Student} Student object
+   */
+  static async get(studentId: string): Student {
+    const student = await Student.findById(studentId);
+    if (!student) throw new NotFoundError('Student does not exist.');
   }
 
   /**
@@ -31,10 +38,11 @@ export default class StudentService {
    */
   static async checkCredentials(iitkEmail: string, password: string): ?Student {
     const student = await Student.findOne({ iitkEmail });
-    if (!student) throw new Error('Student does not exist.');
+    if (!student) throw new NotFoundError('Student does not exist.');
 
     const match = await compareHash(password, student.password);
-    if (!match) return null;
+    if (!match) throw new CredentialsError('Password does not match.');
+    // TODO: Or throw an error (above)?
     else return student;
   }
 

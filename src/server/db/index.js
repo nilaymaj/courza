@@ -1,6 +1,6 @@
-import { createConnection } from 'mongoose';
-import { DEV_DB_URL } from '../../utils/constants';
-import { getEnvVariable as env } from '../utils';
+import { connect } from 'mongoose';
+import { DEV_DB_URL } from '../utils/constants';
+import { getEnvVariable as env } from '../utils/base';
 import { DbSchema, DbTypes } from './schema';
 
 /**
@@ -10,8 +10,8 @@ import { DbSchema, DbTypes } from './schema';
  */
 export const connectToDb = async function() {
   const dbURL = env('env') === 'production' ? env('prod_url') : DEV_DB_URL;
-  const dbConnectionOpts = { useNewUrlParser: true };
-  const db = await createConnection(dbURL, dbConnectionOpts);
+  const dbConnectionOpts = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true };
+  const db = await connect(dbURL, dbConnectionOpts);
   return db;
 };
 
