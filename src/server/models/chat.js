@@ -1,4 +1,4 @@
-import { Schema, Types } from '../db';
+const { Schema, Types } = require('../db');
 
 const chatSchema = new Schema({
   title: {
@@ -22,4 +22,4 @@ const chatSchema = new Schema({
   }
 });
 
-export default chatSchema.model('Chat');
+module.exports = chatSchema.model('Chat');

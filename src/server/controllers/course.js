@@ -1,7 +1,7 @@
-import { CourseService } from '../services';
-import controller from './controller';
+const { CourseService } = require('../services');
+const controller = require('./controller');
 
-export const createNewCourse = controller(async (req, res) => {
+exports.createNewCourse = controller(async (req, res) => {
   const creatorId = req.student._id;
   const courseInfo = req.body;
 
@@ -9,7 +9,7 @@ export const createNewCourse = controller(async (req, res) => {
   return res.send(course.toObject());
 });
 
-export const viewAllCourses = controller(async (req, res) => {
+exports.viewAllCourses = controller(async (req, res) => {
   const courses = await CourseService.getAll();
   const plainCourses = courses.map(c => c.toObject());
   return res.send(plainCourses);

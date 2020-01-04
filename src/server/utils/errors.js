@@ -1,9 +1,7 @@
 function createError(errorName) {
-  return class CustomError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = errorName;
-    }
+  return function customError(message) {
+    Error.call(this, message);
+    this.name = errorName;
   };
 }
 
@@ -12,5 +10,4 @@ const ValidationError = createError('ValidationError');
 const CredentialsError = createError('CredentialsError');
 const DuplicateError = createError('DuplicateError');
 
-export default { NotFoundError, ValidationError, CredentialsError, DuplicateError };
-export { NotFoundError, ValidationError, CredentialsError, DuplicateError };
+module.exports = { NotFoundError, ValidationError, CredentialsError, DuplicateError };

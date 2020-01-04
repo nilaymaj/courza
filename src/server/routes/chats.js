@@ -1,8 +1,7 @@
-import { Router } from 'express';
-import { viewAllCourseChats, createNewChat } from '../controllers/chat';
-const router = Router();
+const router = require('express').Router();
+const { viewAllCourseChats, createNewChat } = require('../controllers/chat');
 
 router.post('/all', viewAllCourseChats);
 router.post('/new', createNewChat);
 
-export default router;
+module.exports = router;

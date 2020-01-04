@@ -1,7 +1,7 @@
-import Errors from '../utils/errors';
-import { err } from '../utils/logger';
+const Errors = require('../utils/errors');
+const { err } = require('../utils/logger');
 
-export default function controller(handler) {
+module.exports = function controller(handler) {
   return async function(req, res) {
     try {
       const result = await handler(req, res);
@@ -22,4 +22,4 @@ export default function controller(handler) {
       }
     }
   };
-}
+};

@@ -1,8 +1,7 @@
-import { Router } from 'express';
-import { registerNewStudent } from '../controllers/student';
-const router = Router();
+const router = require('express').Router();
+const { registerNewStudent } = require('../controllers/student');
 
 // TODO: Update these routes once student service is complete
 router.post('/new', registerNewStudent);
 
-export default router;
+module.exports = router;

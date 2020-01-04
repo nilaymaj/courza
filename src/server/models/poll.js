@@ -1,4 +1,4 @@
-import { Schema, Types } from '../db';
+const { Schema, Types } = require('../db');
 
 const pollSchema = new Schema({
   courseId: {
@@ -18,4 +18,4 @@ const pollSchema = new Schema({
   }
 });
 
-export default pollSchema.model('Poll');
+module.exports = pollSchema.model('Poll');

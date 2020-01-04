@@ -20,14 +20,10 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-flow": "^7.7.4",
-    "@babel/register": "^7.7.7",
-    "babel-loader": "^8.0.6",
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
+    "remove-flow-types-loader": "^1.1.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"

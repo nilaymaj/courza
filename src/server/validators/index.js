@@ -1,13 +1,13 @@
-import { $ } from '../utils/validator';
+const { $ } = require('../utils/validator');
 
-export const newCourseValidator = $.object({
+exports.newCourseValidator = $.object({
   name: $.string().required(),
   code: $.string()
     // .courseCode()
     .required()
 });
 
-export const newChatValidator = $.object({
+exports.newChatValidator = $.object({
   title: $.string()
     .min(5)
     .max(30)

@@ -13,22 +13,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
-        exclude: /(node_modules|dist)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-flow']
-          }
-        }
+        test: /\.jsx?$/,
+        enforce: 'pre',
+        use: ['remove-flow-types-loader'],
+        exclude: /(node_modules|dist)/
       },
       {
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
-        loader: 'eslint-loader',
-        options: {
-          // eslint options (if necessary)
-        }
+        loader: 'eslint-loader'
       }
     ]
   }

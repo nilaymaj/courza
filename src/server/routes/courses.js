@@ -1,8 +1,7 @@
-import { Router } from 'express';
-import { createNewCourse, viewAllCourses } from '../controllers/course';
-const router = Router();
+const router = require('express').Router();
+const { createNewCourse, viewAllCourses } = require('../controllers/course');
 
 router.post('/new', createNewCourse);
 router.get('/all', viewAllCourses);
 
-export default router;
+module.exports = router;

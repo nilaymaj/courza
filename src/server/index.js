@@ -1,11 +1,8 @@
-import '@babel/polyfill';
-import '@babel/register';
-
-import express from 'express';
-import morgan from 'morgan';
-import { CourseRouter, ChatRouter, StudentRouter } from './routes';
-import { connectToDb } from './db';
-import logger from './utils/logger';
+const express = require('express');
+const morgan = require('morgan');
+const { CourseRouter, ChatRouter, StudentRouter } = require('./routes');
+const { connectToDb } = require('./db');
+const logger = require('./utils/logger');
 
 const app = express();
 

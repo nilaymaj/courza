@@ -1,8 +1,7 @@
-import { CourseService } from '../services';
-import controller from './controller';
-import ChatService from '../services/chatService';
+const { CourseService, ChatService } = require('../services');
+const controller = require('./controller');
 
-export const createNewChat = controller(async (req, res) => {
+exports.createNewChat = controller(async (req, res) => {
   const creatorId = req.student._id;
   const courseId = req.course._id;
   const chatInfo = req.body;
@@ -11,7 +10,7 @@ export const createNewChat = controller(async (req, res) => {
   return res.send(chat.toObject());
 });
 
-export const viewAllCourseChats = controller(async (req, res) => {
+exports.viewAllCourseChats = controller(async (req, res) => {
   const courseId = req.course._id;
   const chats = await ChatService.getAll(courseId);
   const plainChats = chats.map(c => c.toObject());

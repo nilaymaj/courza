@@ -1,6 +1,5 @@
-import CourseRouter from './courses';
-import ChatRouter from './chats';
-import StudentRouter from './students';
+const CourseRouter = require('./courses');
+const ChatRouter = require('./chats');
+const StudentRouter = require('./students');
 
-export default { CourseRouter, ChatRouter, StudentRouter };
-export { CourseRouter, ChatRouter, StudentRouter };
+module.exports = { CourseRouter, ChatRouter, StudentRouter };

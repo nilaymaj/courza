@@ -1,10 +1,7 @@
-import CourseService from './courseService';
-import ChatService from './chatService';
-import MessageService from './messageService';
-import StudentService from './studentService';
-import PollService from './pollService';
+const CourseService = require('./courseService');
+const ChatService = require('./chatService');
+const MessageService = require('./messageService');
+const StudentService = require('./studentService');
+const PollService = require('./pollService');
 
-const Services = { CourseService, ChatService, MessageService, StudentService, PollService };
-
-export default Services;
-export { CourseService, ChatService, MessageService, StudentService, PollService };
+module.exports = { CourseService, ChatService, MessageService, StudentService, PollService };
