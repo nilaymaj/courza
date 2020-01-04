@@ -5,9 +5,17 @@ function createError(errorName) {
   };
 }
 
-const NotFoundError = createError('NotFoundError');
-const ValidationError = createError('ValidationError');
-const CredentialsError = createError('CredentialsError');
-const DuplicateError = createError('DuplicateError');
+const errorNames = [
+  'NotFoundError',
+  'ValidationError',
+  'CredentialsError',
+  'DuplicateError',
+  'AuthorizationError',
+  'ServerError'
+];
+const errors = {};
+for (const e of errorNames) {
+  errors[e] = createError(e);
+}
 
-module.exports = { NotFoundError, ValidationError, CredentialsError, DuplicateError };
+module.exports = errors;

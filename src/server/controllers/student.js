@@ -1,8 +1,10 @@
 const { StudentService } = require('../services');
+const { pick } = require('lodash');
 const controller = require('./controller');
 
-exports.registerNewStudent = controller(async (req, res) => {
-  // TODO: COMPLETE THIS CONTROLLER
-  const student = await StudentService.create(req.body);
-  return res.send(student.toObject());
+exports.joinCourse = controller(async (req, res) => {
+  const { user, course } = req;
+
+  const updated = await StudentService.joinCourse(user, course);
+  return res.send(pick(updated, ['_id', 'iitkEmail', 'courses']));
 });

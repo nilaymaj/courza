@@ -1,6 +1,8 @@
 // @flow
+const { pick } = require('lodash');
 const { Student, Course } = require('../models');
 const { hash, compareHash } = require('../utils/base');
+const { generateToken } = require('../utils/token');
 const CourseService = require('./courseService');
 const { NotFoundError, CredentialsError } = require('../utils/errors');
 
@@ -31,6 +33,7 @@ exports.create = async function create(data: {
 exports.get = async function get(studentId: string): Student {
   const student = await Student.findById(studentId);
   if (!student) throw new NotFoundError('Student does not exist.');
+  return student;
 };
 
 /**
@@ -40,14 +43,14 @@ exports.get = async function get(studentId: string): Student {
  * @param {string} password Plaintext password
  * @returns {Student} Student object (or null, if password does not match)
  */
-exports.checkCredentials = async function checkCredentials(iitkEmail: string, password: string): ?Student {
+exports.login = async function login(iitkEmail: string, password: string): ?Student {
   const student = await Student.findOne({ iitkEmail });
   if (!student) throw new NotFoundError('Student does not exist.');
 
   const match = await compareHash(password, student.password);
   if (!match) throw new CredentialsError('Password does not match.');
-  // TODO: Or throw an error (above)?
-  else return student;
+  const token = generateToken(pick(student, ['_id', 'iitkEmail']));
+  return token;
 };
 
 /**

@@ -9,7 +9,8 @@ const { DbSchema, DbTypes } = require('./schema');
  * @returns {object} Mongoose connection object
  */
 exports.connectToDb = async function() {
-  const dbURL = env('env') === 'production' ? env('prod_url') : DEV_DB_URL;
+  const envMode = process.env.NODE_ENV;
+  const dbURL = envMode === 'PRODUCTION' ? env('prod_url') : DEV_DB_URL;
   const dbConnectionOpts = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true };
   const db = await connect(dbURL, dbConnectionOpts);
   return db;

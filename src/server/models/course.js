@@ -14,7 +14,8 @@ const courseSchema = new Schema({
   },
   students: {
     type: [Types.ObjectId],
-    required: true
+    required: true,
+    default: []
   },
   creatorId: {
     type: Types.ObjectId,

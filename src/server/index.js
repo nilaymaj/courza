@@ -1,17 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
-const { CourseRouter, ChatRouter, StudentRouter } = require('./routes');
+const cookieParser = require('cookie-parser');
+const MainRouter = require('./routes');
 const { connectToDb } = require('./db');
 const logger = require('./utils/logger');
+const { objectify, errorHandler } = require('./middleware');
 
 const app = express();
-
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
-
-app.use('/courses', CourseRouter);
-app.use('/chats', ChatRouter);
-app.use('/students', StudentRouter);
+app.use('/api', MainRouter);
 
 connectToDb()
   .then(() => {

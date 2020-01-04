@@ -1,7 +1,6 @@
+const { joinCourse } = require('../controllers/student');
 const router = require('express').Router();
-const { registerNewStudent } = require('../controllers/student');
 
-// TODO: Update these routes once student service is complete
-router.post('/new', registerNewStudent);
+router.post('/join', joinCourse);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { error, getUsernameFromEmail, getEnvVariable } from '../src/utils/base';
+const { error, getUsernameFromEmail, getEnvVariable } = require('../src/utils/base');
 
 const invalidIITKEmails = [
   'abc@gmail.com',

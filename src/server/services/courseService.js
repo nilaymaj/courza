@@ -1,23 +1,25 @@
 // @flow
 const { Course, Student } = require('../models');
 const ChatService = require('./chatService');
-const { NotFoundError } = require('../utils/errors');
+const StudentService = require('./studentService');
+const { NotFoundError, DuplicateError } = require('../utils/errors');
 const { validate } = require('../utils/validator');
 const { newCourseValidator } = require('../validators');
 
 /**
  * Creates new course in database
  *
- * @param {Object} data Object with name, code and creatorId
+ * @param {Object} data Object with name, code and creator
  * @returns {Promise} Newly created course object
  */
-exports.create = async function create(data: { name: string, code: string, creatorId: string }): Promise<Course> {
+exports.create = async function create(data: { name: string, code: string, creator: Student }): Promise<Course> {
   validate(data, newCourseValidator);
   const course = new Course({
     ...data,
-    students: [data.creatorId]
+    creatorId: data.creator._id
   });
   await course.save();
+  await StudentService.joinCourse(data.creator, course);
   return course;
 };
 
@@ -38,7 +40,7 @@ exports.get = async function get(courseId: string): Promise<Course> {
  *
  * @returns {Promise} Promise, resolves with array of Course objects
  */
-exports.viewAll = async function viewAll(): Promise<Course[]> {
+exports.getAll = async function viewAll(): Promise<Course[]> {
   const arr = await Course.find();
   return arr;
 };
@@ -71,7 +73,7 @@ exports.createNewChat = async function createNewChat(
  * @returns {Promise} Updated course object
  */
 exports.addNewStudent = async function addNewStudent(course: Course, student: Student): Promise<Course> {
-  if (course.students.includes(student._id)) throw new Error('Student already in course');
+  if (course.students.includes(student._id)) throw new DuplicateError('Student already in course');
 
   course.students.push(student._id);
   await course.save();
