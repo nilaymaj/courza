@@ -1,0 +1,48 @@
+.cz-button {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 5px;
+  padding: 12px 18px;
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: 'Raleway';
+  transition: all 0.1s ease-in-out;
+}
+
+.cz-button:hover {
+  transform: scale(1.05);
+  background-color: var(--color-primary__highlight);
+}
+
+.cz-button.danger {
+  background-color: var(--color-danger);
+}
+
+.cz-button.danger:hover {
+  background-color: var(--color-danger__highlight);
+}
+
+.cz-button.transparent,
+.cz-button.bordered {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.cz-button.transparent:hover,
+.cz-button.bordered:hover {
+  background-color: transparent;
+}
+
+.cz-button.transparent.danger,
+.cz-button.bordered.danger {
+  color: var(--color-danger);
+}
+
+.cz-button.bordered {
+  border: 1px solid var(--color-primary);
+}
+
+.cz-button.bordered.danger {
+  border: 1px solid var(--color-danger);
+}
