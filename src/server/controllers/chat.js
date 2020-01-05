@@ -2,11 +2,11 @@ const { CourseService, ChatService } = require('../services');
 const controller = require('./controller');
 
 exports.createNewChat = controller(async (req, res) => {
-  const creatorId = req.student._id;
+  const creatorId = req.user._id;
   const courseId = req.course._id;
-  const chatInfo = req.body;
+  const title = req.body.title;
 
-  const chat = await CourseService.createNewChat(req.course, { ...chatInfo, courseId, creatorId });
+  const chat = await CourseService.createNewChat(req.course, { title, courseId, creatorId });
   return res.send(chat.toObject());
 });
 

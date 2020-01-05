@@ -6,6 +6,8 @@ const { newChatValidator } = require('../validators');
 const { validate } = require('../utils/validator');
 
 /**
+ * INTERNAL FUNCTION
+ *
  * Creates new chat in database (does not update course object)
  *
  * @param {Object} data Object containing title, courseId and creatorId
