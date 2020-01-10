@@ -1,10 +1,11 @@
 const Services = require('../services');
 const { ValidationError } = require('../utils/errors');
+const controller = require('../controllers/controller');
 
 // This middleware looks at studentId, courseId and chatId of the request body.
 // If any are found, the middleware attaches corresponding document object to the request.
 
-module.exports = async function objectify(req, res, next) {
+module.exports = controller(async (req, res, next) => {
   const { studentId, courseId, pollId, chatId, messageId } = req.body;
   try {
     if (studentId) req.student = await Services.StudentService.get(studentId);
@@ -16,4 +17,4 @@ module.exports = async function objectify(req, res, next) {
   } catch (err) {
     return res.status(400).send(new ValidationError('Invalid ID provided.'));
   }
-};
+});

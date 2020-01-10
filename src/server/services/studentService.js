@@ -66,3 +66,15 @@ exports.joinCourse = async function joinCourse(student: Student, course: Course)
   await student.save();
   return student;
 };
+
+/**
+ * Returns basic info of the student, including courses' info
+ *
+ * @param {Student} student Student object
+ * @returns {Object} Basic info, with courses' info
+ */
+exports.getProfile = async function getProfile(student: Student): Student {
+  const courses = await Course.find({ _id: { $in: student.courses } }).lean();
+  const plainCourses = courses.map(c => pick(c, ['_id', 'name', 'code']));
+  return { ...pick(student, ['_id', 'name', 'iitkEmail', 'rollNo']), courses: plainCourses };
+};

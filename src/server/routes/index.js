@@ -6,7 +6,6 @@ const Mw = require('../middleware');
 const router = require('express').Router();
 
 router.use('/auth', AuthRouter);
-
 router.use(Mw.auth);
 router.use(Mw.objectify);
 router.use('/courses', CourseRouter);
