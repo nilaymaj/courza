@@ -3,8 +3,8 @@ import mainLogo from '../../assets/main-logo.png';
 
 const SidebarHeader = props => {
   return (
-    <div className="sidebar-header">
-      <img src={mainLogo} className="sidebar-header__logo"></img>
+    <div className="cz-sidebar-header">
+      <img src={mainLogo} className="cz-sidebar-header__logo" alt="Courza"></img>
     </div>
   );
 };

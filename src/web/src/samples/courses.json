@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Data Structures and Algorithms",
+    "code": "ESO207A",
+    "body": "An introductory course on data structures and algorithms."
+  },
+  {
+    "name": "Microelectronics",
+    "code": "EE210A",
+    "body": "An introductory course on semiconductor electronics."
+  },
+  {
+    "name": "Introduction to Computing",
+    "code": "ESC101A",
+    "body": "An introductory course on basic programming concepts."
+  },
+  {
+    "name": "Communication Skills",
+    "code": "COM200A",
+    "body": "A useless course on things similar to but not exactly communication skills."
+  }
+]

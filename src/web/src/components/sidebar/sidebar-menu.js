@@ -14,9 +14,9 @@ const sampleOptions = [
 
 const SidebarMenu = props => {
   return (
-    <div className="sidebar-menu">
-      {sampleOptions.map(option => (
-        <SidebarOption option={option}></SidebarOption>
+    <div className="cz-sidebar-menu">
+      {sampleOptions.map((option, idx) => (
+        <SidebarOption option={option} key={idx}></SidebarOption>
       ))}
     </div>
   );

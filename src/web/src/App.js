@@ -1,23 +1,31 @@
 import React from 'react';
 import './App.css';
-import Button from './elements/button';
-import Text from './elements/text';
-import Sidebar from './components/sidebar';
-import Card from './elements/card';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { PrivateRoute } from './utils';
+import { connect } from 'react-redux';
+import { Selectors } from './redux';
+import { PublicPage, LoadingPage } from './screens';
+import MainContainer from './containers/main-container';
 
-function App() {
+const App = props => {
+  const { isLoggedIn, isLoading } = props;
+  if (isLoading !== null) return <LoadingPage text={isLoading}></LoadingPage>;
   return (
     <div className="App">
-      <div className="app-wrapper">
-        <Sidebar></Sidebar>
-        <div className="app-content">
-          <Card>
-            <span>Card content</span>
-          </Card>
-        </div>
-      </div>
+      <BrowserRouter>
+        <Route path="/" exact render={() => <PublicPage></PublicPage>}></Route>
+        <PrivateRoute
+          path="/home"
+          isPrivate={true}
+          authenticated={isLoggedIn}
+          redirect="/"
+          render={() => <MainContainer></MainContainer>}
+        ></PrivateRoute>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
-export default App;
+export default connect(state => ({ isLoggedIn: Selectors.isLoggedIn(state), isLoading: Selectors.isLoading(state) }))(
+  App
+);

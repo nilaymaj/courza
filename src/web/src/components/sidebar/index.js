@@ -4,9 +4,9 @@ import SidebarMenu from './sidebar-menu';
 
 const Sidebar = props => {
   return (
-    <div className="sidebar__wrapper">
+    <div className="cz-sidebar__wrapper">
       <SidebarHeader></SidebarHeader>
-      <hr className="sidebar__divider"></hr>
+      <hr className="cz-sidebar__divider"></hr>
       <SidebarMenu></SidebarMenu>
     </div>
   );

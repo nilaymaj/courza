@@ -1,0 +1,13 @@
+.cz-input {
+  background: #ffffff;
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  box-shadow: none;
+  padding: 10px;
+  font-size: 1em;
+  font-family: var(--font-body);
+}
+
+.cz-input.block {
+  width: 100%;
+}

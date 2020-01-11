@@ -1,5 +1,7 @@
 body {
   margin: 0px;
+  height: 100%;
+  background: #f1f2f3;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -7,8 +9,5 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  outline: none;
 }

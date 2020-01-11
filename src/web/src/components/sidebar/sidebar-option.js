@@ -4,9 +4,9 @@ import Icon from '../../elements/icon';
 const SidebarOption = props => {
   const option = props.option;
   return (
-    <div className="sidebar-menu__option">
-      <Icon name={option.icon} className="sidebar-menu__option-icon"></Icon>
-      <span className="sidebar-menu__option-text">{option.name}</span>
+    <div className="cz-sidebar-menu__option">
+      <Icon name={option.icon} className="cz-sidebar-menu__option-icon"></Icon>
+      <span className="cz-sidebar-menu__option-text">{option.name}</span>
     </div>
   );
 };
