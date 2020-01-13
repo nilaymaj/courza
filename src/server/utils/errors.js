@@ -2,6 +2,7 @@ function createError(errorName) {
   return function customError(message) {
     Error.call(this, message);
     this.name = errorName;
+    this.message = message;
   };
 }
 
