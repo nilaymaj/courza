@@ -2,14 +2,27 @@ import React from 'react';
 import classNames from 'classnames';
 
 const Button = props => {
-  const { bordered, transparent, primary, danger } = props;
-  const classes = classNames('cz-button', { transparent, bordered, primary, danger });
+  const {
+    block,
+    disabled,
+    bordered,
+    transparent,
+    primary,
+    danger,
+    ...rest
+  } = props;
+  const classes = classNames('cz-button', {
+    transparent,
+    bordered,
+    primary,
+    danger,
+    block,
+    disabled
+  });
   return (
-    <div className="cz-button__wrapper">
-      <button {...props} className={classes}>
-        {props.children}
-      </button>
-    </div>
+    <button {...rest} className={classes}>
+      {props.children}
+    </button>
   );
 };
 

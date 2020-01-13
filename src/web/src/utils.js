@@ -19,3 +19,6 @@ export const PrivateRoute = ({ children, authenticated, render, ...rest }) => {
     />
   );
 };
+
+export const IITK_EMAIL_REGEX = /^([a-z]{3,17})@iitk\.ac\.in$/;
+export const COURSE_CODE_REGEX = /^[A-Z]{2,3}[0-9]{3}[A-Z]?$/;
