@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const MainRouter = require('./routes');
 const { connectToDb } = require('./db');
@@ -7,6 +8,7 @@ const logger = require('./utils/logger');
 const { objectify, errorHandler } = require('./middleware');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
