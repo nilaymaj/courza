@@ -10,9 +10,10 @@ exports.registerNewStudent = controller(async (req, res) => {
 
 exports.studentLogin = controller(async (req, res) => {
   const { iitkEmail, password } = req.body;
-  const token = await StudentService.login(iitkEmail, password);
-  res.cookie('cz-token', token, { httpOnly: true }); // TODO: Add secure flag later
-  res.send('Logged in successfully!');
+  const student = await StudentService.login(iitkEmail, password);
+  const profile = await StudentService.getProfile(student);
+  const token = StudentService.createToken(student);
+  res.cookie('cz-token', token).send(profile);
 });
 
 exports.checkToken = controller(async (req, res) => {

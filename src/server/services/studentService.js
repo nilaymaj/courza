@@ -43,13 +43,25 @@ exports.get = async function get(studentId: string): Student {
  * @param {string} password Plaintext password
  * @returns {Student} Student object (or null, if password does not match)
  */
-exports.login = async function login(iitkEmail: string, password: string): ?Student {
+exports.login = async function login(
+  iitkEmail: string,
+  password: string
+): ?Student {
   const student = await Student.findOne({ iitkEmail });
   if (!student) throw new NotFoundError('Student does not exist.');
-
   const match = await compareHash(password, student.password);
   if (!match) throw new CredentialsError('Password does not match.');
-  const token = generateToken(pick(student, ['_id', 'iitkEmail']));
+  return student;
+};
+
+/**
+ * Generates OAuth token for given student object
+ *
+ * @param {Student} student Student object
+ * @returns {string} OAuth token for the student
+ */
+exports.createToken = function genToken(student: Student): string {
+  const token = generateToken({ _id: student._id.toString() });
   return token;
 };
 
@@ -60,7 +72,10 @@ exports.login = async function login(iitkEmail: string, password: string): ?Stud
  * @param {Course} course Course to add the student to
  * @returns {Student} Updated student object
  */
-exports.joinCourse = async function joinCourse(student: Student, course: Course): Student {
+exports.joinCourse = async function joinCourse(
+  student: Student,
+  course: Course
+): Student {
   await CourseService.addNewStudent(course, student);
   student.courses.push(course._id);
   await student.save();
@@ -76,5 +91,8 @@ exports.joinCourse = async function joinCourse(student: Student, course: Course)
 exports.getProfile = async function getProfile(student: Student): Student {
   const courses = await Course.find({ _id: { $in: student.courses } }).lean();
   const plainCourses = courses.map(c => pick(c, ['_id', 'name', 'code']));
-  return { ...pick(student, ['_id', 'name', 'iitkEmail', 'rollNo']), courses: plainCourses };
+  return {
+    ...pick(student, ['_id', 'name', 'iitkEmail', 'rollNo']),
+    courses: plainCourses
+  };
 };
