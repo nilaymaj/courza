@@ -12,8 +12,15 @@ const MainContainer = props => {
       <Sidebar></Sidebar>
       <div className="app-content">
         <Switch>
-          <Route path={match.url + '/'} exact render={() => <Dashboard courses={sampleCourses}></Dashboard>}></Route>
-          <Route path={match.url + '/course/:courseId'} render={() => <CourseHome></CourseHome>}></Route>
+          <Route
+            path={match.url + '/'}
+            exact
+            render={() => <Dashboard courses={sampleCourses}></Dashboard>}
+          ></Route>
+          <Route
+            path={match.url + '/c/:courseId'}
+            render={() => <CourseHome></CourseHome>}
+          ></Route>
         </Switch>
       </div>
     </div>

@@ -21,15 +21,15 @@ const LoginForm = props => {
           name: 'password',
           placeholder: 'Password',
           type: 'password',
-          validator: yup
-            .string()
-            .required()
-            .min(8, 'Password must be 8-16 characters.')
-            .max(16, 'Password must be 8-16 characters.')
+          validator: yup.string().required()
         }
       ]}
       btnText="Log in"
       onSubmit={props.onSubmit}
+      errorText={{
+        404: 'User does not exist',
+        401: 'Incorrect password'
+      }}
     ></Form>
   );
 };

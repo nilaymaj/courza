@@ -47,7 +47,9 @@ const Form = props => {
     let data = {};
     formState.forEach(field => (data[field.name] = field.value));
     setSubmitting(true);
-    const message = await onSubmit(data);
+    const err = await onSubmit(data);
+    if (!err) return;
+    const message = props.errorText[err];
     setMessage(message);
     setSubmitting(false);
   };
@@ -82,7 +84,8 @@ const Form = props => {
         )}
       </Button>
       <br></br>
-      <Text>{message}</Text>
+      <br></br>
+      {message && <Text className="cz-form__error">{message}</Text>}
     </form>
   );
 };

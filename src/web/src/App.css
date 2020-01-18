@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Oswald|Source+Sans+Pro&display=swap');
 
 :root {
   --color-primary: #1e6bff;
@@ -10,7 +10,7 @@
   --color-danger__faded: #ff8b8b;
 
   --font-heading: 'Oswald', sans-serif;
-  --font-body: 'Raleway', sans-serif;
+  --font-body: 'Source Sans Pro', sans-serif;
 
   --main-gradient__color: #1e6bff;
   --main-gradient: linear-gradient(
@@ -102,5 +102,7 @@
 @import './elements/text/style.css';
 @import './elements/card/style.css';
 @import './elements/input/style.css';
+@import './elements/form/style.css';
+@import './elements/spinner/style.css';
 
 @import './components/sidebar/style.css';

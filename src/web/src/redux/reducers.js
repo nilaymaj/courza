@@ -1,10 +1,8 @@
-import sampleCourses from '../samples/courses.json';
-
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   profile: null,
   loadingText: null,
-  courses: sampleCourses
+  courses: []
 };
 
 export default function(state = initialState, action) {
@@ -18,6 +16,7 @@ export default function(state = initialState, action) {
     case 'LOGIN': {
       const { profile, courses } = action;
       return {
+        ...state,
         isLoggedIn: true,
         profile,
         courses

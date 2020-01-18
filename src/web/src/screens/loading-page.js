@@ -1,6 +1,5 @@
 import React from 'react';
-import loader from '../assets/loader.svg';
-import { Text } from '../elements';
+import { Spinner } from '../elements';
 
 const LoadingPage = props => {
   return (
@@ -8,18 +7,10 @@ const LoadingPage = props => {
       style={{
         width: '100%',
         height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
+        display: 'flex'
       }}
     >
-      <img src={loader} alt="Loading..."></img>
-      {props.text && (
-        <Text note medium>
-          {props.text}
-        </Text>
-      )}
+      <Spinner text={props.text}></Spinner>
     </div>
   );
 };

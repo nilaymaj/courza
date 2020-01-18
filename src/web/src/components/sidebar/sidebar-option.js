@@ -1,13 +1,19 @@
 import React from 'react';
 import Icon from '../../elements/icon';
+import { Link } from 'react-router-dom';
 
 const SidebarOption = props => {
-  const option = props.option;
+  const course = props.course;
   return (
-    <div className="cz-sidebar-menu__option">
-      <Icon name={option.icon} className="cz-sidebar-menu__option-icon"></Icon>
-      <span className="cz-sidebar-menu__option-text">{option.name}</span>
-    </div>
+    <Link to={`/home/c/${course._id}`} style={{ textDecoration: 'none' }}>
+      <div className="cz-sidebar-menu__option">
+        <Icon
+          name="arrow-forward"
+          className="cz-sidebar-menu__option-icon"
+        ></Icon>
+        <span className="cz-sidebar-menu__option-text">{course.code}</span>
+      </div>
+    </Link>
   );
 };
 

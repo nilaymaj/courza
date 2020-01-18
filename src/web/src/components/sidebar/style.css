@@ -7,6 +7,10 @@
   box-shadow: 1px 0 5px 0px black;
 }
 
+.cz-sidebar-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .cz-sidebar-header__logo {
   width: calc(var(--sidebar-width) - 30px);
   padding: 15px;
@@ -38,6 +42,8 @@
 .cz-sidebar-menu__option-text {
   color: #ebebeb;
   text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.2em;
   font-weight: 600;
   font-family: var(--font-body);
 }
@@ -46,5 +52,5 @@
   color: #ebebeb;
   margin-left: 10px;
   margin-right: 15px;
-  font-size: 2.5em;
+  font-size: 2.1em;
 }

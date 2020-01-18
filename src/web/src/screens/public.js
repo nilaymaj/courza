@@ -1,14 +1,26 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import mainLogo from '../assets/main-logo.png';
 import { Text } from '../elements';
 import { LoginForm } from '../forms';
 import { login } from '../requests/student';
-
-const handleSubmit = async data => {
-  await login(data);
-};
+import { connect } from 'react-redux';
+import { login as lgnAction } from '../redux/actions';
 
 const PublicPage = props => {
+  const history = useHistory();
+
+  const handleLogin = async data => {
+    try {
+      const profile = await login(data);
+      props.login(profile);
+      history.push('/home');
+    } catch (err) {
+      console.log(err);
+      return err.response.status;
+    }
+  };
+
   return (
     <div className="public__wrapper">
       <div className="public__content">
@@ -22,11 +34,11 @@ const PublicPage = props => {
         <div className="public__login">
           <Text large>Login</Text>
           <br></br>
-          <LoginForm onSubmit={handleSubmit}></LoginForm>
+          <LoginForm onSubmit={handleLogin}></LoginForm>
         </div>
       </div>
     </div>
   );
 };
 
-export default PublicPage;
+export default connect(null, { login: lgnAction })(PublicPage);

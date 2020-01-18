@@ -12,7 +12,7 @@ export const startLoading = text => {
   return { type: 'START_LOADING', text };
 };
 
-export const stopLoading = text => {
+export const stopLoading = () => {
   return { type: 'STOP_LOADING' };
 };
 

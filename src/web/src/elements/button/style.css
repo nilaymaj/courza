@@ -1,7 +1,6 @@
 .cz-button {
   background-color: var(--color-primary);
   border: none;
-  display: block;
   border-radius: 5px;
   padding: 12px 18px;
   color: white;
