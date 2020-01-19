@@ -14,12 +14,21 @@ const CourseCard = props => {
   return (
     <Card>
       <CardHeader>
-        <Text heading>{course.code}</Text>
-        <Text note large>
+        <Text medium>{course.code} </Text>
+        <Text note medium>
           {course.name}
         </Text>
       </CardHeader>
-      <div className="course-card__body">{course.body}</div>
+      <div className="course-card__body">
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras maximus
+          dolor in turpis placerat ultricies. Curabitur rutrum eu dui in
+          pellentesque. Maecenas egestas neque eu velit bibendum, id scelerisque
+          elit faucibus. Suspendisse potenti. Proin dignissim pellentesque
+          eleifend. Quisque nulla nunc, cursus quis purus ut, commodo molestie
+          sem.{' '}
+        </Text>
+      </div>
       <CardFooter>
         <Right>
           <Link to={`/home/c/${course._id}`}>

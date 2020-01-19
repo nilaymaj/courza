@@ -2,21 +2,25 @@
   {
     "name": "Data Structures and Algorithms",
     "code": "ESO207A",
-    "body": "An introductory course on data structures and algorithms."
+    "body": "An introductory course on data structures and algorithms.",
+    "numOfStudents": 153
   },
   {
     "name": "Microelectronics",
     "code": "EE210A",
-    "body": "An introductory course on semiconductor electronics."
+    "body": "An introductory course on semiconductor electronics.",
+    "numOfStudents": 154
   },
   {
     "name": "Introduction to Computing",
     "code": "ESC101A",
-    "body": "An introductory course on basic programming concepts."
+    "body": "An introductory course on basic programming concepts.",
+    "numOfStudents": 487
   },
   {
     "name": "Communication Skills",
     "code": "COM200A",
-    "body": "A useless course on things similar to but not exactly communication skills."
+    "body": "A useless course on things similar to but not exactly communication skills.",
+    "numOfStudents": 435
   }
 ]
