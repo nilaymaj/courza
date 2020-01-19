@@ -12,6 +12,5 @@ exports.createNewCourse = controller(async (req, res) => {
 
 exports.viewAllCourses = controller(async (req, res) => {
   const courses = await CourseService.getAll();
-  const plainCourses = courses.map(c => pick(c.toObject(), ['_id', 'name', 'code']));
-  return res.send(plainCourses);
+  return res.send(courses);
 });

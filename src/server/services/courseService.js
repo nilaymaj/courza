@@ -12,7 +12,11 @@ const { newCourseValidator } = require('../validators');
  * @param {Object} data Object with name, code and creator
  * @returns {Promise} Newly created course object
  */
-exports.create = async function create(data: { name: string, code: string, creator: Student }): Promise<Course> {
+exports.create = async function create(data: {
+  name: string,
+  code: string,
+  creator: Student
+}): Promise<Course> {
   validate(data, newCourseValidator);
   const course = new Course({
     ...data,
@@ -41,7 +45,9 @@ exports.get = async function get(courseId: string): Promise<Course> {
  * @returns {Promise} Promise, resolves with array of Course objects
  */
 exports.getAll = async function viewAll(): Promise<Course[]> {
-  const arr = await Course.find();
+  const arr = await Course.aggregate([
+    { $project: { name: 1, code: 1, numOfStudents: { $size: '$students' } } }
+  ]);
   return arr;
 };
 
@@ -72,8 +78,12 @@ exports.createNewChat = async function createNewChat(
  * @param {Student} student Student object
  * @returns {Promise} Updated course object
  */
-exports.addNewStudent = async function addNewStudent(course: Course, student: Student): Promise<Course> {
-  if (course.students.includes(student._id)) throw new DuplicateError('Student already in course');
+exports.addNewStudent = async function addNewStudent(
+  course: Course,
+  student: Student
+): Promise<Course> {
+  if (course.students.includes(student._id))
+    throw new DuplicateError('Student already in course');
 
   course.students.push(student._id);
   await course.save();
