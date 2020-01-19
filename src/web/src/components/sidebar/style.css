@@ -1,8 +1,8 @@
 .cz-sidebar__wrapper {
   position: fixed;
+  z-index: 999999;
   width: var(--sidebar-width);
   height: 100vh;
-  z-index: 1;
   background: var(--main-gradient);
   box-shadow: 1px 0 5px 0px black;
 }

@@ -50,6 +50,7 @@
 
 .app-content {
   flex-grow: 1;
+  position: relative;
   padding: 20px 25px 0;
   background-attachment: fixed;
   margin-left: var(--sidebar-width);
@@ -106,4 +107,5 @@
 @import './elements/spinner/style.css';
 
 @import './components/sidebar/style.css';
+@import './components/topbar/style.css';
 @import './components/course-search/style.css';
