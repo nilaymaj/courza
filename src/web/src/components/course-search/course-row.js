@@ -13,7 +13,7 @@ const CourseRow = props => {
         </Text>
       </div>
       <div className="search-result__right">
-        <Icon name="person"></Icon>
+        <Icon name="person" color="#a0a0a0"></Icon>
         <Text note>{course.numOfStudents}</Text>
       </div>
     </div>

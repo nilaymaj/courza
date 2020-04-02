@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import logger, { LOG_LEVELS, LOG_AREAS } from '../src/utils/logger';
+import logger, { LOG_LEVELS, LOG_AREAS } from '../utils/logger';
 
 /**
  * Tests for the logger utility are not really complete.

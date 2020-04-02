@@ -1,10 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import sampleCourses from '../samples/courses.json';
 import { Dashboard, CourseHome } from '../screens';
-import CourseSearchBar from '../components/course-search';
-import Topbar from '../components/topbar';
 
 const MainContainer = props => {
   const match = useRouteMatch();
@@ -14,21 +11,10 @@ const MainContainer = props => {
       <Sidebar></Sidebar>
       <div className="app-content">
         <Switch>
-          {/* <Route
-            path={match.url + '/'}
-            exact
-            render={() => <Dashboard courses={sampleCourses}></Dashboard>}
-          ></Route> */}
           <Route
             path={match.url + '/'}
             exact
-            render={() => (
-              <React.Fragment>
-                <Topbar title="Dashboard"></Topbar>
-                <CourseSearchBar courses={sampleCourses}></CourseSearchBar>
-                <Dashboard></Dashboard>
-              </React.Fragment>
-            )}
+            render={() => <Dashboard></Dashboard>}
           ></Route>
           <Route
             path={match.url + '/c/:courseId'}

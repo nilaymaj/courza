@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 const SidebarOption = props => {
   const course = props.course;
   return (
-    <Link to={`/home/c/${course._id}`} style={{ textDecoration: 'none' }}>
+    <Link
+      to={{ pathname: `/home/c/${course._id}`, state: course.code }}
+      style={{ textDecoration: 'none' }}
+    >
       <div className="cz-sidebar-menu__option">
         <Icon
           name="arrow-forward"

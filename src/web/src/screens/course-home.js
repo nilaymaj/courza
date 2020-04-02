@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { viewAllChats } from '../requests/chat';
 import ChatContainer from '../containers/chat-container.js';
 import LoadingContainer from '../containers/loading-container';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useLocation } from 'react-router-dom';
+import Topbar from '../components/topbar';
 
 const CourseHome = props => {
   const [loading, setLoading] = React.useState(true);
   const [chats, setChats] = React.useState([]);
+  const { state: courseName } = useLocation();
   const match = useRouteMatch();
   const courseId = match.params.courseId;
 
@@ -24,9 +26,12 @@ const CourseHome = props => {
   }, [courseId]);
 
   return (
-    <LoadingContainer loading={loading}>
-      <ChatContainer data={chats}></ChatContainer>
-    </LoadingContainer>
+    <React.Fragment>
+      <Topbar title={courseName}></Topbar>
+      <LoadingContainer loading={loading} text="Loading course...">
+        <ChatContainer data={chats}></ChatContainer>
+      </LoadingContainer>
+    </React.Fragment>
   );
 };
 

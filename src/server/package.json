@@ -9,15 +9,18 @@
   "private": true,
   "scripts": {
     "build": "webpack --hide-modules",
-    "start": "yarn build && nodemon dist/main.js"
+    "start": "yarn build && nodemon dist/main.js",
+    "test": "jest --silent"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "bcrypt": "^3.0.7",
+    "chalk": "^3.0.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "mongoose": "^5.8.0",
     "morgan": "^1.9.1"
   },
@@ -25,6 +28,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
+    "jest": "^24.9.0",
     "remove-flow-types-loader": "^1.1.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",

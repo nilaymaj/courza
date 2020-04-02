@@ -31,7 +31,12 @@ const CourseCard = props => {
       </div>
       <CardFooter>
         <Right>
-          <Link to={`/home/c/${course._id}`}>
+          <Link
+            to={{
+              pathname: `/home/c/${course._id}`,
+              state: course.code
+            }}
+          >
             <Button>Enter</Button>
           </Link>
         </Right>
