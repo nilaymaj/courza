@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
-const Text = props => {
+const Text = (props) => {
   const { heading, note, title, small, medium, large, className } = props;
   const classes = classNames(
     'cz-text',

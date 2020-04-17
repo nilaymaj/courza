@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { Text, Button } from '../../elements';
 
-const Topbar = props => {
+const Topbar = (props) => {
   return (
     <div className="cz-topbar__wrapper">
       <div className="cz-topbar__text">

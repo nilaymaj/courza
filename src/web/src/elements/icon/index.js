@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-const Icon = props => {
+const Icon = (props) => {
   const { name, color, ...rest } = props;
   const iconName = 'ios-' + props.name;
   return (

@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-const Right = props => {
+const Right = (props) => {
   return <div style={{ textAlign: 'right' }}>{props.children}</div>;
 };
 

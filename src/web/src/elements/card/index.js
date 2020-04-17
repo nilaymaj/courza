@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import CardHeader from './header';
 import CardFooter from './footer';
 import Text from '../text';
 
-const Card = props => {
+const Card = (props) => {
   if (props.filler)
     return (
       <div className="cz-card__filler">

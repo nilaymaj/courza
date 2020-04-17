@@ -1,15 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import {
   Card,
   CardFooter,
   CardHeader,
   Right,
   Button,
-  Text
+  Text,
 } from '../../elements';
 import { Link } from 'react-router-dom';
 
-const CourseCard = props => {
+const CourseCard = (props) => {
   const course = props.course;
   return (
     <Card>
@@ -34,7 +34,7 @@ const CourseCard = props => {
           <Link
             to={{
               pathname: `/home/c/${course._id}`,
-              state: course.code
+              state: course.code,
             }}
           >
             <Button>Enter</Button>

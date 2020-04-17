@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "watch": "webpack --watch",
     "build": "webpack --hide-modules",
     "start": "yarn build && nodemon dist/main.js",
     "test": "jest --silent"

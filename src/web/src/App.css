@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Oswald|Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway|Oswald|Source+Sans+Pro&display=swap');
 
 :root {
   --color-primary: #1e6bff;
@@ -11,6 +11,7 @@
 
   --font-heading: 'Oswald', sans-serif;
   --font-body: 'Source Sans Pro', sans-serif;
+  --font-tertiary: 'Raleway', sans-serif;
 
   --main-gradient__color: #1e6bff;
   --main-gradient: linear-gradient(
@@ -20,7 +21,7 @@
     rgba(196, 36, 255, 1) 100%
   );
 
-  --sidebar-width: 300px;
+  --sidebar-width: 220px;
 }
 
 /* width */

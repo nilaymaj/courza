@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import mainLogo from '../assets/main-logo.png';
 import { Text } from '../elements';
@@ -7,10 +7,10 @@ import { login } from '../requests/student';
 import { connect } from 'react-redux';
 import { login as lgnAction } from '../redux/actions';
 
-const PublicPage = props => {
+const PublicPage = (props) => {
   const history = useHistory();
 
-  const handleLogin = async data => {
+  const handleLogin = async (data) => {
     try {
       const profile = await login(data);
       props.login(profile);

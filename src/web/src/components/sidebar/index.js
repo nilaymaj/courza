@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import SidebarHeader from './sidebar-header';
 import SidebarMenu from './sidebar-menu';
 
-const Sidebar = props => {
+const Sidebar = (props) => {
   return (
     <div className="cz-sidebar__wrapper">
       <SidebarHeader></SidebarHeader>

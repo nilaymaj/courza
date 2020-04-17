@@ -9,7 +9,7 @@ import MainContainer from './containers/main-container';
 import { login } from './redux/actions';
 import './App.css';
 
-const App = props => {
+const App = (props) => {
   const history = useHistory();
   const { isLoggedIn } = props;
   const [loading, setLoading] = React.useState(true);
@@ -39,7 +39,7 @@ const App = props => {
         path="/home"
         isPrivate={true}
         authenticated={isLoggedIn}
-        redirect="/"
+        redirect="/login"
         render={() => <MainContainer></MainContainer>}
       ></PrivateRoute>
     </div>
@@ -47,8 +47,8 @@ const App = props => {
 };
 
 export default connect(
-  state => ({
-    isLoggedIn: Selectors.isLoggedIn(state)
+  (state) => ({
+    isLoggedIn: Selectors.isLoggedIn(state),
   }),
   { login }
 )(App);

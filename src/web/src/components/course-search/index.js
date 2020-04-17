@@ -1,22 +1,22 @@
-import React from 'react';
+import * as React from 'react';
 import { Input } from '../../elements';
 import CourseRow from './course-row';
 
 const markUserCourses = (rawList, userCourses) => {
-  userCourses.forEach(c => {
-    const idx = rawList.findIndex(r => r.code === c.code);
+  userCourses.forEach((c) => {
+    const idx = rawList.findIndex((r) => r.code === c.code);
     if (idx === -1) return;
     rawList[idx].isMember = true;
   });
   return rawList;
 };
 
-const CourseSearchBar = props => {
+const CourseSearchBar = (props) => {
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState(props.courses);
   const [focused, setFocused] = React.useState(false);
 
-  const _handleChange = e => {
+  const _handleChange = (e) => {
     const input = e.target.value;
     setQuery(input);
     const res = filter(input);
@@ -27,15 +27,15 @@ const CourseSearchBar = props => {
     setFocused(!focused);
   };
 
-  const filter = query => {
+  const filter = (query) => {
     query = query.toUpperCase();
     const allCourses = props.courses;
     if (query === '') return allCourses;
-    const res = allCourses.filter(c => c.code.indexOf(query) !== -1);
+    const res = allCourses.filter((c) => c.code.indexOf(query) !== -1);
     return res;
   };
 
-  const _selectCourse = course => {
+  const _selectCourse = (course) => {
     console.log('Selected: ', course);
   };
 

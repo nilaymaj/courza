@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const BASE_URL = process.env.COURZA_BASE_URL || 'http://localhost:8000/api';
@@ -9,7 +9,7 @@ export async function request(method, url, data) {
     method,
     data,
     url: BASE_URL + url,
-    checkCredentials: true
+    checkCredentials: true,
   });
   return res.data;
 }

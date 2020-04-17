@@ -1,10 +1,27 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import Input from '../input';
 import Button from '../button';
 import Text from '../text';
 import loader from '../../assets/white-loader.svg';
 
-const Form = props => {
+type FormField = {
+  name: string,
+  placeholder: string,
+  type: 'text' | 'email' | 'password',
+  validator: Object, // TODO: Change this to Yup validator
+  value?: string | number,
+  error?: Object,
+};
+
+type Props = {
+  scheme: Array<FormField>,
+  btnText: string,
+  errorText: string,
+  onSubmit: (Object) => void,
+};
+
+const Form = (props: Props) => {
   const { scheme, btnText, onSubmit } = props;
   const [formState, setFormState] = React.useState(scheme);
   const [submitting, setSubmitting] = React.useState(false);
@@ -31,21 +48,21 @@ const Form = props => {
     return valid;
   };
 
-  const _handleChange = async e => {
+  const _handleChange = async (e) => {
     const { name, value } = e.nativeEvent.target;
     const state = [...formState];
-    const idx = state.findIndex(field => field.name === name);
+    const idx = state.findIndex((field) => field.name === name);
     state[idx].value = value;
     setFormState(state);
   };
 
-  const _handleSubmit = async e => {
+  const _handleSubmit = async (e) => {
     e.preventDefault();
     if (submitting) return;
     const formValid = await _validateForm();
     if (!formValid) return;
     let data = {};
-    formState.forEach(field => (data[field.name] = field.value));
+    formState.forEach((field) => (data[field.name] = field.value));
     setSubmitting(true);
     const err = await onSubmit(data);
     if (!err) return;

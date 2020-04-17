@@ -1,7 +1,14 @@
-import React from 'react';
-import { Card, CardHeader, CardFooter, Text, Button, Right } from '../../elements';
+import * as React from 'react';
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  Text,
+  Button,
+  Right,
+} from '../../elements';
 
-const ChatCard = props => {
+const ChatCard = (props) => {
   const chat = props.chat;
   return (
     <Card>

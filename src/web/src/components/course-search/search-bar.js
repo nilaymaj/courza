@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { Input } from '../../elements';
 
-const CourseSearchBar = props => {
+const CourseSearchBar = (props) => {
   return (
     <React.Fragment>
       <div className="searchbox__wrapper">

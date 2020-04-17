@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { Spinner } from '../elements';
 
-const LoadingContainer = props => {
+const LoadingContainer = (props) => {
   if (props.loading) return <Spinner text={props.text}></Spinner>;
   return props.children;
 };

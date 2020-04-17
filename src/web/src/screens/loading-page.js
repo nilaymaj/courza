@@ -1,13 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { Spinner } from '../elements';
 
-const LoadingPage = props => {
+const LoadingPage = (props) => {
   return (
     <div
       style={{
         width: '100%',
         height: '100vh',
-        display: 'flex'
+        display: 'flex',
       }}
     >
       <Spinner text={props.text}></Spinner>

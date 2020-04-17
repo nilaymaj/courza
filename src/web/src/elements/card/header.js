@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-const CardHeader = props => {
+const CardHeader = (props) => {
   return <div className="cz-card__header">{props.children}</div>;
 };
 

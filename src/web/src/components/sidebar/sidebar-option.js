@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import Icon from '../../elements/icon';
 import { Link } from 'react-router-dom';
 
-const SidebarOption = props => {
+const SidebarOption = (props) => {
   const course = props.course;
   return (
     <Link

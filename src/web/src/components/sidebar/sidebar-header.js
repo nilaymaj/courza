@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import mainLogo from '../../assets/main-logo.png';
 
-const SidebarHeader = props => {
+const SidebarHeader = (props) => {
   return (
     <Link to="/home">
       <div className="cz-sidebar-header">

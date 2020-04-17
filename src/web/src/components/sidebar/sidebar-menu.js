@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import SidebarOption from './sidebar-option';
 import { connect } from 'react-redux';
 import { Selectors } from '../../redux';
 
-const SidebarMenu = props => {
+const SidebarMenu = (props) => {
   const { courses } = props;
 
   return (
@@ -15,6 +15,6 @@ const SidebarMenu = props => {
   );
 };
 
-export default connect(state => ({ courses: Selectors.getCourses(state) }))(
+export default connect((state) => ({ courses: Selectors.getCourses(state) }))(
   SidebarMenu
 );

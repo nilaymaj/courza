@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import Sidebar from '../components/sidebar';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import { Dashboard, CourseHome } from '../screens';
 
-const MainContainer = props => {
+const MainContainer = (props) => {
   const match = useRouteMatch();
 
   return (

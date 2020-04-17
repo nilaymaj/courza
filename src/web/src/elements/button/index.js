@@ -1,7 +1,21 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import classNames from 'classnames';
 
-const Button = props => {
+type Props = {|
+  block?: boolean,
+  disabled?: boolean,
+  bordered?: boolean,
+  block?: boolean,
+  transparent?: boolean,
+  primary?: boolean,
+  danger?: boolean,
+  children?: string | React.Node,
+  type?: string,
+  style?: Object,
+|};
+
+const Button = (props: Props) => {
   const {
     block,
     disabled,
@@ -17,7 +31,7 @@ const Button = props => {
     primary,
     danger,
     block,
-    disabled
+    disabled,
   });
   return (
     <button {...rest} className={classes}>

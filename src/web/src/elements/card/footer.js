@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-const CardFooter = props => {
+const CardFooter = (props) => {
   return <div className="cz-card__footer">{props.children}</div>;
 };
 

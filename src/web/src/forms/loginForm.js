@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import Form from '../elements/form';
 import { IITK_EMAIL_REGEX } from '../utils';
 import * as yup from 'yup';
 
-const LoginForm = props => {
+const LoginForm = (props) => {
   return (
     <Form
       scheme={[
@@ -15,20 +15,20 @@ const LoginForm = props => {
             .string('Invalid email address.')
             .required()
             .email('Invalid email address.')
-            .matches(IITK_EMAIL_REGEX, 'Must be a valid IITK email id.')
+            .matches(IITK_EMAIL_REGEX, 'Must be a valid IITK email id.'),
         },
         {
           name: 'password',
           placeholder: 'Password',
           type: 'password',
-          validator: yup.string().required()
-        }
+          validator: yup.string().required(),
+        },
       ]}
       btnText="Log in"
       onSubmit={props.onSubmit}
       errorText={{
         404: 'User does not exist',
-        401: 'Incorrect password'
+        401: 'Incorrect password',
       }}
     ></Form>
   );
