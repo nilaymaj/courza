@@ -13,3 +13,9 @@ exports.getProfile = controller(async (req, res) => {
   const data = await StudentService.getProfile(user);
   return res.send(data);
 });
+
+exports.getFullProfile = controller(async (req, res) => {
+  const { user } = req;
+  const data = await StudentService.getFullProfile(user);
+  return res.send(data);
+});
