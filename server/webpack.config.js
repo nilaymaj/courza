@@ -8,7 +8,16 @@ module.exports = {
   entry: './index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+  },
+  devServer: {
+    stats: {
+      hash: false,
+      versions: false,
+      timings: false,
+      assets: false,
+      chunks: false,
+    },
   },
   node: false,
   module: {
@@ -17,13 +26,13 @@ module.exports = {
         test: /\.jsx?$/,
         enforce: 'pre',
         use: ['remove-flow-types-loader'],
-        exclude: /(node_modules|dist)/
+        exclude: /(node_modules|dist)/,
       },
       {
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
-        loader: 'eslint-loader'
-      }
-    ]
-  }
+        loader: 'eslint-loader',
+      },
+    ],
+  },
 };

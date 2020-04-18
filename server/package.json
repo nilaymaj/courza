@@ -10,7 +10,8 @@
   "scripts": {
     "watch": "webpack --watch",
     "build": "webpack --hide-modules",
-    "start": "yarn build && nodemon dist/main.js",
+    "serve": "nodemon dist/main.js",
+    "start": "yarn build && yarn watch & yarn serve",
     "test": "jest --silent"
   },
   "dependencies": {
