@@ -7,6 +7,6 @@ const router = require('express').Router();
 
 router.post('/join', joinCourse);
 router.get('/profile', getProfile);
-router.get('/coursechats', getFullProfile);
+router.get('/fullprofile', getFullProfile);
 
 module.exports = router;
