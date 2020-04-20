@@ -1,24 +1,18 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+import { EuiText } from '@elastic/eui';
 import mainLogo from '../assets/main-logo.png';
 import { Text } from '../elements';
 import { LoginForm } from '../forms';
-import { login } from '../requests/student';
 import { connect } from 'react-redux';
 import { login as lgnAction } from '../redux/actions';
 
 const PublicPage = (props) => {
   const history = useHistory();
 
-  const handleLogin = async (data) => {
-    try {
-      const profile = await login(data);
-      props.login(profile);
-      history.push('/home');
-    } catch (err) {
-      console.log(err);
-      return err.response.status;
-    }
+  const handleLogin = (profile) => {
+    props.login(profile);
+    history.push('/home');
   };
 
   return (
@@ -32,9 +26,11 @@ const PublicPage = (props) => {
           </Text>
         </div>
         <div className="public__login">
-          <Text size="large">Login</Text>
+          <EuiText>
+            <h2>Login</h2>
+          </EuiText>
           <br></br>
-          <LoginForm onSubmit={handleLogin}></LoginForm>
+          <LoginForm onLogin={handleLogin}></LoginForm>
         </div>
       </div>
     </div>

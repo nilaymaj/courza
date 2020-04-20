@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { Route, useHistory } from 'react-router-dom';
-import { PrivateRoute } from './utils';
+import { PrivateRoute } from './utils/base';
 import { connect } from 'react-redux';
 import { Selectors } from './redux';
 import { getProfile } from './requests/student';
@@ -8,6 +8,7 @@ import { PublicPage, LoadingPage } from './screens';
 import MainContainer from './containers/main-container';
 import { login } from './redux/actions';
 import './App.css';
+import '@elastic/eui/dist/eui_theme_light.css';
 
 const App = (props) => {
   const history = useHistory();

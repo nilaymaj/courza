@@ -1,4 +1,4 @@
-import { request } from '../utils';
+import { request } from '../utils/base';
 
 export const getProfile = async () => {
   const res = await request('GET', '/students/profile');
@@ -8,7 +8,7 @@ export const getProfile = async () => {
 export const login = async ({ iitkEmail, password }) => {
   const res = await request('POST', '/auth/login', {
     iitkEmail,
-    password
+    password,
   });
   return res;
 };

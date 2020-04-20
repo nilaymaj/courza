@@ -1,6 +1,6 @@
-import { request } from '../utils';
+import { request } from '../utils/base';
 
-export const viewAllChats = async courseId => {
+export const viewAllChats = async (courseId) => {
   const res = await request('POST', '/chats/all', { courseId });
   return res;
 };

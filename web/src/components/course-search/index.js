@@ -2,15 +2,6 @@ import * as React from 'react';
 import { Input } from '../../elements';
 import CourseRow from './course-row';
 
-const markUserCourses = (rawList, userCourses) => {
-  userCourses.forEach((c) => {
-    const idx = rawList.findIndex((r) => r.code === c.code);
-    if (idx === -1) return;
-    rawList[idx].isMember = true;
-  });
-  return rawList;
-};
-
 const CourseSearchBar = (props) => {
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState(props.courses);

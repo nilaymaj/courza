@@ -72,7 +72,7 @@
 }
 
 .public__text {
-  flex: 2;
+  flex: 4;
   padding: 60px 30px;
   background: #ffffff;
   border-radius: 20px;
@@ -107,6 +107,5 @@
 @import './elements/form/style.css';
 @import './elements/spinner/style.css';
 
-@import './components/sidebar/style.css';
 @import './components/topbar/style.css';
 @import './components/course-search/style.css';

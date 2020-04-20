@@ -1,4 +1,4 @@
-import { request } from '../utils';
+import { request } from '../utils/base';
 
 export const getAllCourses = async () => {
   const res = await request('GET', '/courses/all');
