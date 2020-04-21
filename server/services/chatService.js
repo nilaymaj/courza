@@ -1,5 +1,5 @@
 // @flow
-const { Chat } = require('../models');
+const { Chat, Message } = require('../models');
 const MessageService = require('./messageService');
 const { NotFoundError } = require('../utils/errors');
 const { newChatValidator } = require('../validators');
@@ -13,7 +13,11 @@ const { validate } = require('../utils/validator');
  * @param {Object} data Object containing title, courseId and creatorId
  * @returns {Chat} Newly created chat object
  */
-exports.create = async function create(data: { title: string, courseId: string, creatorId: string }): Promise<Chat> {
+exports.create = async function create(data: {
+  title: string,
+  courseId: string,
+  creatorId: string,
+}): Promise<Chat> {
   validate(data, newChatValidator);
   const chat = new Chat({ ...data, messages: [] });
   await chat.save();
@@ -50,24 +54,27 @@ exports.getAll = async function getAll(courseId: string): Promise<Chat[]> {
  * @param {string} newTitle New title of the chat
  * @returns {Chat} Updated chat object
  */
-exports.changeTitle = async function changeTitle(chat: Chat, newTitle: string): Promise<Chat> {
+exports.changeTitle = async function changeTitle(
+  chat: Chat,
+  newTitle: string
+): Promise<Chat> {
   chat.title = newTitle;
   await chat.save();
   return chat;
 };
 
 /**
- * Creates new message in chat
+ * Adds new message to chat
  *
  * @param {Chat} chat Chat object
  * @param {Object} data Object with authorId and body of message
- * @returns {Chat} Updated chat object
+ * @returns {Message} Newly created Message object
  */
-exports.createNewMessage = async function createNewMessage(
+exports.postMessage = async function postMessage(
   chat: Chat,
   data: {
     authorId: string,
-    body: string
+    body: string,
   }
 ): Promise<Chat> {
   const message = await MessageService.create({ ...data, chatId: chat._id });
@@ -75,5 +82,5 @@ exports.createNewMessage = async function createNewMessage(
 
   chat.messages.push(messageId);
   await chat.save();
-  return chat;
+  return message;
 };

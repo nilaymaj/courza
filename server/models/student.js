@@ -1,10 +1,11 @@
 const { Schema, Types } = require('../db');
 const { IITK_EMAIL_REGEX } = require('../utils/constants');
+const Course = require('./course');
 
 const studentSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   iitkEmail: {
     type: String,
@@ -12,30 +13,30 @@ const studentSchema = new Schema({
     trim: true,
     unique: true,
     required: true,
-    match: IITK_EMAIL_REGEX
+    match: IITK_EMAIL_REGEX,
   },
   rollNo: {
     type: Number,
     required: true,
     unique: true,
-    min: 10000
+    min: 10000,
   },
   password: {
     type: String,
     required: true,
     minlength: 8,
-    maxlength: 1024
+    maxlength: 1024,
   },
   courses: {
-    type: [Types.ObjectId],
+    type: [{ type: Types.ObjectId, ref: Course }],
     required: true,
-    default: []
+    default: [],
   },
   regStatus: {
     type: String,
     enum: ['unverified', 'done'],
-    default: 'unverified'
-  }
+    default: 'unverified',
+  },
 });
 
 module.exports = studentSchema.model('Student');

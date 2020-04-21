@@ -1,25 +1,30 @@
 const { Schema, Types } = require('../db');
+const Course = require('./course');
+const Student = require('./student');
+const Message = require('./message');
 
 const chatSchema = new Schema({
   title: {
     type: String,
     minlength: 5,
     maxlength: 30,
-    required: true
+    required: true,
   },
   courseId: {
     type: Types.ObjectId,
-    required: true
+    ref: Course,
+    required: true,
   },
   creatorId: {
     type: Types.ObjectId,
-    required: true
+    ref: Student,
+    required: true,
   },
   messages: {
-    type: [Types.ObjectId],
+    type: [{ type: Types.ObjectId, ref: Message }],
     required: true,
-    default: []
-  }
+    default: [],
+  },
 });
 
 module.exports = chatSchema.model('Chat');

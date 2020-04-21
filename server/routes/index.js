@@ -2,6 +2,7 @@ const CourseRouter = require('./courses');
 const ChatRouter = require('./chats');
 const AuthRouter = require('./auth');
 const StudentRouter = require('./students');
+const MessageRouter = require('./messages');
 const Mw = require('../middleware');
 const router = require('express').Router();
 
@@ -11,6 +12,7 @@ router.use(Mw.objectify);
 router.use('/courses', CourseRouter);
 router.use('/chats', ChatRouter);
 router.use('/students', StudentRouter);
+router.use('/messages', MessageRouter);
 router.use(Mw.errorHandler);
 
 module.exports = router;

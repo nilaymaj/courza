@@ -1,26 +1,30 @@
 const { Schema, Types } = require('../db');
+const Student = require('./student');
 
 const messageSchema = new Schema({
   authorId: {
     type: Types.ObjectId,
-    required: true
+    ref: Student,
+    required: true,
   },
-  body: {
+  content: {
     type: String,
     minlength: 1,
     maxlength: 1024,
-    required: true
+    required: true,
   },
   votes: {
     type: Number,
     min: 0,
     default: 0,
-    required: true
+    required: true,
   },
   chatId: {
     type: Types.ObjectId,
-    required: true
-  }
+    // TODO: Fix this ref
+    // ref: Chat,
+    required: true,
+  },
 });
 
 module.exports = messageSchema.model('Message');
