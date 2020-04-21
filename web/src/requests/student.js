@@ -5,6 +5,11 @@ export const getProfile = async () => {
   return res;
 };
 
+export const getFullProfile = async () => {
+  const res = await request('GET', '/students/fullprofile');
+  return res;
+};
+
 export const login = async ({ iitkEmail, password }) => {
   const res = await request('POST', '/auth/login', {
     iitkEmail,

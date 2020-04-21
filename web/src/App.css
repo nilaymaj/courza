@@ -13,7 +13,7 @@
   --font-body: 'Source Sans Pro', sans-serif;
   --font-tertiary: 'Raleway', sans-serif;
 
-  --main-gradient__color: #1e6bff;
+  --main-gradient__color: #56a0d3;
   --main-gradient: linear-gradient(
     157deg,
     rgba(30, 107, 255, 1) 0%,
@@ -54,7 +54,6 @@
   position: relative;
   padding: 20px 25px 0;
   background-attachment: fixed;
-  margin-left: var(--sidebar-width);
 }
 
 .public__wrapper {
@@ -63,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--main-gradient);
+  background: var(--main-gradient__color);
 }
 
 .public__content {

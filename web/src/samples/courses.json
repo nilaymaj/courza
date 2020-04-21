@@ -1,26 +1,34 @@
 [
   {
+    "_id": "idOfCourse1",
     "name": "Data Structures and Algorithms",
     "code": "ESO207A",
     "body": "An introductory course on data structures and algorithms.",
-    "numOfStudents": 153
+    "numOfStudents": 153,
+    "notifications": 2
   },
   {
+    "_id": "idOfCourse2",
     "name": "Microelectronics",
     "code": "EE210A",
     "body": "An introductory course on semiconductor electronics.",
-    "numOfStudents": 154
+    "numOfStudents": 154,
+    "notifications": 1
   },
   {
+    "_id": "idOfCourse3",
     "name": "Introduction to Computing",
     "code": "ESC101A",
     "body": "An introductory course on basic programming concepts.",
-    "numOfStudents": 487
+    "numOfStudents": 487,
+    "notifications": 5
   },
   {
+    "_id": "idOfCourse4",
     "name": "Communication Skills",
     "code": "COM200A",
     "body": "A useless course on things similar to but not exactly communication skills.",
-    "numOfStudents": 435
+    "numOfStudents": 435,
+    "notifications": 0
   }
 ]

@@ -3,7 +3,7 @@ import { Route, useHistory } from 'react-router-dom';
 import { PrivateRoute } from './utils/base';
 import { connect } from 'react-redux';
 import { Selectors } from './redux';
-import { getProfile } from './requests/student';
+import { getFullProfile } from './utils/requests';
 import { PublicPage, LoadingPage } from './screens';
 import MainContainer from './containers/main-container';
 import { login } from './redux/actions';
@@ -20,7 +20,7 @@ const App = (props) => {
     (async () => {
       try {
         console.log('=== FETCHING PROFILE ===');
-        const profile = await getProfile();
+        const profile = await getFullProfile();
         props.login(profile);
         sendToHome();
         setLoading(false);

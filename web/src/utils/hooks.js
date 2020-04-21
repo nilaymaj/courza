@@ -14,7 +14,6 @@ export const useFormField = (defaultVal, validator) => {
           await validator.validate(data);
           setError(null);
         } catch (err) {
-          console.log('Set error to something');
           setError(err.message);
         }
       }
@@ -24,7 +23,6 @@ export const useFormField = (defaultVal, validator) => {
 
   // Neutralize above effect on first mount
   React.useEffect(() => {
-    console.log('Set error to null');
     setError(null);
     setFirst(false);
   }, []);

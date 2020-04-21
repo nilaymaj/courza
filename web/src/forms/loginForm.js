@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IITK_EMAIL_REGEX } from '../utils/base';
 import { useFormField } from '../utils/hooks';
-import { login } from '../requests/student';
+import { login } from '../utils/requests';
 import {
   EuiForm,
   EuiFormRow,

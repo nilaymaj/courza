@@ -3,7 +3,8 @@ const initialState = {
   profile: null,
   loadingText: null,
   courses: [],
-  activeCourse: null,
+  activeCourseId: null,
+  activeChatId: null,
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,21 @@ export default function (state = initialState, action) {
         courses: [...state.courses, action.data],
       };
     }
+    case 'OPEN_COURSE': {
+      const courseId = action.courseId;
+      const course = state.courses.find((c) => c._id === courseId);
+      return {
+        ...state,
+        activeCourseId: courseId,
+        activeChatId: course.chats[0] && course.chats[0]._id,
+      };
+    }
+    case 'OPEN_CHAT': {
+      return {
+        ...state,
+        activeChatId: action.chatId,
+      };
+    }
     case 'LOGIN': {
       const { profile, courses } = action;
       return {
@@ -21,6 +37,8 @@ export default function (state = initialState, action) {
         isLoggedIn: true,
         profile,
         courses,
+        activeCourseId: courses[0]._id,
+        activeChatId: courses[0].chats[0] && courses[0].chats[0]._id,
       };
     }
     case 'SHOW_LOADING': {

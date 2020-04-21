@@ -15,6 +15,20 @@ export const addNewCourse = (data) => {
 };
 
 /**
+ * Set active course ID
+ */
+export const openCourse = (courseId) => {
+  return { type: 'OPEN_COURSE', courseId };
+};
+
+/**
+ * Set active chat ID
+ */
+export const openChat = (chatId) => {
+  return { type: 'OPEN_CHAT', chatId };
+};
+
+/**
  * Set loading state to true
  */
 export const startLoading = (text) => {
