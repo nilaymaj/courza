@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "idOfMessage1",
+    "authorId": {
+      "_id": "idOfStudent1",
+      "name": "Luke Skywalker"
+    },
+    "content": "So we need to get the quiz postponed. Any views?"
+  },
+  {
+    "_id": "idOfMessage2",
+    "authorId": {
+      "_id": "idOfStudent1",
+      "name": "Luke Skywalker"
+    },
+    "content": "Btw I'm in favour of this decision."
+  },
+  {
+    "_id": "idOfMessage3",
+    "authorId": {
+      "_id": "5e10a3543c73e5179290acdb",
+      "name": "Martin The Warrior"
+    },
+    "content": "Yeah, with the coming schedule, we can't handle another quiz."
+  }
+]

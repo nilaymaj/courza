@@ -1,7 +1,7 @@
 body {
   margin: 0px;
   height: 100vh;
-  background: #f1f2f3;
+  background: #fff;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -1,0 +1,46 @@
+// @flow
+import React from 'react';
+import moment from 'moment';
+import classes from 'classnames';
+import { EuiComment, EuiAvatar } from '@elastic/eui';
+moment().format();
+
+moment.updateLocale('en', {
+  calendar: {
+    lastDay: '[yesterday at] LT',
+    sameDay: '[at] LT',
+    nextDay: '[tomorrow at] LT',
+    lastWeek: '[last] dddd [at] LT',
+    nextWeek: 'dddd [at] LT',
+    sameElse: 'on MMMM DD',
+  },
+});
+
+type Props = {
+  name: string,
+  content: string,
+  date: Date,
+  isOwn?: boolean,
+};
+
+const Message = (props: Props) => {
+  const date = moment(props.date);
+  const timestamp = date.calendar(null, {
+    sameElse: 'on MMMM DD',
+  });
+  const className = classes(['cz-message', { highlight: props.isOwn }]);
+
+  return (
+    <EuiComment
+      username={props.isOwn ? 'You' : props.name}
+      event="commented"
+      timestamp={timestamp}
+      className={className}
+      timelineIcon={<EuiAvatar size="l" name={props.name} />}
+    >
+      {props.content}
+    </EuiComment>
+  );
+};
+
+export default Message;

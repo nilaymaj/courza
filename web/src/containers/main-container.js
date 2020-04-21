@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Topbar from '../components/topbar';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import { Dashboard, CourseHome } from '../screens';
+// import { Dashboard, CourseHome } from '../screens';
+import ChatScreen from '../screens/chat-screen';
 
 const MainContainer = (props) => {
   const match = useRouteMatch();
@@ -14,11 +15,11 @@ const MainContainer = (props) => {
         <Route
           path={match.url + '/'}
           exact
-          render={() => <Dashboard></Dashboard>}
+          render={() => <ChatScreen />}
         ></Route>
         <Route
           path={match.url + '/c/:courseId'}
-          render={() => <CourseHome></CourseHome>}
+          render={() => <ChatScreen></ChatScreen>}
         ></Route>
       </Switch>
     </>
