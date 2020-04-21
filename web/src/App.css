@@ -20,8 +20,6 @@
     rgba(86, 82, 255, 1) 20%,
     rgba(196, 36, 255, 1) 100%
   );
-
-  --sidebar-width: 300px;
 }
 
 /* width */
@@ -43,17 +41,6 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-.app-wrapper {
-  display: flex;
-}
-
-.app-content {
-  flex-grow: 1;
-  position: relative;
-  padding: 20px 25px 0;
-  background-attachment: fixed;
 }
 
 .public__wrapper {

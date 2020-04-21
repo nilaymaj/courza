@@ -1,16 +1,64 @@
 import * as React from 'react';
-import { Text, Button } from '../../elements';
+import { useSelector } from 'react-redux';
+import { getActiveCourse, getActiveChat } from '../../redux/selectors';
+import Sidebar from '../sidebar';
+import mainIcon from '../../assets/icon-512.png';
+import {
+  EuiHeader,
+  EuiHeaderBreadcrumbs,
+  EuiHeaderSection,
+  EuiHeaderSectionItem,
+  EuiHeaderSectionItemButton,
+  EuiHeaderLogo,
+  EuiIcon,
+} from '@elastic/eui';
 
-const Topbar = (props) => {
+const Topbar = () => {
+  const course = useSelector(getActiveCourse);
+  const chat = useSelector(getActiveChat);
+
+  const renderBreadcrumbs = () => {
+    const breadcrumbs = [
+      {
+        text: course.code,
+        onClick: (e) => {
+          e.preventDefault();
+          console.log('Clicked on course', course.code);
+        },
+      },
+      {
+        text: chat ? chat.title : '',
+        onClick: (e) => {
+          e.preventDefault();
+          console.log('Clicked on chat', chat ? chat.title : '');
+        },
+      },
+    ];
+
+    return <EuiHeaderBreadcrumbs breadcrumbs={breadcrumbs} />;
+  };
+
   return (
-    <div className="cz-topbar__wrapper">
-      <div className="cz-topbar__text">
-        <Text size="medium">{props.title}</Text>
-      </div>
-      <div className="cz-topbar__right">
-        <Button transparent>Profile</Button>
-      </div>
-    </div>
+    <EuiHeader position="fixed">
+      <EuiHeaderSection>
+        <Sidebar></Sidebar>
+      </EuiHeaderSection>
+      <EuiHeaderSection grow={false}>
+        <EuiHeaderSectionItem border="right">
+          <EuiHeaderLogo iconType={mainIcon} aria-label="Go to home page">
+            Courza
+          </EuiHeaderLogo>
+        </EuiHeaderSectionItem>
+      </EuiHeaderSection>
+      {renderBreadcrumbs()}
+      <EuiHeaderSection side="right">
+        <EuiHeaderSectionItem>
+          <EuiHeaderSectionItemButton aria-label="Search">
+            <EuiIcon type="search" size="m" />
+          </EuiHeaderSectionItemButton>
+        </EuiHeaderSectionItem>
+      </EuiHeaderSection>
+    </EuiHeader>
   );
 };
 

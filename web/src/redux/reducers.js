@@ -2,6 +2,7 @@ const initialState = {
   isLoggedIn: false,
   profile: null,
   loadingText: null,
+  sidebarOpen: false,
   courses: [],
   activeCourseId: null,
   activeChatId: null,
@@ -51,6 +52,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loadingText: null,
+      };
+    }
+    case 'TOGGLE_SIDEBAR': {
+      let open = action.open === undefined ? !state.sidebarOpen : action.open;
+      return {
+        ...state,
+        sidebarOpen: open,
       };
     }
     default:

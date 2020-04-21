@@ -42,6 +42,14 @@ export const stopLoading = () => {
   return { type: 'STOP_LOADING' };
 };
 
+/**
+ * Sets sidebar toggle state
+ * If `open` not provided, toggles sidebar
+ */
+export const toggleSidebar = (open) => {
+  return { type: 'TOGGLE_SIDEBAR', open };
+};
+
 export default {
   login,
   addNewCourse,

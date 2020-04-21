@@ -2,6 +2,7 @@ export const getCourses = (store) => store && store.courses;
 export const getProfile = (store) => store && store.profile;
 export const isLoggedIn = (store) => store && store.isLoggedIn;
 export const isLoading = (store) => store && store.loadingText;
+export const isSidebarOpen = (store) => store && store.sidebarOpen;
 
 export const getActiveCourse = (store) => {
   if (!store) return;

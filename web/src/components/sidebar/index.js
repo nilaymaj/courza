@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
   EuiCollapsibleNav,
-  EuiButton,
   EuiButtonIcon,
   EuiText,
   EuiCollapsibleNavGroup,
-  EuiImage,
+  EuiHeaderSectionItemButton,
+  EuiIcon,
   EuiSuperSelect,
   EuiListGroup,
   EuiListGroupItem,
@@ -17,9 +17,9 @@ import {
   getActiveCourse,
   getActiveChat,
   getCourseChats,
+  isSidebarOpen,
 } from '../../redux/selectors';
-import { openCourse, openChat } from '../../redux/actions';
-import mainLogo from '../../assets/main-logo.png';
+import { openCourse, openChat, toggleSidebar } from '../../redux/actions';
 
 const CourseSelect = () => {
   const courses = useSelector(getCourses);
@@ -50,7 +50,6 @@ const ChatSelect = () => {
   const chats = useSelector(getCourseChats);
   const activeChat = useSelector(getActiveChat);
   const dispatch = useDispatch();
-  // const [chatId, setChatId] = React.useState(null);
 
   const handleClick = (chatId) => {
     dispatch(openChat(chatId));
@@ -103,20 +102,23 @@ const ChatSelect = () => {
 };
 
 const Sidebar = () => {
-  const [open, setOpen] = React.useState(false);
+  const open = useSelector(isSidebarOpen);
+  const dispatch = useDispatch();
 
   return (
     <EuiCollapsibleNav
       isOpen={open}
-      button={<EuiButton onClick={() => setOpen(!open)}>Toggle nav</EuiButton>}
       isDocked
-      onClose={() => setOpen(false)}
+      onClose={() => dispatch(toggleSidebar())}
+      button={
+        <EuiHeaderSectionItemButton
+          aria-label="Toggle sidebar"
+          onClick={() => dispatch(toggleSidebar())}
+        >
+          <EuiIcon type="menu" size="m" aria-hidden="true" />
+        </EuiHeaderSectionItemButton>
+      }
     >
-      <EuiCollapsibleNavGroup>
-        <div style={{ padding: 10, textAlign: 'center' }}>
-          <EuiImage alt="Courza" url={mainLogo} size="m"></EuiImage>
-        </div>
-      </EuiCollapsibleNavGroup>
       <CourseSelect></CourseSelect>
       <ChatSelect></ChatSelect>
     </EuiCollapsibleNav>
