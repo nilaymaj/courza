@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
         isLoggedIn: true,
         profile,
         courses,
-        activeCourseId: courses[0]._id,
+        activeCourseId: courses[0] && courses[0]._id,
         activeChatId: courses[0].chats[0] && courses[0].chats[0]._id,
       };
     }

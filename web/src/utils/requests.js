@@ -32,3 +32,13 @@ export const login = async ({ iitkEmail, password }) => {
   });
   return res;
 };
+
+export const getChatMessages = async (chatId) => {
+  const res = await request('POST', '/messages/all', { chatId });
+  return res;
+};
+
+export const postMessage = async (chatId, content) => {
+  const res = await request('POST', '/messages/new', { chatId, content });
+  return res;
+};

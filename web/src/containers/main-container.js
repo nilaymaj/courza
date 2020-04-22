@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Topbar from '../components/topbar';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-// import { Dashboard, CourseHome } from '../screens';
 import ChatScreen from '../screens/chat-screen';
 
 const MainContainer = (props) => {
@@ -9,7 +8,6 @@ const MainContainer = (props) => {
 
   return (
     <>
-      {/* <Sidebar></Sidebar> */}
       <Topbar></Topbar>
       <Switch>
         <Route
