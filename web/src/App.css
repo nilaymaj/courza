@@ -126,13 +126,3 @@
 .cz-message.highlight {
   background: #e6f8ff;
 }
-
-@import './elements/button/style.css';
-@import './elements/text/style.css';
-@import './elements/card/style.css';
-@import './elements/input/style.css';
-@import './elements/form/style.css';
-@import './elements/spinner/style.css';
-
-@import './components/topbar/style.css';
-@import './components/course-search/style.css';

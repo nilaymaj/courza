@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Spinner } from '../elements';
+import { EuiLoadingSpinner } from '@elastic/eui';
 
 const LoadingPage = (props) => {
   return (
@@ -10,7 +10,7 @@ const LoadingPage = (props) => {
         display: 'flex',
       }}
     >
-      <Spinner text={props.text}></Spinner>
+      <EuiLoadingSpinner size="xl" />
     </div>
   );
 };

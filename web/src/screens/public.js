@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { EuiText } from '@elastic/eui';
 import mainLogo from '../assets/main-logo.png';
-import { Text } from '../elements';
 import { LoginForm } from '../forms';
 import { connect } from 'react-redux';
 import { login as lgnAction } from '../redux/actions';
@@ -21,9 +20,9 @@ const PublicPage = (props) => {
         <div className="public__text">
           <img src={mainLogo} alt="Courza" className="public__logo"></img>
           <br></br>
-          <Text size="medium">
+          <EuiText>
             Find and share course-related discussions and resources easily!
-          </Text>
+          </EuiText>
         </div>
         <div className="public__login">
           <EuiText>
