@@ -19,7 +19,8 @@ const ChatScreen = (props) => {
   const activeChat = useSelector(getActiveChat);
   const profile = useSelector(getProfile);
 
-  const onPostMessage = () => {
+  const onPostMessage = (e) => {
+    e.preventDefault();
     postMessage(activeChat._id, input);
     // Optimistic UI - add message without
     // waiting for server confirmation
