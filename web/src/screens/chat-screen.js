@@ -1,14 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import autosize from 'autosize';
 import { getProfile, getActiveChat } from '../redux/selectors';
 import {
   EuiTextArea,
   EuiPanel,
-  EuiFormRow,
   EuiButton,
-  EuiForm,
-  EuiTextAlign,
   EuiEmptyPrompt,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiButtonIcon,
 } from '@elastic/eui';
 import { getChatMessages, postMessage } from '../utils/requests';
 import MessageList from '../components/message-list';
@@ -17,17 +18,18 @@ const ChatScreen = (props) => {
   const [input, setInput] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [messages, setMessages] = React.useState(null);
-  const inputPanelRef = React.useRef(null);
+  const textareaRef = React.useRef(null);
   const activeChat = useSelector(getActiveChat);
   const profile = useSelector(getProfile);
 
   const onPostMessage = React.useCallback(
     (e) => {
       e && e.preventDefault();
-      // Do not post empty messages
-      if (!input || !input.trim()) return;
+      const content = input.trim();
+      // Do not post only-whitespace messages
+      if (!content) return;
 
-      postMessage(activeChat._id, input);
+      postMessage(activeChat._id, content);
       // Optimistic UI - add message without
       // waiting for server confirmation
       setInput('');
@@ -37,7 +39,7 @@ const ChatScreen = (props) => {
           name: profile.name,
         },
         date: new Date().toISOString(),
-        content: input,
+        content,
         isOwn: true,
       };
       const newMessageList = [...messages, newMessage];
@@ -45,6 +47,11 @@ const ChatScreen = (props) => {
     },
     [input, activeChat._id, profile._id, profile.name, messages]
   );
+
+  // Auto-resize input box on input change
+  React.useEffect(() => {
+    if (textareaRef) autosize(textareaRef.current);
+  }, [input]);
 
   // Ctrl+Enter keyboard shortcut
   React.useEffect(() => {
@@ -54,12 +61,6 @@ const ChatScreen = (props) => {
     document.addEventListener('keyup', handler);
     return () => document.removeEventListener('keyup', handler);
   }, [onPostMessage]);
-
-  // Scroll to bottom on messages change
-  React.useEffect(() => {
-    console.log('Scroll called on', inputPanelRef.current);
-    inputPanelRef.current.scrollIntoView({ behaviour: 'smooth' });
-  }, [messages, loading]);
 
   // Fetch messages on chat change
   React.useEffect(() => {
@@ -76,38 +77,40 @@ const ChatScreen = (props) => {
     })();
   }, [activeChat._id, profile._id]);
 
+  const chatInput = (
+    <div className="cz-messages__input">
+      <EuiPanel paddingSize="s" hasShadow>
+        <EuiFlexGroup gutterSize="s" responsive={false}>
+          <EuiFlexItem>
+            <EuiTextArea
+              fullWidth
+              value={input}
+              rows={1}
+              inputRef={(ref) => (textareaRef.current = ref)}
+              placeholder="Say something"
+              aria-label="Enter your comment"
+              onChange={(e) => setInput(e.nativeEvent.target.value)}
+              style={{ maxHeight: '9em' }}
+            />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiButtonIcon
+              iconSize="xl"
+              aria-label="send message"
+              iconType="editorComment"
+              onClick={onPostMessage}
+              disabled={!input || !input.trim()}
+            ></EuiButtonIcon>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiPanel>
+    </div>
+  );
+
   const messagePanel = (
     <div className="cz-messages__wrapper">
       <MessageList messages={messages} loading={loading}></MessageList>
-      <div className="cz-messages__input" ref={inputPanelRef}>
-        <EuiPanel paddingSize="l" style={{ background: '#ebfdff' }} hasShadow>
-          <EuiForm component="form">
-            <EuiFormRow fullWidth helpText="Ctrl + Enter to post">
-              <EuiTextArea
-                fullWidth
-                value={input}
-                rows={3}
-                placeholder="Say something"
-                aria-label="Enter your comment"
-                onChange={(e) => setInput(e.nativeEvent.target.value)}
-              />
-            </EuiFormRow>
-            <EuiTextAlign textAlign="right" style={{ marginTop: 10 }}>
-              <EuiButton
-                type="submit"
-                iconType="editorComment"
-                fill
-                size="s"
-                style={{ alignSelf: 'flex-end' }}
-                onClick={onPostMessage}
-                disabled={!input || !input.trim()}
-              >
-                Post comment
-              </EuiButton>
-            </EuiTextAlign>
-          </EuiForm>
-        </EuiPanel>
-      </div>
+      {chatInput}
     </div>
   );
 

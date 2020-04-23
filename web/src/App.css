@@ -24,18 +24,21 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0.5em;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e4e4e4;
+  background: transparent;
+  right: 10px;
+  margin-right: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--color-primary__faded);
   border-radius: 3px;
+  margin: 10px;
 }
 
 /* Handle on hover */

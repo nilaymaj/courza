@@ -31,7 +31,8 @@ const LoginForm = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [formError, setFormError] = React.useState('');
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     try {
       const res = await login({ iitkEmail: email, password });

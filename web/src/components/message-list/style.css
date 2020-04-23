@@ -1,12 +1,15 @@
 .cz-messages__wrapper {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
+  background: url('../../assets/chat-bg-white.jpg');
 }
 
 .cz-messages__list {
   flex-grow: 1;
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 20px 0;
   overflow-y: scroll;
@@ -15,9 +18,6 @@
 .cz-messages__input {
   flex-grow: 0;
   width: 100%;
-  /* padding: 20px; */
-  /* margin-bottom: 20px; */
-  /* border-radius: 3px; */
 }
 
 .cz-messages__loading {

@@ -5,6 +5,12 @@
   width: 90%;
 }
 
+@media (max-width: 1111px) {
+  .cz-messages__list .cz-message {
+    width: 100%;
+  }
+}
+
 .cz-message.highlight {
-  background: #e6f8ff;
+  background: #705da713;
 }

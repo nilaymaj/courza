@@ -3,6 +3,8 @@ body {
   height: 100vh;
   background: #fff cover;
   font-family: var(--font-body);
+  /* Override EUI padding to avoid gap below header */
+  padding-top: 48px !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

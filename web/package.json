@@ -5,6 +5,7 @@
   "dependencies": {
     "@elastic/datemath": "^5.0.3",
     "@elastic/eui": "^22.6.0",
+    "autosize": "^4.0.2",
     "axios": "^0.19.1",
     "classnames": "^2.2.6",
     "flow-bin": "^0.123.0",
