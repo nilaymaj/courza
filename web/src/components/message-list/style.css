@@ -1,0 +1,27 @@
+.cz-messages__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cz-messages__list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  overflow-y: scroll;
+}
+
+.cz-messages__input {
+  flex-grow: 0;
+  width: 100%;
+  /* padding: 20px; */
+  /* margin-bottom: 20px; */
+  /* border-radius: 3px; */
+}
+
+.cz-messages__loading {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}

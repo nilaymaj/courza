@@ -1,0 +1,10 @@
+.cz-messages__list .cz-message {
+  padding: 10px 20px;
+  min-height: auto;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.cz-message.highlight {
+  background: #e6f8ff;
+}
