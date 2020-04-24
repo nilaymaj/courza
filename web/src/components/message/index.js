@@ -3,6 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import classes from 'classnames';
 import { EuiComment, EuiAvatar, EuiText } from '@elastic/eui';
+import { type UIMessage, parseContentToJsx } from '../../utils/chat-utils';
+import { Element } from 'react-scroll';
 moment().format();
 
 moment.updateLocale('en', {
@@ -17,37 +19,31 @@ moment.updateLocale('en', {
 });
 
 type Props = {
-  name: string,
-  content: string,
-  date: Date,
-  isOwn: boolean,
+  message: UIMessage,
 };
 
 const Message = (props: Props) => {
-  const date = moment(props.date);
+  const { message } = props;
+  const date = moment(message.date);
   const timestamp = date.calendar();
-  const className = classes(['cz-message', { highlight: props.isOwn }]);
-
-  // Parse plaintext with '\n's to JSX
-  const htmlContent = props.content.split('\n').map((item, i) => {
-    return (
-      <span key={i}>
-        <span>{item}</span>
-        <br />
-      </span>
-    );
-  });
+  const className = classes(['cz-message', { highlight: message.isOwn }]);
+  const htmlContent = parseContentToJsx(message.content);
 
   return (
-    <EuiComment
-      username={props.isOwn ? 'You' : props.name}
-      event="commented"
-      timestamp={timestamp}
-      className={className}
-      timelineIcon={<EuiAvatar size="l" name={props.name} />}
+    <Element
+      name={message._id || message.tempId}
+      key={message._id || message.tempId}
     >
-      <EuiText>{htmlContent}</EuiText>
-    </EuiComment>
+      <EuiComment
+        username={message.isOwn ? 'You' : message.author.name}
+        event="commented"
+        timestamp={timestamp}
+        className={className}
+        timelineIcon={<EuiAvatar size="l" name={message.author.name} />}
+      >
+        <EuiText>{htmlContent}</EuiText>
+      </EuiComment>
+    </Element>
   );
 };
 
