@@ -43,7 +43,7 @@ const ChatScreen = () => {
         },
         date: new Date(),
         content,
-        tempId: tempMessageId.current++,
+        tempId: (tempMessageId.current++).toString(),
         isOwn: true,
       };
       const newMessageList = [...messages, newMessage];
