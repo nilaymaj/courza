@@ -3,18 +3,19 @@ import React from 'react';
 import { EuiLoadingContent, EuiSpacer, EuiEmptyPrompt } from '@elastic/eui';
 import Message from '../message';
 
-type MessageProps = {
+type MessageProps = {|
   authorId: { _id: string, name: string },
-  _id: string,
+  _id?: string,
+  tempId?: number,
   content: string,
   date: Date,
   isOwn: boolean,
-};
+|};
 
-type Props = {
+type Props = {|
   loading: boolean,
-  messages: Array<MessageProps>,
-};
+  messages: ?Array<MessageProps>,
+|};
 
 const MessageList = (props: Props) => {
   return (
@@ -28,11 +29,11 @@ const MessageList = (props: Props) => {
           <EuiLoadingContent></EuiLoadingContent>
           <EuiSpacer></EuiSpacer>
         </div>
-      ) : props.messages.length ? (
+      ) : props.messages && props.messages.length ? (
         props.messages.map((m) => (
           <Message
             name={m.authorId.name}
-            key={m._id}
+            key={m._id || m.tempId}
             content={m.content}
             isOwn={m.isOwn}
             date={m.date}

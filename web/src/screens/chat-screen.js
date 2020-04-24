@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { useSelector } from 'react-redux';
 import autosize from 'autosize';
@@ -5,7 +6,6 @@ import { getProfile, getActiveChat } from '../redux/selectors';
 import {
   EuiTextArea,
   EuiPanel,
-  EuiButton,
   EuiEmptyPrompt,
   EuiFlexGroup,
   EuiFlexItem,
@@ -14,17 +14,20 @@ import {
 import { getChatMessages, postMessage } from '../utils/requests';
 import MessageList from '../components/message-list';
 
-const ChatScreen = (props) => {
+const ChatScreen = () => {
   const [input, setInput] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [messages, setMessages] = React.useState(null);
   const textareaRef = React.useRef(null);
+  // Maintain a temporary message ID for optimistic UI
+  const tempMessageId = React.useRef(1);
   const activeChat = useSelector(getActiveChat);
   const profile = useSelector(getProfile);
 
   const onPostMessage = React.useCallback(
     (e) => {
       e && e.preventDefault();
+      if (!messages) return;
       const content = input.trim();
       // Do not post only-whitespace messages
       if (!content) return;
@@ -38,8 +41,9 @@ const ChatScreen = (props) => {
           _id: profile._id,
           name: profile.name,
         },
-        date: new Date().toISOString(),
+        date: new Date(),
         content,
+        tempId: tempMessageId.current++,
         isOwn: true,
       };
       const newMessageList = [...messages, newMessage];
@@ -55,7 +59,7 @@ const ChatScreen = (props) => {
 
   // Ctrl+Enter keyboard shortcut
   React.useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (e.keyCode === 13 && e.ctrlKey) onPostMessage();
     };
     document.addEventListener('keyup', handler);
