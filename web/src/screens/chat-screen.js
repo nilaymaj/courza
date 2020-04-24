@@ -121,15 +121,11 @@ const ChatScreen = (props) => {
         title={<h2>{activeChat.title}</h2>}
         body={
           <p>
-            Navigators use massive amounts of spice to gain a limited form of
-            prescience. This allows them to safely navigate interstellar space,
-            enabling trade and travel throughout the galaxy.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+            ultrices iaculis libero non laoreet. Nulla nec ultricies turpis.
+            Vivamus commodo velit blandit, varius lectus sit amet, fringilla
+            risus.
           </p>
-        }
-        actions={
-          <EuiButton color="primary" fill>
-            Harvest spice
-          </EuiButton>
         }
       />
     </EuiPanel>

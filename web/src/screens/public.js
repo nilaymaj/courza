@@ -5,11 +5,13 @@ import mainLogo from '../assets/main-logo.png';
 import { LoginForm } from '../forms';
 import { connect } from 'react-redux';
 import { login as lgnAction } from '../redux/actions';
+import { getFullProfile } from '../utils/requests';
 
 const PublicPage = (props) => {
   const history = useHistory();
 
-  const handleLogin = (profile) => {
+  const handleLogin = async () => {
+    const profile = await getFullProfile();
     props.login(profile);
     history.push('/home');
   };

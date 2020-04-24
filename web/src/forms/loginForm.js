@@ -35,11 +35,11 @@ const LoginForm = (props) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await login({ iitkEmail: email, password });
-      props.onLogin(res);
+      await login({ iitkEmail: email, password });
+      props.onLogin();
     } catch (error) {
       setLoading(false);
-      const status = error.response.status;
+      const status = error.response && error.response.status;
       setFormError(errorForStatus[status] || 'An unknown error occured');
     }
   };
