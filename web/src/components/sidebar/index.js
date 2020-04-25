@@ -19,28 +19,35 @@ import {
   getCourseChats,
   isSidebarOpen,
 } from '../../redux/selectors';
-import { openCourse, openChat, toggleSidebar } from '../../redux/actions';
+import { openCourse, toggleSidebar } from '../../redux/actions';
+import { useAppNavigator } from '../../utils/hooks';
 
 const CourseSelect = () => {
   const courses = useSelector(getCourses);
   const activeCourse = useSelector(getActiveCourse);
+  const appNav = useAppNavigator();
   const dispatch = useDispatch();
-
-  const handleCourseChange = (courseId) => {
-    dispatch(openCourse(courseId));
-  };
 
   const options = courses.map((c) => ({
     value: c._id,
     inputDisplay: <EuiText>{c.code}</EuiText>,
+    dropdownDisplay: (
+      <>
+        <strong>{c.code}</strong>
+        <EuiText size="s" color="subdued">
+          <p>{c.name}</p>
+        </EuiText>
+      </>
+    ),
   }));
 
   return (
     <EuiCollapsibleNavGroup>
       <EuiSuperSelect
+        hasDividers
         options={options}
         valueOfSelected={activeCourse._id}
-        onChange={handleCourseChange}
+        onChange={(cId) => appNav.goToCourse(cId)}
       ></EuiSuperSelect>
     </EuiCollapsibleNavGroup>
   );
@@ -49,11 +56,7 @@ const CourseSelect = () => {
 const ChatSelect = () => {
   const chats = useSelector(getCourseChats);
   const activeChat = useSelector(getActiveChat);
-  const dispatch = useDispatch();
-
-  const handleClick = (chatId) => {
-    dispatch(openChat(chatId));
-  };
+  const appNav = useAppNavigator();
 
   return (
     <EuiCollapsibleNavGroup
@@ -64,7 +67,7 @@ const ChatSelect = () => {
       extraAction={
         <EuiButtonIcon
           title="Create new topic"
-          iconType="createSingleMetricJob"
+          iconType="plusInCircle"
           aria-label="create new topic"
         ></EuiButtonIcon>
       }
@@ -74,7 +77,7 @@ const ChatSelect = () => {
           {chats.map((c) => {
             const active = c._id === activeChat._id;
             return (
-              <div onClick={() => handleClick(c._id)} key={c._id}>
+              <div onClick={() => appNav.goToChat(c._id)} key={c._id}>
                 <EuiListGroupItem
                   label={c.title}
                   isActive={active}

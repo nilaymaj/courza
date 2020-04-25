@@ -4,7 +4,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 const BASE_URL = process.env.COURZA_BASE_URL || 'http://localhost:8000/api';
 export async function request(method, url, data) {
-  console.log('Requesting ', BASE_URL + url);
   const res = await axios({
     method,
     data,

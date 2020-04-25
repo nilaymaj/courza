@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { getActiveCourse, getActiveChat } from '../../redux/selectors';
 import Sidebar from '../sidebar';
+import { useAppNavigator } from '../../utils/hooks';
 import mainIcon from '../../assets/icon-512.png';
 import {
   EuiHeader,
@@ -16,6 +17,7 @@ import {
 const Topbar = () => {
   const course = useSelector(getActiveCourse);
   const chat = useSelector(getActiveChat);
+  const appNav = useAppNavigator();
 
   const renderBreadcrumbs = () => {
     const breadcrumbs = [
@@ -23,15 +25,11 @@ const Topbar = () => {
         text: course.code,
         onClick: (e) => {
           e.preventDefault();
-          console.log('Clicked on course', course.code);
+          appNav.goToCourse(course._id);
         },
       },
       {
         text: chat ? chat.title : '',
-        onClick: (e) => {
-          e.preventDefault();
-          console.log('Clicked on chat', chat ? chat.title : '');
-        },
       },
     ];
 
@@ -43,7 +41,7 @@ const Topbar = () => {
       <EuiHeaderSection>
         <Sidebar></Sidebar>
       </EuiHeaderSection>
-      <EuiHeaderSection grow={false}>
+      <EuiHeaderSection grow={false} onClick={() => appNav.goToHome()}>
         <EuiHeaderSectionItem border="right">
           <EuiHeaderLogo iconType={mainIcon} aria-label="Go to home page">
             Courza

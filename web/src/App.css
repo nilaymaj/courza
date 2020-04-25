@@ -116,5 +116,24 @@
   height: 100%;
 }
 
+/* COURSE HOME */
+.cz-course__wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.cz-course__panel {
+  width: 70%;
+  padding-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1111px) {
+  .cz-course__panel {
+    width: 90%;
+  }
+}
+
 @import './components/message/style.css';
 @import './components/message-list/style.css';

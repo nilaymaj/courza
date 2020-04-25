@@ -6,6 +6,9 @@ const MessageRouter = require('./messages');
 const Mw = require('../middleware');
 const router = require('express').Router();
 
+// Uncomment this to delay all requests
+// router.use((req, res, next) => setTimeout(() => next(), 2000));
+
 router.use('/auth', AuthRouter);
 router.use(Mw.auth);
 router.use(Mw.objectify);

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import autosize from 'autosize';
 import { getProfile, getActiveChat } from '../redux/selectors';
 import {
@@ -13,7 +13,6 @@ import {
 } from '@elastic/eui';
 import { getChatMessages, postMessage } from '../utils/requests';
 import {
-  type UIMessage,
   parseToUIMessage,
   scrollToBottom,
   createTempMessage,
@@ -40,7 +39,8 @@ const ChatScreen = () => {
       // waiting for server confirmation
       setInput('');
       const tempId = (tempMessageId.current++).toString();
-      const newMessage = createTempMessage(profile, content, tempId);
+      const baseProfile = { _id: profile._id, name: profile.name };
+      const newMessage = createTempMessage(baseProfile, content, tempId);
       const newMessageList = [...messages, newMessage];
       setMessages(newMessageList);
       scrollToBottom();

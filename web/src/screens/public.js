@@ -20,7 +20,6 @@ const PublicPage = (props) => {
     const profile = await getFullProfile();
     dispatch(lgnAction(profile));
     const routeState = history.location.state;
-    console.log(routeState);
     if (routeState) history.replace(routeState.from);
     else history.replace('/home');
     dispatch(setLoading(false));
