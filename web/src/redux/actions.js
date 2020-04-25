@@ -29,17 +29,10 @@ export const openChat = (chatId) => {
 };
 
 /**
- * Set loading state to true
+ * Set loading state
  */
-export const startLoading = (text) => {
-  return { type: 'START_LOADING', text };
-};
-
-/**
- * Set loading state to false
- */
-export const stopLoading = () => {
-  return { type: 'STOP_LOADING' };
+export const setLoading = (loading) => {
+  return { type: 'SET_LOADING', data: loading };
 };
 
 /**
@@ -48,11 +41,4 @@ export const stopLoading = () => {
  */
 export const toggleSidebar = (open) => {
   return { type: 'TOGGLE_SIDEBAR', open };
-};
-
-export default {
-  login,
-  addNewCourse,
-  startLoading,
-  stopLoading,
 };

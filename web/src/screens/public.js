@@ -3,20 +3,43 @@ import { useHistory } from 'react-router-dom';
 import { EuiText } from '@elastic/eui';
 import mainLogo from '../assets/main-logo.png';
 import { LoginForm } from '../forms';
-import { connect } from 'react-redux';
-import { login as lgnAction } from '../redux/actions';
+import LoadingPage from './loading-page';
+import { useDispatch, useSelector } from 'react-redux';
+import { login as lgnAction, setLoading } from '../redux/actions';
 import { getFullProfile } from '../utils/requests';
+import { isLoading } from '../redux/selectors';
 
 const PublicPage = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const loading = useSelector(isLoading);
 
-  const handleLogin = async () => {
+  // Fetch profile, send user to prev route or home
+  const handleLogin = React.useCallback(async () => {
+    dispatch(setLoading(true));
     const profile = await getFullProfile();
-    props.login(profile);
-    history.push('/home');
-  };
+    dispatch(lgnAction(profile));
+    const routeState = history.location.state;
+    console.log(routeState);
+    if (routeState) history.replace(routeState.from);
+    else history.replace('/home');
+    dispatch(setLoading(false));
+  }, [history, dispatch]);
 
-  return (
+  // Check if user is already logged in
+  React.useEffect(() => {
+    (async () => {
+      try {
+        await handleLogin();
+      } catch (error) {
+        dispatch(setLoading(false));
+      }
+    })();
+  }, [handleLogin, dispatch]);
+
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <div className="public__wrapper">
       <div className="public__content">
         <div className="public__text">
@@ -38,4 +61,4 @@ const PublicPage = (props) => {
   );
 };
 
-export default connect(null, { login: lgnAction })(PublicPage);
+export default PublicPage;

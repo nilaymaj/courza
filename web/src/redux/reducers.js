@@ -1,7 +1,7 @@
 const initialState = {
   isLoggedIn: false,
   profile: null,
-  loadingText: null,
+  loading: true,
   sidebarOpen: false,
   courses: [],
   activeCourseId: null,
@@ -42,16 +42,10 @@ export default function (state = initialState, action) {
         activeChatId: courses[0].chats[0] && courses[0].chats[0]._id,
       };
     }
-    case 'SHOW_LOADING': {
+    case 'SET_LOADING': {
       return {
         ...state,
-        loadingText: action.text,
-      };
-    }
-    case 'STOP_LOADING': {
-      return {
-        ...state,
-        loadingText: null,
+        loading: action.data,
       };
     }
     case 'TOGGLE_SIDEBAR': {

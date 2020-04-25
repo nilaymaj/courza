@@ -1,37 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import * as React from 'react';
+import { Route } from 'react-router-dom';
 import { PrivateRoute } from './utils/base';
-import { connect } from 'react-redux';
-import { Selectors } from './redux';
-import { getFullProfile } from './utils/requests';
-import { PublicPage, LoadingPage } from './screens';
+import { useSelector } from 'react-redux';
+import { PublicPage } from './screens';
 import MainContainer from './containers/main-container';
-import { login } from './redux/actions';
+import { isLoggedIn } from './redux/selectors';
 import './App.css';
 import '@elastic/eui/dist/eui_theme_light.css';
 
 const App = (props) => {
-  const history = useHistory();
-  const { isLoggedIn } = props;
-  const [loading, setLoading] = React.useState(true);
-  const sendToHome = useCallback(() => history.push('/home'), [history]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        console.log('=== FETCHING PROFILE ===');
-        const profile = await getFullProfile();
-        props.login(profile);
-        sendToHome();
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    })();
-    // eslint-disable-next-line
-  }, []);
-
-  if (loading) return <LoadingPage text="Loading..."></LoadingPage>;
+  const loggedIn = useSelector(isLoggedIn);
 
   return (
     <div className="App">
@@ -39,7 +17,7 @@ const App = (props) => {
       <PrivateRoute
         path="/home"
         isPrivate={true}
-        authenticated={isLoggedIn}
+        authenticated={loggedIn}
         redirect="/login"
         render={() => <MainContainer></MainContainer>}
       ></PrivateRoute>
@@ -47,9 +25,4 @@ const App = (props) => {
   );
 };
 
-export default connect(
-  (state) => ({
-    isLoggedIn: Selectors.isLoggedIn(state),
-  }),
-  { login }
-)(App);
+export default App;
