@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
 import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
 import { getActiveCourse } from '../redux/selectors';
 import { useSelector } from 'react-redux';
