@@ -19,14 +19,13 @@ import {
   getCourseChats,
   isSidebarOpen,
 } from '../../redux/selectors';
-import { openCourse, toggleSidebar } from '../../redux/actions';
+import { toggleSidebar } from '../../redux/actions';
 import { useAppNavigator } from '../../utils/hooks';
 
 const CourseSelect = () => {
   const courses = useSelector(getCourses);
   const activeCourse = useSelector(getActiveCourse);
   const appNav = useAppNavigator();
-  const dispatch = useDispatch();
 
   const options = courses.map((c) => ({
     value: c._id,

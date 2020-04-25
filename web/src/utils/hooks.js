@@ -3,7 +3,13 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { openChat, openCourse } from '../redux/actions';
-import { getActiveCourse } from '../redux/selectors';
+import { getActiveCourse, getProfile, getActiveChat } from '../redux/selectors';
+import {
+  type UIMessage,
+  createTempMessage,
+  parseToUIMessage,
+} from './chat-utils';
+import { postMessage, getChatMessages } from './requests';
 
 type FieldValue = boolean | string | number;
 
@@ -71,4 +77,53 @@ export const useAppNavigator = () => {
   }, [history]);
 
   return { goToChat, goToCourse, goToHome };
+};
+
+/**
+ * Custom hook for managing chat message list,
+ * including creating and validating optimistic messages
+ */
+export const useMessageManager = () => {
+  const profile = useSelector(getProfile);
+  const chatId = useSelector(getActiveChat)._id;
+  const [messages, setMessages] = React.useState<Array<UIMessage>>([]);
+  const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
+  const tempMessageId = React.useRef<number>(1);
+
+  /**
+   * Fetch chat messages and initiate message manager
+   */
+  const initMessages = React.useCallback(async (): Promise<void> => {
+    const initMs = await getChatMessages(chatId);
+    const parsedMs = initMs.map((m) => parseToUIMessage(m, profile._id));
+    setMessages(parsedMs);
+  }, [chatId, profile._id]);
+
+  /**
+   * Get list of messages to display to user
+   */
+  const getDisplayMessages = React.useCallback((): Array<UIMessage> => {
+    return [...messages, ...tempMessages];
+  }, [messages, tempMessages]);
+
+  /**
+   * Post new message
+   */
+  const postNewMessage = React.useCallback(
+    async (content: string): Promise<void> => {
+      // Optimistic UI - create and add unverified message
+      const tId = (tempMessageId.current++).toString();
+      const baseProfile = { _id: profile._id, name: profile.name };
+      const message = createTempMessage(baseProfile, content, tId);
+      setTempMessages([...tempMessages, message]);
+      // Send request to server, update message ID from response
+      const actualMessage = await postMessage(chatId, content);
+      const updMessage = { ...message, _id: actualMessage._id };
+      setTempMessages(tempMessages);
+      setMessages([...messages, updMessage]);
+    },
+    [chatId, messages, tempMessages, profile._id, profile.name]
+  );
+
+  return [initMessages, getDisplayMessages, postNewMessage];
 };

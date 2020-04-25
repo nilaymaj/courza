@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import autosize from 'autosize';
-import { getProfile, getActiveChat } from '../redux/selectors';
+import { getActiveChat } from '../redux/selectors';
 import {
   EuiTextArea,
   EuiPanel,
@@ -11,41 +11,27 @@ import {
   EuiFlexItem,
   EuiButtonIcon,
 } from '@elastic/eui';
-import { getChatMessages, postMessage } from '../utils/requests';
-import {
-  parseToUIMessage,
-  scrollToBottom,
-  createTempMessage,
-} from '../utils/chat-utils';
+import { scrollToBottom } from '../utils/chat-utils';
+import { useMessageManager } from '../utils/hooks';
 import MessageList from '../components/message-list';
 
 const ChatScreen = () => {
   const [input, setInput] = React.useState('');
   const [loading, setLoading] = React.useState(true);
-  const [messages, setMessages] = React.useState(null);
-  const textareaRef = React.useRef(null);
-  // Maintain a temporary message ID for optimistic UI
-  const tempMessageId = React.useRef(1);
   const activeChat = useSelector(getActiveChat);
-  const profile = useSelector(getProfile);
+  const textareaRef = React.useRef(null);
+  const [initMessages, getMessages, postNewMessage] = useMessageManager();
 
   const onPostMessage = React.useCallback(
     (e) => {
       e && e.preventDefault();
       const content = input.trim();
-      if (!content || !messages || loading) return;
-      postMessage(activeChat._id, content);
-      // Optimistic UI - add message without
-      // waiting for server confirmation
+      if (!content || loading) return;
       setInput('');
-      const tempId = (tempMessageId.current++).toString();
-      const baseProfile = { _id: profile._id, name: profile.name };
-      const newMessage = createTempMessage(baseProfile, content, tempId);
-      const newMessageList = [...messages, newMessage];
-      setMessages(newMessageList);
+      postNewMessage(content);
       scrollToBottom();
     },
-    [input, activeChat._id, profile._id, profile.name, messages, loading]
+    [input, loading, postNewMessage]
   );
 
   // Auto-resize input box on input change
@@ -66,21 +52,17 @@ const ChatScreen = () => {
   React.useEffect(() => {
     (async () => {
       setLoading(true);
-      const rawMessages = await getChatMessages(activeChat._id);
-      const messageList = rawMessages.map((m) =>
-        parseToUIMessage(m, profile._id)
-      );
-      setMessages(messageList);
+      await initMessages();
       setLoading(false);
     })();
-  }, [activeChat._id, profile._id]);
+  }, [initMessages]);
 
   return (
     <div className="cz-chat__wrapper">
       <div className="cz-chat__messagepanel">
         {/* Messages panel */}
         <div className="cz-messages__wrapper">
-          <MessageList messages={messages} loading={loading}></MessageList>
+          <MessageList messages={getMessages()} loading={loading}></MessageList>
           <div className="cz-messages__input">
             {/* Input panel */}
             <EuiPanel paddingSize="s" hasShadow>
