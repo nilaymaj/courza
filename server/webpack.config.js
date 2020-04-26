@@ -19,6 +19,11 @@ module.exports = {
       chunks: false,
     },
   },
+  externals: [
+    nodeExternals({
+      modulesFromFile: true,
+    }),
+  ],
   node: false,
   module: {
     rules: [
