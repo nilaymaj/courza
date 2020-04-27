@@ -15,6 +15,12 @@ const MainContainer = () => {
   const dispatch = useDispatch();
   const appState = useStateFromRoute();
 
+  // Set body padding-top to remove narrow gap below topbar
+  React.useEffect(() => {
+    document.body.style.setProperty('padding-top', '48px', 'important');
+    return () => document.body.style.removeProperty('padding-top');
+  }, []);
+
   // Sync the Redux state with URL params
   // Necessary if user directly jumps to specific link
   React.useEffect(() => {
