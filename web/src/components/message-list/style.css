@@ -9,6 +9,7 @@
 .cz-messages__list {
   flex-grow: 1;
   display: flex;
+  justify-content: flex-end;
   width: 100%;
   flex-direction: column;
   padding: 20px 0;

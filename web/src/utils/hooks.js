@@ -47,6 +47,21 @@ export const useFormField = (defaultVal: FieldValue, validator: Object) => {
 };
 
 /**
+ * Parses current location using react-router's matchPath
+ * to return current course ID and chat ID
+ */
+export const useStateFromRoute = () => {
+  const history = useHistory();
+  const matchURLs = ['/home/c/:courseId/:chatId', '/home/c/:courseId', '/home'];
+  let data;
+  for (const url of matchURLs) {
+    data = matchPath(history.location.pathname, { path: url });
+    if (data) break;
+  }
+  return data && data.params;
+};
+
+/**
  * Custom hook that provides functions for navigating across
  * the app and accordingly updating Redux state
  */
