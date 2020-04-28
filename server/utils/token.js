@@ -1,3 +1,4 @@
+// @flow
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
@@ -6,16 +7,22 @@ const { AuthorizationError } = require('../utils/errors');
 
 let PUBLIC_KEY, PRIVATE_KEY;
 try {
-  PUBLIC_KEY = fs.readFileSync(path.join(__dirname, '../keys/public.key'), 'utf8');
-  PRIVATE_KEY = fs.readFileSync(path.join(__dirname, '../keys/private.key'), 'utf8');
+  PUBLIC_KEY = fs.readFileSync(
+    path.join(__dirname, '../keys/public.key'),
+    'utf8'
+  );
+  PRIVATE_KEY = fs.readFileSync(
+    path.join(__dirname, '../keys/private.key'),
+    'utf8'
+  );
 } catch (err) {
   throw new Error('Error in reading key.');
 }
 
-exports.decodeToken = token => {
+exports.decodeToken = (token: string): Object => {
   try {
     const decoded = jwt.verify(token, PUBLIC_KEY, {
-      algorithms: ['RS256']
+      algorithms: ['RS256'],
     });
     return decoded;
   } catch (err) {
@@ -23,9 +30,9 @@ exports.decodeToken = token => {
   }
 };
 
-exports.generateToken = payload => {
+exports.generateToken = (payload: Object): string => {
   const token = jwt.sign(payload, PRIVATE_KEY, {
-    algorithm: 'RS256'
+    algorithm: 'RS256',
   });
   return token;
 };

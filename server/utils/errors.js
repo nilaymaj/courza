@@ -12,7 +12,7 @@ const errorNames = [
   'CredentialsError',
   'DuplicateError',
   'AuthorizationError',
-  'ServerError'
+  'ServerError',
 ];
 const errors = {};
 for (const e of errorNames) {

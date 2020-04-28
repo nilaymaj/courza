@@ -10,12 +10,12 @@ const { ObjectId } = require('mongoose');
  * @param {string} errorMessage Error message
  * @returns {Error} Error object with given name and message
  */
-exports.error = function error(errorName: string, errorMessage: string): Error {
-  const error = new Error();
-  error.name = errorName;
-  error.message = errorMessage;
-  return error;
-};
+function error(errorName: string, errorMessage: string): Error {
+  const err = new Error();
+  err.name = errorName;
+  err.message = errorMessage;
+  return err;
+}
 
 /**
  * Get username from IITK email id
@@ -24,13 +24,14 @@ exports.error = function error(errorName: string, errorMessage: string): Error {
  * @returns {string} Username of the email id
  *
  */
-exports.getUsernameFromEmail = function getUsernameFromEmail(email: string): Object {
+function getUsernameFromEmail(email: string): string {
   // Capture username and subdomain from given email
   const groups = email.match(IITK_EMAIL_REGEX);
-  if (groups === null) throw error('EmailError', 'Email is not a valid IITK email ID.');
+  if (groups === null)
+    throw error('EmailError', 'Email is not a valid IITK email ID.');
   const username = groups[1];
   return username;
-};
+}
 
 /**
  * Get the value of an environment variable
@@ -40,12 +41,12 @@ exports.getUsernameFromEmail = function getUsernameFromEmail(email: string): Obj
  * @returns {*} Value of the environment variable
  *
  */
-exports.getEnvVariable = function getEnvVariable(varName: string, defaultValue?: string): ?string {
+function getEnvVariable(varName: string, defaultValue?: string): ?string {
   const fullVarName = `process.env.COURZA_${varName.toUpperCase()}`;
   let envValue = eval(fullVarName);
   if (envValue === undefined) envValue = defaultValue;
   return envValue;
-};
+}
 
 /**
  * Hashes the given string
@@ -53,11 +54,11 @@ exports.getEnvVariable = function getEnvVariable(varName: string, defaultValue?:
  * @param {string} str String to be hashed
  * @returns {Promise<string>} Promise that resolves with hashed string
  */
-exports.hash = async function hash(str: string) {
+async function hash(str: string): Promise<string> {
   const saltRounds = 10;
   const hash = await bcrypt.hash(str, saltRounds);
   return hash;
-};
+}
 
 /**
  * Compares plaintext string with a hash, and returns result
@@ -66,10 +67,10 @@ exports.hash = async function hash(str: string) {
  * @param {string} hash Hash to compare to
  * @returns {Promise<boolean>} Promise that resolves to true, if compare succeeds
  */
-exports.compareHash = async function compareHash(str: string, hash: string) {
+async function compareHash(str: string, hash: string): Promise<boolean> {
   const match = await bcrypt.compare(str, hash);
   return match;
-};
+}
 
 /**
  * Converts a valid string to a Mongoose ObjectID
@@ -77,6 +78,15 @@ exports.compareHash = async function compareHash(str: string, hash: string) {
  * @param {string} str String to be converted to ObjectID
  * @returns {ObjectId} ObjectID corresponding to the string
  */
-exports.toObjectID = function toObjectID(str: string) {
+function toObjectID(str: string): ObjectId {
   return new ObjectId(str);
+}
+
+export {
+  error,
+  getUsernameFromEmail,
+  getEnvVariable,
+  hash,
+  compareHash,
+  toObjectID,
 };
