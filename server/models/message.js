@@ -1,10 +1,9 @@
 const { Schema, Types } = require('../db');
-const Student = require('./student');
 
 const messageSchema = new Schema({
   authorId: {
     type: Types.ObjectId,
-    ref: Student,
+    ref: 'Student',
     required: true,
   },
   content: {
@@ -21,8 +20,7 @@ const messageSchema = new Schema({
   },
   chatId: {
     type: Types.ObjectId,
-    // TODO: Fix this ref
-    // ref: Chat,
+    ref: 'Chat',
     required: true,
   },
 });

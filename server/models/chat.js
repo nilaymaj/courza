@@ -1,7 +1,4 @@
 const { Schema, Types } = require('../db');
-const Course = require('./course');
-const Student = require('./student');
-const Message = require('./message');
 
 const chatSchema = new Schema({
   title: {
@@ -12,16 +9,16 @@ const chatSchema = new Schema({
   },
   courseId: {
     type: Types.ObjectId,
-    ref: Course,
+    ref: 'Course',
     required: true,
   },
   creatorId: {
     type: Types.ObjectId,
-    ref: Student,
+    ref: 'Student',
     required: true,
   },
   messages: {
-    type: [{ type: Types.ObjectId, ref: Message }],
+    type: [{ type: Types.ObjectId, ref: 'Message' }],
     required: true,
     default: [],
   },

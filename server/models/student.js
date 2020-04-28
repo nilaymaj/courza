@@ -1,6 +1,5 @@
 const { Schema, Types } = require('../db');
 const { IITK_EMAIL_REGEX } = require('../utils/constants');
-const Course = require('./course');
 
 const studentSchema = new Schema({
   name: {
@@ -28,7 +27,7 @@ const studentSchema = new Schema({
     maxlength: 1024,
   },
   courses: {
-    type: [{ type: Types.ObjectId, ref: Course }],
+    type: [{ type: Types.ObjectId, ref: 'Course' }],
     required: true,
     default: [],
   },
