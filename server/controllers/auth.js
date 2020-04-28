@@ -1,14 +1,14 @@
-const { pick } = require('lodash');
-const { StudentService } = require('../services');
-const { decodeToken } = require('../utils/token');
-const controller = require('./controller');
+import { pick } from 'lodash';
+import { StudentService } from '../services';
+import { decodeToken } from '../utils/token';
+import controller from './controller';
 
-exports.registerNewStudent = controller(async (req, res) => {
+export const registerNewStudent = controller(async (req, res) => {
   const student = await StudentService.create(req.body);
   return res.send(student.toObject());
 });
 
-exports.studentLogin = controller(async (req, res) => {
+export const studentLogin = controller(async (req, res) => {
   const { iitkEmail, password } = req.body;
   const student = await StudentService.login(iitkEmail, password);
   const profile = await StudentService.getProfile(student);
@@ -16,7 +16,7 @@ exports.studentLogin = controller(async (req, res) => {
   res.cookie('cz-token', token).send(profile);
 });
 
-exports.checkToken = controller(async (req, res) => {
+export const checkToken = controller(async (req, res) => {
   const token = req.cookies['cz-token'];
   const payload = decodeToken(token);
   const student = await StudentService.get(payload._id);

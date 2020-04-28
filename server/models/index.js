@@ -1,9 +1,5 @@
-const Chat = require('./chat');
-const Course = require('./course');
-const Student = require('./student');
-const Message = require('./message');
-const Poll = require('./poll');
-
-module.exports = { Chat, Course, Student, Message, Poll };
-
-// export { Chat, Course, Student, Message };
+export { default as Chat } from './chat';
+export { default as Course } from './course';
+export { default as Student } from './student';
+export { default as Message } from './message';
+export { default as Poll } from './poll';

@@ -1,20 +1,24 @@
-const { connect } = require('mongoose');
-const { DEV_DB_URL } = require('../utils/constants');
-const { getEnvVariable: env } = require('../utils/base');
-const { DbSchema, DbTypes } = require('./schema');
+import { connect } from 'mongoose';
+import { DEV_DB_URL } from '../utils/constants';
+import { getEnvVariable as env } from '../utils/base';
+import { DbSchema, DbTypes } from './schema';
 
 /**
  * Creates a new connection to a mongo database
  *
  * @returns {object} Mongoose connection object
  */
-exports.connectToDb = async function() {
+export const connectToDb = async () => {
   const envMode = process.env.NODE_ENV;
   const dbURL = envMode === 'PRODUCTION' ? env('prod_url') : DEV_DB_URL;
-  const dbConnectionOpts = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true };
+  const dbConnectionOpts = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  };
   const db = await connect(dbURL, dbConnectionOpts);
   return db;
 };
 
-exports.Schema = DbSchema;
-exports.Types = DbTypes;
+export const Schema = DbSchema;
+export const Types = DbTypes;

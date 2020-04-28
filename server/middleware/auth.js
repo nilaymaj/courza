@@ -1,8 +1,8 @@
-const { decodeToken } = require('../utils/token');
-const { StudentService } = require('../services');
-const controller = require('../controllers/controller');
+import { decodeToken } from '../utils/token';
+import { StudentService } from '../services';
+import controller from '../controllers/controller';
 
-module.exports = controller(async (req, res, next) => {
+export default controller(async (req, res, next) => {
   const token = req.cookies['cz-token'];
   const payload = decodeToken(token);
   const student = await StudentService.get(payload._id);

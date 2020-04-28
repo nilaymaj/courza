@@ -1,4 +1,4 @@
-const { Schema, Types } = require('../db');
+import { Schema, Types } from '../db';
 
 const messageSchema = new Schema({
   authorId: {
@@ -25,4 +25,4 @@ const messageSchema = new Schema({
   },
 });
 
-module.exports = messageSchema.model('Message');
+export default messageSchema.model('Message');

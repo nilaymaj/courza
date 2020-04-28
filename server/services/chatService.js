@@ -1,9 +1,9 @@
 // @flow
-const { Chat, Message } = require('../models');
-const MessageService = require('./messageService');
-const { NotFoundError } = require('../utils/errors');
-const { newChatValidator } = require('../validators');
-const { validate } = require('../utils/validator');
+import { Chat, Message } from '../models';
+import * as MessageService from './messageService';
+import { NotFoundError } from '../utils/errors';
+import { newChatValidator } from '../validators';
+import { validate } from '../utils/validator';
 
 /**
  * INTERNAL FUNCTION
@@ -13,11 +13,11 @@ const { validate } = require('../utils/validator');
  * @param {Object} data Object containing title, courseId and creatorId
  * @returns {Chat} Newly created chat object
  */
-exports.create = async function create(data: {
+export const create = async (data: {
   title: string,
   courseId: string,
   creatorId: string,
-}): Promise<Chat> {
+}): Promise<Chat> => {
   validate(data, newChatValidator);
   const chat = new Chat({ ...data, messages: [] });
   await chat.save();
@@ -30,7 +30,7 @@ exports.create = async function create(data: {
  * @param {string} chatId ID of the chat
  * @returns {Chat} Chat object
  */
-exports.get = async function get(chatId: string): Promise<Chat> {
+export const get = async (chatId: string): Promise<Chat> => {
   const chat = await Chat.findById(chatId);
   if (!chat) throw new NotFoundError('Chat does not exist.');
   return chat;
@@ -42,7 +42,7 @@ exports.get = async function get(chatId: string): Promise<Chat> {
  * @param {string} courseId ID of the course
  * @returns {Promise} Promise, resolves with Chat objects
  */
-exports.getAll = async function getAll(courseId: string): Promise<Chat[]> {
+export const getAll = async (courseId: string): Promise<Chat[]> => {
   const chats = await Chat.find({ courseId });
   return chats;
 };
@@ -54,10 +54,10 @@ exports.getAll = async function getAll(courseId: string): Promise<Chat[]> {
  * @param {string} newTitle New title of the chat
  * @returns {Chat} Updated chat object
  */
-exports.changeTitle = async function changeTitle(
+export const changeTitle = async (
   chat: Chat,
   newTitle: string
-): Promise<Chat> {
+): Promise<Chat> => {
   chat.title = newTitle;
   await chat.save();
   return chat;
@@ -70,13 +70,13 @@ exports.changeTitle = async function changeTitle(
  * @param {Object} data Object with authorId and body of message
  * @returns {Message} Newly created Message object
  */
-exports.postMessage = async function postMessage(
+export const postMessage = async (
   chat: Chat,
   data: {
     authorId: string,
-    body: string,
+    content: string,
   }
-): Promise<Chat> {
+): Promise<Chat> => {
   const message = await MessageService.create({ ...data, chatId: chat._id });
   const messageId = message._id.toString();
 

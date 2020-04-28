@@ -1,8 +1,9 @@
-const Joi = require('@hapi/joi');
-const { IITK_EMAIL_REGEX, COURSE_CODE_REGEX } = require('./constants');
-const { ValidationError } = require('./errors');
+// @flow
+import Joi from '@hapi/joi';
+import { IITK_EMAIL_REGEX, COURSE_CODE_REGEX } from './constants';
+import { ValidationError } from './errors';
 
-exports.$ = Joi.extend((joi) => ({
+export const $ = Joi.extend((joi) => ({
   type: 'iitkEmail',
   base: joi.string().email(),
   messages: {
@@ -30,7 +31,7 @@ exports.$ = Joi.extend((joi) => ({
  * @param {Object} body The data to be validated
  * @param {Object} constraints Constraints to validate against
  */
-exports.validate = function validate(body, constraints) {
+export const validate = (body: Object, constraints: Object) => {
   const { err } = constraints.validate(body);
   if (err) throw new ValidationError(err.details[0].message);
 };

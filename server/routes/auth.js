@@ -1,9 +1,14 @@
-const router = require('express').Router();
-const { registerNewStudent, studentLogin, checkToken } = require('../controllers/auth');
+import {
+  registerNewStudent,
+  studentLogin,
+  checkToken,
+} from '../controllers/auth';
+import { Router } from 'express';
+const router = Router();
 
 // TODO: Update these routes once student service is complete
 router.post('/register', registerNewStudent);
 router.post('/login', studentLogin);
 router.get('/ping', checkToken);
 
-module.exports = router;
+export default router;

@@ -1,13 +1,13 @@
-const { MessageService, ChatService } = require('../services');
-const controller = require('./controller');
+import { MessageService, ChatService } from '../services';
+import controller from './controller';
 
-exports.viewAllChatMessages = controller(async (req, res) => {
+export const viewAllChatMessages = controller(async (req, res) => {
   const chatId = req.chat._id;
   const messages = await MessageService.getAll(chatId);
   return res.send(messages);
 });
 
-exports.postNewMessage = controller(async (req, res) => {
+export const postNewMessage = controller(async (req, res) => {
   const chat = req.chat;
   const authorId = req.user._id;
   const content = req.body.content;

@@ -1,12 +1,9 @@
-const {
-  joinCourse,
-  getProfile,
-  getFullProfile,
-} = require('../controllers/student');
-const router = require('express').Router();
+import { joinCourse, getProfile, getFullProfile } from '../controllers/student';
+import { Router } from 'express';
+const router = Router();
 
 router.post('/join', joinCourse);
 router.get('/profile', getProfile);
 router.get('/fullprofile', getFullProfile);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const { Schema, Types } = require('../db');
-const { COURSE_CODE_REGEX } = require('../utils/constants');
+import { Schema, Types } from '../db';
+import { COURSE_CODE_REGEX } from '../utils/constants';
 
 const courseSchema = new Schema({
   name: {
@@ -29,4 +29,4 @@ const courseSchema = new Schema({
   },
 });
 
-module.exports = courseSchema.model('Course');
+export default courseSchema.model('Course');

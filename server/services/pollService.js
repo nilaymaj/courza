@@ -1,8 +1,8 @@
 // @flow
-const Poll = require('../models/poll');
-const { remove } = require('lodash');
-const { Student } = require('../models/student');
-const { NotFoundError } = require('../utils/errors');
+import Poll from '../models/poll';
+import { remove } from 'lodash';
+import { Student } from '../models/student';
+import { NotFoundError } from '../utils/errors';
 
 /**
  * INTERNAL FUNCTION
@@ -12,13 +12,13 @@ const { NotFoundError } = require('../utils/errors');
  * @param {Object} data Object with courseId, description and optionsText (Array<String>)
  * @returns {Poll} Newly created poll object
  */
-exports.create = async function create(data: {
+export const create = async (data: {
   courseId: string,
   description: string,
-  optionsText: Array<string>
-}): Poll {
+  optionsText: Array<string>,
+}): Poll => {
   const { description, courseId, optionsText } = data;
-  const options = optionsText.map(text => ({ text, students: [] }));
+  const options = optionsText.map((text) => ({ text, students: [] }));
   const poll = new Poll({ description, courseId, options });
   await poll.save();
   return poll;
@@ -30,7 +30,7 @@ exports.create = async function create(data: {
  * @param {string} pollId ID of the poll
  * @returns {Poll} Poll object
  */
-exports.get = async function get(pollId: string): Poll {
+export const get = async (pollId: string): Poll => {
   const poll = await Poll.findById(pollId);
   if (!poll) throw new NotFoundError('Poll does not exist.');
   return poll;
@@ -43,9 +43,12 @@ exports.get = async function get(pollId: string): Poll {
  * @param {Object} data Object with studentId and option no.
  * @returns {Poll} Updated poll object
  */
-exports.poll = async function poll(poll: Poll, data: { student: Student, option: number }): Poll {
+export const poll = async (
+  poll: Poll,
+  data: { student: Student, option: number }
+): Poll => {
   const studentVotes = poll.options[data.option];
-  remove(studentVotes, id => id === data.student._id);
+  remove(studentVotes, (id) => id === data.student._id);
   poll.options[data.option].push(data.student._id);
   await poll.save();
   return poll;

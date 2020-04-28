@@ -1,9 +1,9 @@
 // @flow
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
-const { getEnvVariable: env } = require('../utils/base');
-const { AuthorizationError } = require('../utils/errors');
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+import { getEnvVariable as env } from '../utils/base';
+import { AuthorizationError } from '../utils/errors';
 
 let PUBLIC_KEY, PRIVATE_KEY;
 try {
@@ -19,7 +19,7 @@ try {
   throw new Error('Error in reading key.');
 }
 
-exports.decodeToken = (token: string): Object => {
+export const decodeToken = (token: string): Object => {
   try {
     const decoded = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
@@ -30,7 +30,7 @@ exports.decodeToken = (token: string): Object => {
   }
 };
 
-exports.generateToken = (payload: Object): string => {
+export const generateToken = (payload: Object): string => {
   const token = jwt.sign(payload, PRIVATE_KEY, {
     algorithm: 'RS256',
   });

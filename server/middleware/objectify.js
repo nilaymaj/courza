@@ -1,11 +1,11 @@
-const Services = require('../services');
-const { ValidationError } = require('../utils/errors');
-const controller = require('../controllers/controller');
+import * as Services from '../services';
+import { ValidationError } from '../utils/errors';
+import controller from '../controllers/controller';
 
 // This middleware looks at studentId, courseId and chatId of the request body.
 // If any are found, the middleware attaches corresponding document object to the request.
 
-module.exports = controller(async (req, res, next) => {
+export default controller(async (req, res, next) => {
   const { studentId, courseId, pollId, chatId, messageId } = req.body;
   try {
     if (studentId) req.student = await Services.StudentService.get(studentId);

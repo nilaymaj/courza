@@ -1,7 +1,13 @@
-const CourseService = require('./courseService');
-const ChatService = require('./chatService');
-const MessageService = require('./messageService');
-const StudentService = require('./studentService');
-const PollService = require('./pollService');
+import * as ChatService from './chatService';
+import * as MessageService from './messageService';
+import * as StudentService from './studentService';
+import * as PollService from './pollService';
+import * as CourseService from './courseService';
 
-module.exports = { CourseService, ChatService, MessageService, StudentService, PollService };
+export {
+  ChatService,
+  MessageService,
+  StudentService,
+  PollService,
+  CourseService,
+};

@@ -1,8 +1,8 @@
-const { CourseService } = require('../services');
-const controller = require('./controller');
-const { pick } = require('lodash');
+import { CourseService } from '../services';
+import controller from './controller';
+import { pick } from 'lodash';
 
-exports.createNewCourse = controller(async (req, res) => {
+export const createNewCourse = controller(async (req, res) => {
   const creator = req.user;
   const courseInfo = req.body;
 
@@ -10,7 +10,7 @@ exports.createNewCourse = controller(async (req, res) => {
   return res.send(course.toObject());
 });
 
-exports.viewAllCourses = controller(async (req, res) => {
+export const viewAllCourses = controller(async (req, res) => {
   const courses = await CourseService.getAll();
   return res.send(courses);
 });

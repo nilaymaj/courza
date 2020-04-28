@@ -1,5 +1,6 @@
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import CircularDependencyPlugin from 'circular-dependency-plugin';
 
 module.exports = {
   mode: 'development',
@@ -24,11 +25,19 @@ module.exports = {
       modulesFromFile: true,
     }),
   ],
+  plugins: [
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      // failOnError: true,
+      allowAsyncCycles: false,
+      cwd: process.cwd(),
+    }),
+  ],
   node: false,
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         enforce: 'pre',
         use: ['remove-flow-types-loader'],
         exclude: /(node_modules|dist)/,

@@ -1,6 +1,7 @@
-const Errors = require('../utils/errors');
+import * as Errors from '../utils/errors';
 
-module.exports = function errorHandler(err, req, res, next) {
+export default function errorHandler(err, req, res, next) {
+  console.log('Error.name: ', err.name);
   switch (err.name) {
     case 'NotFoundError':
       return res
@@ -38,4 +39,4 @@ module.exports = function errorHandler(err, req, res, next) {
         .status(500)
         .send(new Errors.ServerError('An unknown error occurred.'));
   }
-};
+}

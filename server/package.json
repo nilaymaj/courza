@@ -12,7 +12,8 @@
     "build": "webpack --hide-modules",
     "serve": "nodemon dist/main.js",
     "start": "yarn build && yarn watch & yarn serve",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "flow": "flow"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -30,8 +31,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "circular-dependency-plugin": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
+    "flow-bin": "^0.123.0",
+    "flow-remove-types": "^2.123.0",
     "jest": "^24.9.0",
     "remove-flow-types-loader": "^1.1.0",
     "webpack": "^4.41.5",

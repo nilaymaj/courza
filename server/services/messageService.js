@@ -1,6 +1,6 @@
 // @flow
-const { Message } = require('../models');
-const { NotFoundError } = require('../utils/errors');
+import { Message } from '../models';
+import { NotFoundError } from '../utils/errors';
 
 /**
  * Creates new message object
@@ -8,11 +8,11 @@ const { NotFoundError } = require('../utils/errors');
  * @param {Object} data Object containing authorId, body chatId
  * @returns {Message} Newly created message object
  */
-exports.create = async function create(data: {
+export const create = async (data: {
   authorId: string,
   content: string,
   chatId: string,
-}): Message {
+}): Message => {
   const message = new Message(data);
   await message.save();
   return message;
@@ -24,7 +24,7 @@ exports.create = async function create(data: {
  * @param {string} messageId ID of the message
  * @returns {Message} Message object
  */
-exports.get = async function get(messageId: string): Message {
+export const get = async (messageId: string): Message => {
   const message = await Message.findById(messageId);
   if (!message) throw new NotFoundError('Message does not exist.');
   return message;
@@ -37,9 +37,7 @@ exports.get = async function get(messageId: string): Message {
  * @param {string} chatId ID of the chat
  * @returns {Array<Message>} Array of Message objects
  */
-exports.getAll = async function getAll(
-  chatId: string
-): Promise<Array<Message>> {
+export const getAll = async (chatId: string): Promise<Array<Message>> => {
   const messages = Message.find({ chatId })
     .populate('authorId', ['name', '_id'])
     .lean();
@@ -52,7 +50,7 @@ exports.getAll = async function getAll(
  * @param {Message} message Message to upvote
  * @returns {Message} Updated Message object
  */
-exports.upvote = async function upvote(message: Message): Message {
+export const upvote = async (message: Message): Message => {
   message.votes++;
   await message.save();
   return message;

@@ -1,10 +1,11 @@
-const CourseRouter = require('./courses');
-const ChatRouter = require('./chats');
-const AuthRouter = require('./auth');
-const StudentRouter = require('./students');
-const MessageRouter = require('./messages');
-const Mw = require('../middleware');
-const router = require('express').Router();
+import CourseRouter from './courses';
+import ChatRouter from './chats';
+import AuthRouter from './auth';
+import StudentRouter from './students';
+import MessageRouter from './messages';
+import * as Mw from '../middleware';
+import { Router } from 'express';
+const router = Router();
 
 // Uncomment this to delay all requests
 // router.use((req, res, next) => setTimeout(() => next(), 2000));
@@ -18,4 +19,4 @@ router.use('/students', StudentRouter);
 router.use('/messages', MessageRouter);
 router.use(Mw.errorHandler);
 
-module.exports = router;
+export default router;

@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const morgan = require('morgan');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const MainRouter = require('./routes');
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import MainRouter from './routes';
 const { connectToDb } = require('./db');
-const logger = require('./utils/logger');
+import * as logger from './utils/logger';
 const { initSocketManager } = require('./realtime');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { serveClient: false });

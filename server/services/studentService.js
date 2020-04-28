@@ -1,10 +1,11 @@
 // @flow
-const { pick } = require('lodash');
-const { Student, Course, Chat } = require('../models');
-const { hash, compareHash } = require('../utils/base');
-const { generateToken } = require('../utils/token');
-const CourseService = require('./courseService');
-const { NotFoundError, CredentialsError } = require('../utils/errors');
+// import { pick } from 'lodash';
+import { pick } from 'lodash';
+import { Student, Course, Chat } from '../models';
+import { hash, compareHash } from '../utils/base';
+import { generateToken } from '../utils/token';
+import * as CourseService from './courseService';
+import { NotFoundError, CredentialsError } from '../utils/errors';
 
 /**
  * Creates new student object in database
@@ -12,12 +13,12 @@ const { NotFoundError, CredentialsError } = require('../utils/errors');
  * @param {Object} data Object containing name, iitkEmail, rollNo and password
  * @returns {Student} Newly created student object
  */
-exports.create = async function (data: {
+export const create = async (data: {
   name: string,
   iitkEmail: string,
-  rollNo: Number,
+  rollNo: number,
   password: string,
-}): Student {
+}): Student => {
   const hashedPwd = await hash(data.password);
   const student = new Student({ ...data, password: hashedPwd });
   await student.save();
@@ -30,7 +31,7 @@ exports.create = async function (data: {
  * @param {string} studentId ID of the student
  * @returns {Student} Student object
  */
-exports.get = async function (studentId: string): Student {
+export const get = async (studentId: string): Promise<Student> => {
   const student = await Student.findById(studentId);
   if (!student) throw new NotFoundError('Student does not exist.');
   return student;
@@ -43,7 +44,10 @@ exports.get = async function (studentId: string): Student {
  * @param {string} password Plaintext password
  * @returns {Student} Student object (or null, if password does not match)
  */
-exports.login = async function (iitkEmail: string, password: string): ?Student {
+export const login = async (
+  iitkEmail: string,
+  password: string
+): Promise<Student> => {
   const student = await Student.findOne({ iitkEmail });
   if (!student) throw new NotFoundError('Student does not exist.');
   const match = await compareHash(password, student.password);
@@ -57,7 +61,7 @@ exports.login = async function (iitkEmail: string, password: string): ?Student {
  * @param {Student} student Student object
  * @returns {string} OAuth token for the student
  */
-exports.createToken = function (student: Student): string {
+export const createToken = (student: Student): string => {
   const token = generateToken({ _id: student._id.toString() });
   return token;
 };
@@ -69,10 +73,10 @@ exports.createToken = function (student: Student): string {
  * @param {Course} course Course to add the student to
  * @returns {Student} Updated student object
  */
-exports.joinCourse = async function (
+export const joinCourse = async (
   student: Student,
   course: Course
-): Student {
+): Promise<Student> => {
   await CourseService.addNewStudent(course, student);
   student.courses.push(course._id);
   await student.save();
@@ -85,7 +89,7 @@ exports.joinCourse = async function (
  * @param {Student} student Student object
  * @returns {Object} Basic info, with courses' info
  */
-exports.getProfile = async function (student: Student) {
+export const getProfile = async (student: Student) => {
   const courses = await Course.find({ _id: { $in: student.courses } }).lean();
   const plainCourses = courses.map((c) => pick(c, ['_id', 'name', 'code']));
   return {
@@ -101,7 +105,7 @@ exports.getProfile = async function (student: Student) {
  * @param {Student} student Student object
  * @returns {Object} Profile with course and chat info included
  */
-exports.getFullProfile = async function (student: Student) {
+export const getFullProfile = async (student: Student) => {
   const rawCourses = await Course.find({
     _id: { $in: student.courses },
   }).lean();

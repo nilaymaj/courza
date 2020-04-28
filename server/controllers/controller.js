@@ -1,12 +1,13 @@
-const Errors = require('../utils/errors');
-const { err } = require('../utils/logger');
+import Errors from '../utils/errors';
+import { err } from '../utils/logger';
 
-module.exports = function controller(handler) {
-  return async function(req, res, next) {
+export default function controller(handler) {
+  return async function (req, res, next) {
     try {
       return await handler(req, res, next);
     } catch (err) {
+      console.log(err instanceof Error);
       next(err);
     }
   };
-};
+}

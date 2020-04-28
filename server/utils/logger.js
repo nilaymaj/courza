@@ -1,6 +1,6 @@
 // @flow
-const chalk = require('chalk');
-const { has, get } = require('lodash');
+import chalk from 'chalk';
+import { has, get } from 'lodash';
 
 const LOG_AREAS = {
   db: 'green',
@@ -15,29 +15,29 @@ const LOG_LEVELS = {
 
 type LogArea = 'db' | 'server' | 'web';
 
-function boldenLog(logMessage: string, logArea: LogArea): string {
+const boldenLog = (logMessage: string, logArea: LogArea): string => {
   if (!logArea) return logMessage;
   return chalk.bold(`[${logArea}] `) + logMessage;
-}
+};
 
-exports.log = function log(logMessage: string, logArea: LogArea) {
+export const log = (logMessage: string, logArea: LogArea): void => {
   let finalString = boldenLog(logMessage, logArea);
   if (has(LOG_AREAS, logArea))
     finalString = chalk[get(LOG_AREAS, logArea)](finalString);
   console.log(finalString);
 };
 
-exports.err = function err(logMessage: string, logArea: LogArea) {
+export const err = (logMessage: string, logArea: LogArea): void => {
   const finalString = boldenLog(logMessage, logArea);
   console.error(chalk[LOG_LEVELS.error](finalString));
 };
 
-exports.warn = function warn(logMessage: string, logArea: LogArea) {
+export const warn = (logMessage: string, logArea: LogArea): void => {
   const finalString = boldenLog(logMessage, logArea);
   console.warn(chalk[LOG_LEVELS.warn](finalString));
 };
 
-exports.info = function info(logMessage: string, logArea: LogArea) {
+export const info = (logMessage: string, logArea: LogArea): void => {
   const finalString = boldenLog(logMessage, logArea);
   console.log(finalString);
 };
