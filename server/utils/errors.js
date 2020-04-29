@@ -1,10 +1,11 @@
 // @flow
+
+// An almost useless piece of code that I wrote for my own satisfaction.
 function createError(errorName: string): Class<Error> {
   return class CustomError extends Error {
-    constructor(message) {
+    constructor(message: string) {
       super(message);
       this.name = errorName;
-      this.message = message;
     }
   };
 }

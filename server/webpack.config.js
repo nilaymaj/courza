@@ -1,12 +1,12 @@
-import path from 'path';
-import nodeExternals from 'webpack-node-externals';
-import CircularDependencyPlugin from 'circular-dependency-plugin';
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 module.exports = {
   mode: 'development',
   target: 'node',
   externals: [nodeExternals()],
-  entry: './index.js',
+  entry: ['@babel/polyfill', './index.js'],
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
@@ -28,12 +28,10 @@ module.exports = {
   plugins: [
     new CircularDependencyPlugin({
       exclude: /node_modules/,
-      // failOnError: true,
       allowAsyncCycles: false,
       cwd: process.cwd(),
     }),
   ],
-  node: false,
   module: {
     rules: [
       {
@@ -45,8 +43,22 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|dist)/,
         loader: 'eslint-loader',
       },
     ],
   },
+  node: {
+    console: false,
+    global: false,
+    process: false,
+    Buffer: false,
+    __filename: false,
+    __dirname: false,
+  },
+  stats: 'errors-only',
 };
