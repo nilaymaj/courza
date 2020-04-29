@@ -1,9 +1,28 @@
-// @flow
 import mng from 'mongoose';
 import { IITK_EMAIL_REGEX } from '../utils/constants';
 import { generateToken as genToken } from '../utils/token';
 
-const studentSchema = new mng.Schema({
+export class StudentDoc extends mng.Document {
+  _id: mng.Types.ObjectId;
+  name: string;
+  iitkEmail: string;
+  rollNo: number;
+  password: string;
+  courses: mng.Types.ObjectId[];
+
+  /**
+   * Generate JWT token with student ID as payload
+   * @returns {string} JWT token string
+   */
+  generateToken(): string {
+    const token = genToken({ _id: this._id });
+    return token;
+  }
+}
+
+export interface IStudent extends StudentDoc {}
+
+const studentSchema = new mng.Schema<IStudent>({
   name: {
     type: String,
     required: true,
@@ -40,17 +59,7 @@ const studentSchema = new mng.Schema({
   },
 });
 
-class StudentDoc /* :: extends Mongoose$Document */ {
-  _id: MongoId;
-  name: string;
-  iitkEmail: string;
-  rollNo: number;
-  password: string;
-  courses: Array<MongoId>;
-  regStatus: 'unverified' | 'done';
-}
-
 studentSchema.loadClass(StudentDoc);
-const Student = mng.model('Student', studentSchema);
+const Student = mng.model<IStudent>('Student', studentSchema);
 
 export default Student;

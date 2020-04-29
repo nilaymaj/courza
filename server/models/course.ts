@@ -1,8 +1,18 @@
-// @flow
 import mng from 'mongoose';
 import { COURSE_CODE_REGEX } from '../utils/constants';
 
-const courseSchema = new mng.Schema({
+class CourseDoc extends mng.Document {
+  _id: mng.Types.ObjectId;
+  name: string;
+  code: string;
+  students: mng.Types.ObjectId[];
+  creatorId: mng.Types.ObjectId;
+  chats: mng.Types.ObjectId[];
+}
+
+export interface ICourse extends CourseDoc {}
+
+const courseSchema = new mng.Schema<ICourse>({
   name: {
     type: String,
     required: true,
@@ -30,16 +40,7 @@ const courseSchema = new mng.Schema({
   },
 });
 
-class CourseDoc /* :: extends Mongoose$Document */ {
-  _id: MongoId;
-  name: string;
-  code: string;
-  students: Array<MongoId>;
-  creatorId: MongoId;
-  chats: Array<MongoId>;
-}
-
 courseSchema.loadClass(CourseDoc);
-const Course = mng.model('Course', courseSchema);
+const Course = mng.model<ICourse>('Course', courseSchema);
 
 export default Course;

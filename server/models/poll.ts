@@ -1,9 +1,23 @@
-// @flow
 import mng from 'mongoose';
 import Course from './course';
 import Student from './student';
 
-const pollSchema = new mng.Schema({
+type Option = {
+  id: number;
+  text: string;
+  students: mng.Types.ObjectId[];
+};
+
+class PollDoc extends mng.Document {
+  _id: mng.Types.ObjectId;
+  courseId: mng.Types.ObjectId;
+  description: string;
+  options: Option[];
+}
+
+export interface IPoll extends PollDoc {}
+
+const pollSchema = new mng.Schema<IPoll>({
   courseId: {
     type: mng.Types.ObjectId,
     ref: Course,
@@ -28,20 +42,7 @@ const pollSchema = new mng.Schema({
   },
 });
 
-type Option = {|
-  id: number,
-  text: string,
-  students: Array<MongoId>,
-|};
-
-class PollDoc /* :: extends Mongoose$Document */ {
-  _id: MongoId;
-  courseId: MongoId;
-  description: string;
-  options: Array<Option>;
-}
-
 pollSchema.loadClass(PollDoc);
-const Poll = mng.model('Poll', pollSchema);
+const Poll = mng.model<IPoll>('Poll', pollSchema);
 
 export default Poll;

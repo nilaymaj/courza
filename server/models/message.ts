@@ -1,7 +1,16 @@
-// @flow
 import mng from 'mongoose';
 
-const messageSchema = new mng.Schema({
+class MessageDoc extends mng.Document {
+  _id: mng.Types.ObjectId;
+  authorId: mng.Types.ObjectId;
+  content: string;
+  votes: number;
+  chatId: mng.Types.ObjectId;
+}
+
+export interface IMessage extends MessageDoc {}
+
+const messageSchema = new mng.Schema<IMessage>({
   authorId: {
     type: mng.Types.ObjectId,
     ref: 'Student',
@@ -26,15 +35,7 @@ const messageSchema = new mng.Schema({
   },
 });
 
-class MessageDoc /* :: extends Mongoose$Document */ {
-  _id: MongoId;
-  authorId: MongoId;
-  content: string;
-  votes: number;
-  chatId: MongoId;
-}
-
 messageSchema.loadClass(MessageDoc);
-const Message = mng.model('Message', messageSchema);
+const Message = mng.model<IMessage>('Message', messageSchema);
 
 export default Message;

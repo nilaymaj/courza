@@ -1,7 +1,16 @@
-// @flow
 import mng from 'mongoose';
 
-const chatSchema = new mng.Schema({
+class ChatDoc extends mng.Document {
+  _id: mng.Types.ObjectId;
+  title: string;
+  courseId: mng.Types.ObjectId;
+  creatorId: mng.Types.ObjectId;
+  messages: mng.Types.ObjectId[];
+}
+
+export interface IChat extends ChatDoc {}
+
+const chatSchema = new mng.Schema<IChat>({
   title: {
     type: String,
     minlength: 5,
@@ -25,15 +34,7 @@ const chatSchema = new mng.Schema({
   },
 });
 
-class ChatDoc /* :: extends Mongoose$Document */ {
-  _id: MongoId;
-  title: string;
-  courseId: MongoId;
-  creatorId: MongoId;
-  messages: Array<MongoId>;
-}
-
 chatSchema.loadClass(ChatDoc);
-const Chat = mng.model('Chat', chatSchema);
+const Chat = mng.model<IChat>('Chat', chatSchema);
 
 export default Chat;
