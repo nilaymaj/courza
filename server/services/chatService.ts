@@ -1,5 +1,6 @@
-// @flow
-import { Chat, Message } from '../models';
+// import { Chat, Message } from '../models';
+import Chat, { IChat } from '../models/chat';
+import Message, { IMessage } from '../models/message';
 import * as MessageService from './messageService';
 import { NotFoundError } from '../utils/errors';
 import { newChatValidator } from '../validators';
@@ -14,10 +15,10 @@ import { validate } from '../utils/validator';
  * @returns {Chat} Newly created chat object
  */
 export const create = async (data: {
-  title: string,
-  courseId: string,
-  creatorId: string,
-}): Promise<Chat> => {
+  title: string;
+  courseId: string;
+  creatorId: string;
+}): Promise<IChat> => {
   validate(data, newChatValidator);
   const chat = new Chat({ ...data, messages: [] });
   await chat.save();
@@ -30,7 +31,7 @@ export const create = async (data: {
  * @param {string} chatId ID of the chat
  * @returns {Chat} Chat object
  */
-export const get = async (chatId: string): Promise<Chat> => {
+export const get = async (chatId: string): Promise<IChat> => {
   const chat = await Chat.findById(chatId);
   if (!chat) throw new NotFoundError('Chat does not exist.');
   return chat;
@@ -42,7 +43,7 @@ export const get = async (chatId: string): Promise<Chat> => {
  * @param {string} courseId ID of the course
  * @returns {Promise} Promise, resolves with Chat objects
  */
-export const getAll = async (courseId: string): Promise<Chat[]> => {
+export const getAll = async (courseId: string): Promise<IChat[]> => {
   const chats = await Chat.find({ courseId });
   return chats;
 };
@@ -55,9 +56,9 @@ export const getAll = async (courseId: string): Promise<Chat[]> => {
  * @returns {Chat} Updated chat object
  */
 export const changeTitle = async (
-  chat: Chat,
+  chat: IChat,
   newTitle: string
-): Promise<Chat> => {
+): Promise<IChat> => {
   chat.title = newTitle;
   await chat.save();
   return chat;
@@ -71,12 +72,13 @@ export const changeTitle = async (
  * @returns {Message} Newly created Message object
  */
 export const postMessage = async (
-  chat: Chat,
+  chat: IChat,
   data: {
-    authorId: string,
-    content: string,
+    authorId: string;
+    content: string;
   }
-): Promise<Chat> => {
+): Promise<IChat> => {
+  // @ts-ignore
   const message = await MessageService.create({ ...data, chatId: chat._id });
   const messageId = message._id.toString();
 

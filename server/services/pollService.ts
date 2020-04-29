@@ -1,7 +1,7 @@
 // @flow
-import Poll from '../models/poll';
+import Poll, { IPoll } from '../models/poll';
 import { remove } from 'lodash';
-import { Student } from '../models/student';
+import { IStudent } from '../models/student';
 import { NotFoundError } from '../utils/errors';
 
 /**
@@ -13,10 +13,10 @@ import { NotFoundError } from '../utils/errors';
  * @returns {Poll} Newly created poll object
  */
 export const create = async (data: {
-  courseId: string,
-  description: string,
-  optionsText: Array<string>,
-}): Poll => {
+  courseId: string;
+  description: string;
+  optionsText: Array<string>;
+}): Promise<IPoll> => {
   const { description, courseId, optionsText } = data;
   const options = optionsText.map((text) => ({ text, students: [] }));
   const poll = new Poll({ description, courseId, options });
@@ -30,7 +30,7 @@ export const create = async (data: {
  * @param {string} pollId ID of the poll
  * @returns {Poll} Poll object
  */
-export const get = async (pollId: string): Poll => {
+export const get = async (pollId: string): Promise<IPoll> => {
   const poll = await Poll.findById(pollId);
   if (!poll) throw new NotFoundError('Poll does not exist.');
   return poll;
@@ -44,12 +44,12 @@ export const get = async (pollId: string): Poll => {
  * @returns {Poll} Updated poll object
  */
 export const poll = async (
-  poll: Poll,
-  data: { student: Student, option: number }
-): Poll => {
-  const studentVotes = poll.options[data.option];
+  poll: IPoll,
+  data: { student: IStudent; option: number }
+): Promise<IPoll> => {
+  const studentVotes = poll.options[data.option].students;
   remove(studentVotes, (id) => id === data.student._id);
-  poll.options[data.option].push(data.student._id);
+  studentVotes.push(data.student._id);
   await poll.save();
   return poll;
 };

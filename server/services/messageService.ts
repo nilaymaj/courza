@@ -1,18 +1,17 @@
-// @flow
-import { Message } from '../models';
+import Message, { IMessage } from '../models/message';
 import { NotFoundError } from '../utils/errors';
 
 /**
  * Creates new message object
  *
  * @param {Object} data Object containing authorId, body chatId
- * @returns {Message} Newly created message object
+ * @returns {Promise<IMessage>} Newly created message object
  */
 export const create = async (data: {
-  authorId: string,
-  content: string,
-  chatId: string,
-}): Message => {
+  authorId: string;
+  content: string;
+  chatId: string;
+}): Promise<IMessage> => {
   const message = new Message(data);
   await message.save();
   return message;
@@ -22,9 +21,9 @@ export const create = async (data: {
  * Finds and returns a Message object by its _id.
  *
  * @param {string} messageId ID of the message
- * @returns {Message} Message object
+ * @returns {Promise<IMessage>} Message object
  */
-export const get = async (messageId: string): Message => {
+export const get = async (messageId: string): Promise<IMessage> => {
   const message = await Message.findById(messageId);
   if (!message) throw new NotFoundError('Message does not exist.');
   return message;
@@ -35,12 +34,13 @@ export const get = async (messageId: string): Message => {
  * with usernames attached
  *
  * @param {string} chatId ID of the chat
- * @returns {Array<Message>} Array of Message objects
+ * @returns {Promise<Array<IMessage>>} Array of Message objects
  */
-export const getAll = async (chatId: string): Promise<Array<Message>> => {
+export const getAll = async (chatId: string): Promise<Array<IMessage>> => {
   const messages = Message.find({ chatId })
     .populate('authorId', ['name', '_id'])
     .lean();
+  // @ts-ignore
   return messages;
 };
 
@@ -50,7 +50,7 @@ export const getAll = async (chatId: string): Promise<Array<Message>> => {
  * @param {Message} message Message to upvote
  * @returns {Message} Updated Message object
  */
-export const upvote = async (message: Message): Message => {
+export const upvote = async (message: IMessage): Promise<IMessage> => {
   message.votes++;
   await message.save();
   return message;

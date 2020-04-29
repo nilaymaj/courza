@@ -1,5 +1,5 @@
-// @flow
-import { Course, Student } from '../models';
+import Course, { ICourse } from '../models/course';
+import Student, { IStudent } from '../models/student';
 import * as ChatService from './chatService';
 import * as StudentService from './studentService';
 import { NotFoundError, DuplicateError } from '../utils/errors';
@@ -13,10 +13,10 @@ import { newCourseValidator } from '../validators';
  * @returns {Promise} Newly created course object
  */
 export const create = async (data: {
-  name: string,
-  code: string,
-  creator: Student,
-}): Promise<Course> => {
+  name: string;
+  code: string;
+  creator: IStudent;
+}): Promise<ICourse> => {
   validate(data, newCourseValidator);
   const course = new Course({
     ...data,
@@ -33,7 +33,7 @@ export const create = async (data: {
  * @param {string} courseId ID of the course
  * @returns {Promise} Course object
  */
-export const get = async (courseId: string): Promise<Course> => {
+export const get = async (courseId: string): Promise<ICourse> => {
   const course = await Course.findById(courseId);
   if (!course) throw new NotFoundError('Course does not exist.');
   return course;
@@ -44,7 +44,7 @@ export const get = async (courseId: string): Promise<Course> => {
  *
  * @returns {Promise} Promise, resolves with array of Course objects
  */
-export const getAll = async (): Promise<Course[]> => {
+export const getAll = async (): Promise<ICourse[]> => {
   const arr = await Course.aggregate([
     { $project: { name: 1, code: 1, numOfStudents: { $size: '$students' } } },
   ]);
@@ -54,14 +54,15 @@ export const getAll = async (): Promise<Course[]> => {
 /**
  * Creates new course chat
  *
- * @param {Course} course Course object
- * @param {Object} data Object with title and creatorId of chat
- * @returns {Promise} Updated course object
+ * @param {ICourse} course Course object
+ * @param {IObject} data Object with title and creatorId of chat
+ * @returns {Promise<Course>} Updated course object
  */
 export const createNewChat = async (
-  course: Course,
-  data: { title: string, creatorId: string }
-): Promise<Course> => {
+  course: ICourse,
+  data: { title: string; creatorId: string }
+): Promise<ICourse> => {
+  // @ts-ignore
   const chat = await ChatService.create({ ...data, courseId: course._id });
   const chatId = chat._id.toString();
   course.chats.push(chatId);
@@ -74,14 +75,14 @@ export const createNewChat = async (
  *
  * Add new student to the course (does not update student object)
  *
- * @param {Course} course Course object
- * @param {Student} student Student object
- * @returns {Promise} Updated course object
+ * @param {ICourse} course Course object
+ * @param {IStudent} student Student object
+ * @returns {Promise<ICourse>} Updated course object
  */
 export const addNewStudent = async (
-  course: Course,
-  student: Student
-): Promise<Course> => {
+  course: ICourse,
+  student: IStudent
+): Promise<ICourse> => {
   if (course.students.includes(student._id))
     throw new DuplicateError('Student already in course');
 
