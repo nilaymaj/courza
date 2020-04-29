@@ -1,10 +1,11 @@
-import { Schema, Types } from '../db';
+// @flow
+import mng from 'mongoose';
 import Course from './course';
 import Student from './student';
 
-const pollSchema = new Schema({
+const pollSchema = new mng.Schema({
   courseId: {
-    type: Types.ObjectId,
+    type: mng.Types.ObjectId,
     ref: Course,
     required: true,
   },
@@ -19,7 +20,7 @@ const pollSchema = new Schema({
       {
         id: Number,
         text: String,
-        students: [{ type: Types.ObjectId, ref: Student }],
+        students: [{ type: mng.Types.ObjectId, ref: Student }],
       },
     ],
     required: true,
@@ -27,4 +28,20 @@ const pollSchema = new Schema({
   },
 });
 
-export default pollSchema.model('Poll');
+type Option = {|
+  id: number,
+  text: string,
+  students: Array<MongoId>,
+|};
+
+class PollDoc /* :: extends Mongoose$Document */ {
+  _id: MongoId;
+  courseId: MongoId;
+  description: string;
+  options: Array<Option>;
+}
+
+pollSchema.loadClass(PollDoc);
+const Poll = mng.model('Poll', pollSchema);
+
+export default Poll;

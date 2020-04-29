@@ -1,6 +1,7 @@
-import { Schema, Types } from '../db';
+// @flow
+import mng from 'mongoose';
 
-const chatSchema = new Schema({
+const chatSchema = new mng.Schema({
   title: {
     type: String,
     minlength: 5,
@@ -8,20 +9,31 @@ const chatSchema = new Schema({
     required: true,
   },
   courseId: {
-    type: Types.ObjectId,
+    type: mng.Types.ObjectId,
     ref: 'Course',
     required: true,
   },
   creatorId: {
-    type: Types.ObjectId,
+    type: mng.Types.ObjectId,
     ref: 'Student',
     required: true,
   },
   messages: {
-    type: [{ type: Types.ObjectId, ref: 'Message' }],
+    type: [{ type: mng.Types.ObjectId, ref: 'Message' }],
     required: true,
     default: [],
   },
 });
 
-export default chatSchema.model('Chat');
+class ChatDoc /* :: extends Mongoose$Document */ {
+  _id: MongoId;
+  title: string;
+  courseId: MongoId;
+  creatorId: MongoId;
+  messages: Array<MongoId>;
+}
+
+chatSchema.loadClass(ChatDoc);
+const Chat = mng.model('Chat', chatSchema);
+
+export default Chat;

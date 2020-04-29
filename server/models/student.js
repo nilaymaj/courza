@@ -1,7 +1,9 @@
-import { Schema, Types } from '../db';
+// @flow
+import mng from 'mongoose';
 import { IITK_EMAIL_REGEX } from '../utils/constants';
+import { generateToken as genToken } from '../utils/token';
 
-const studentSchema = new Schema({
+const studentSchema = new mng.Schema({
   name: {
     type: String,
     required: true,
@@ -27,7 +29,7 @@ const studentSchema = new Schema({
     maxlength: 1024,
   },
   courses: {
-    type: [{ type: Types.ObjectId, ref: 'Course' }],
+    type: [{ type: mng.Types.ObjectId, ref: 'Course' }],
     required: true,
     default: [],
   },
@@ -38,4 +40,17 @@ const studentSchema = new Schema({
   },
 });
 
-export default studentSchema.model('Student');
+class StudentDoc /* :: extends Mongoose$Document */ {
+  _id: MongoId;
+  name: string;
+  iitkEmail: string;
+  rollNo: number;
+  password: string;
+  courses: Array<MongoId>;
+  regStatus: 'unverified' | 'done';
+}
+
+studentSchema.loadClass(StudentDoc);
+const Student = mng.model('Student', studentSchema);
+
+export default Student;

@@ -1,7 +1,8 @@
-import { Schema, Types } from '../db';
+// @flow
+import mng from 'mongoose';
 import { COURSE_CODE_REGEX } from '../utils/constants';
 
-const courseSchema = new Schema({
+const courseSchema = new mng.Schema({
   name: {
     type: String,
     required: true,
@@ -13,20 +14,32 @@ const courseSchema = new Schema({
     match: COURSE_CODE_REGEX,
   },
   students: {
-    type: [{ type: Types.ObjectId, ref: 'Student' }],
+    type: [{ type: mng.Types.ObjectId, ref: 'Student' }],
     required: true,
     default: [],
   },
   creatorId: {
-    type: Types.ObjectId,
+    type: mng.Types.ObjectId,
     ref: 'Student',
     required: true,
   },
   chats: {
-    type: [{ type: Types.ObjectId, ref: 'Chat' }],
+    type: [{ type: mng.Types.ObjectId, ref: 'Chat' }],
     required: true,
     default: [],
   },
 });
 
-export default courseSchema.model('Course');
+class CourseDoc /* :: extends Mongoose$Document */ {
+  _id: MongoId;
+  name: string;
+  code: string;
+  students: Array<MongoId>;
+  creatorId: MongoId;
+  chats: Array<MongoId>;
+}
+
+courseSchema.loadClass(CourseDoc);
+const Course = mng.model('Course', courseSchema);
+
+export default Course;

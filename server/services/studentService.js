@@ -1,5 +1,4 @@
 // @flow
-// import { pick } from 'lodash';
 import { pick } from 'lodash';
 import { Student, Course, Chat } from '../models';
 import { hash, compareHash } from '../utils/base';
