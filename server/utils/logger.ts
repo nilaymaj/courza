@@ -1,4 +1,3 @@
-// @flow
 import chalk from 'chalk';
 import { has, get } from 'lodash';
 

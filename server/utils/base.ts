@@ -1,4 +1,3 @@
-// @flow
 import bcrypt from 'bcrypt';
 import { IITK_EMAIL_REGEX } from './constants';
 import { Types } from 'mongoose';
@@ -44,10 +43,10 @@ export const getUsernameFromEmail = (email: string): string => {
 export const getEnvVariable = (
   varName: string,
   defaultValue?: string
-): ?string => {
-  const fullVarName = `process.env.COURZA_${varName.toUpperCase()}`;
-  let envValue = eval(fullVarName);
-  if (envValue === undefined) envValue = defaultValue;
+): string => {
+  const fullName = `COURZA_${varName.toUpperCase()}`;
+  let envValue = process.env[fullName];
+  if (!envValue) envValue = defaultValue;
   return envValue;
 };
 

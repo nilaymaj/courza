@@ -1,11 +1,9 @@
-// @flow
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
-import { getEnvVariable as env } from '../utils/base';
 import { AuthorizationError } from '../utils/errors';
 
-let PUBLIC_KEY, PRIVATE_KEY;
+let PUBLIC_KEY: string, PRIVATE_KEY: string;
 try {
   PUBLIC_KEY = fs.readFileSync(
     path.join(__dirname, '../keys/public.key'),
@@ -19,7 +17,15 @@ try {
   throw new Error('Error in reading key.');
 }
 
-export const decodeToken = (token: string): Object => {
+type Payload = object | string;
+
+/**
+ * Decodes a JWT token to get payload
+ *
+ * @param {string} token JWT token
+ * @returns {Payload} Payload of the token
+ */
+export const decodeToken = (token: string): Payload => {
   try {
     const decoded = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
@@ -30,7 +36,13 @@ export const decodeToken = (token: string): Object => {
   }
 };
 
-export const generateToken = (payload: Object): string => {
+/**
+ * Creates a JWT token with given payload
+ *
+ * @param {Payload} payload Payload of the token
+ * @returns {string} JWT token string
+ */
+export const generateToken = (payload: Payload): string => {
   const token = jwt.sign(payload, PRIVATE_KEY, {
     algorithm: 'RS256',
   });

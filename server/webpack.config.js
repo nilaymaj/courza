@@ -41,6 +41,11 @@ module.exports = {
         exclude: /(node_modules|dist)/,
       },
       {
+        test: /\.ts$/,
+        exclude: /(node_modules|dist)/,
+        loader: 'awesome-typescript-loader',
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
         loader: 'babel-loader',
@@ -51,6 +56,9 @@ module.exports = {
         loader: 'eslint-loader',
       },
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   node: {
     console: false,

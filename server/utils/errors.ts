@@ -1,9 +1,8 @@
-// @flow
-
 // An almost useless piece of code that I wrote for my own satisfaction.
-function createError(errorName: string): Class<Error> {
+function createError(errorName: string): any {
   return class CustomError extends Error {
-    constructor(message: string) {
+    message: string;
+    constructor(message?: string) {
       super(message);
       this.name = errorName;
     }

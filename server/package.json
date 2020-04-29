@@ -33,6 +33,10 @@
     "@babel/core": "^7.9.0",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.5",
+    "@types/hapi__joi": "^16.0.12",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/lodash": "^4.14.150",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.1.0",
     "circular-dependency-plugin": "^5.2.0",
@@ -42,6 +46,7 @@
     "flow-remove-types": "^2.123.0",
     "jest": "^24.9.0",
     "remove-flow-types-loader": "^1.1.0",
+    "typescript": "^3.8.3",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
