@@ -8,14 +8,19 @@ type Option = {
   students: mng.Types.ObjectId[];
 };
 
-class PollDoc extends mng.Document {
+class PollDoc extends mng.Model {
   _id: mng.Types.ObjectId;
   courseId: mng.Types.ObjectId;
   description: string;
   options: Option[];
 }
 
-export interface IPoll extends PollDoc {}
+export interface IPoll extends mng.Document {
+  _id: mng.Types.ObjectId;
+  courseId: mng.Types.ObjectId;
+  description: string;
+  options: Option[];
+}
 
 const pollSchema = new mng.Schema<IPoll>({
   courseId: {

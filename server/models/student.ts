@@ -2,7 +2,21 @@ import mng from 'mongoose';
 import { IITK_EMAIL_REGEX } from '../utils/constants';
 import { generateToken as genToken } from '../utils/token';
 
-export class StudentDoc extends mng.Document {
+export class StudentDoc extends mng.Model {
+  _id: mng.Types.ObjectId;
+  name: string;
+  iitkEmail: string;
+  rollNo: number;
+  password: string;
+  courses: mng.Types.ObjectId[];
+
+  generateToken(): string {
+    const token = genToken({ _id: this._id });
+    return token;
+  }
+}
+
+export interface IStudent extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;
   iitkEmail: string;
@@ -14,13 +28,8 @@ export class StudentDoc extends mng.Document {
    * Generate JWT token with student ID as payload
    * @returns {string} JWT token string
    */
-  generateToken(): string {
-    const token = genToken({ _id: this._id });
-    return token;
-  }
+  generateToken(): string;
 }
-
-export interface IStudent extends StudentDoc {}
 
 const studentSchema = new mng.Schema<IStudent>({
   name: {

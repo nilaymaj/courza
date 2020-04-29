@@ -1,7 +1,7 @@
 import * as Errors from '../utils/errors';
 
 export default function errorHandler(err, req, res, next) {
-  console.log(err);
+  console.log('=== ERROR ===', err);
   switch (err.name) {
     case 'NotFoundError':
       return res.status(404).send('Resource does not exist.');

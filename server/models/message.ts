@@ -1,6 +1,6 @@
 import mng from 'mongoose';
 
-class MessageDoc extends mng.Document {
+class MessageDoc extends mng.Model {
   _id: mng.Types.ObjectId;
   authorId: mng.Types.ObjectId;
   content: string;
@@ -8,7 +8,13 @@ class MessageDoc extends mng.Document {
   chatId: mng.Types.ObjectId;
 }
 
-export interface IMessage extends MessageDoc {}
+export interface IMessage extends mng.Document {
+  _id: mng.Types.ObjectId;
+  authorId: mng.Types.ObjectId;
+  content: string;
+  votes: number;
+  chatId: mng.Types.ObjectId;
+}
 
 const messageSchema = new mng.Schema<IMessage>({
   authorId: {
