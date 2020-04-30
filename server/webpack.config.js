@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   target: 'node',
   externals: [nodeExternals()],
-  entry: ['@babel/polyfill', './index.js'],
+  entry: ['./index.ts'],
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
@@ -27,7 +27,7 @@ module.exports = {
   ],
   plugins: [
     new CircularDependencyPlugin({
-      exclude: /node_modules/,
+      exclude: /(node_modules|dist)/,
       allowAsyncCycles: false,
       cwd: process.cwd(),
     }),
@@ -35,30 +35,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        enforce: 'pre',
-        use: ['remove-flow-types-loader'],
-        exclude: /(node_modules|dist)/,
-      },
-      {
         test: /\.ts$/,
         exclude: /(node_modules|dist)/,
         loader: 'awesome-typescript-loader',
       },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|dist)/,
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|dist)/,
-        loader: 'eslint-loader',
-      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.ts', '.js'],
   },
   node: {
     console: false,

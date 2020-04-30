@@ -1,4 +1,3 @@
-// import { Chat, Message } from '../models';
 import Chat, { IChat } from '../models/chat';
 import Message, { IMessage } from '../models/message';
 import * as MessageService from './messageService';

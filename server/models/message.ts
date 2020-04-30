@@ -13,6 +13,7 @@ export interface IMessage extends mng.Document {
   authorId: mng.Types.ObjectId;
   content: string;
   votes: number;
+  s;
   chatId: mng.Types.ObjectId;
 }
 

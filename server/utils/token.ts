@@ -17,7 +17,7 @@ try {
   throw new Error('Error in reading key.');
 }
 
-type Payload = object | string;
+type Payload = string | object;
 
 /**
  * Decodes a JWT token to get payload

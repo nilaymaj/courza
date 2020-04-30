@@ -1,7 +1,8 @@
 import * as Errors from '../utils/errors';
+import { Request, Response } from 'express';
 
-export default function errorHandler(err, req, res, next) {
-  console.log('=== ERROR ===', err);
+export default function errorHandler(err: Error, req: Request, res: Response) {
+  console.log(err);
   switch (err.name) {
     case 'NotFoundError':
       return res.status(404).send('Resource does not exist.');
