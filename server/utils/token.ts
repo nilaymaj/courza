@@ -23,7 +23,7 @@ type Payload = string | object;
  * Decodes a JWT token to get payload
  *
  * @param {string} token JWT token
- * @returns {Payload} Payload of the token
+ * @returns Payload of the token
  */
 export const decodeToken = (token: string): Payload => {
   try {
@@ -40,7 +40,7 @@ export const decodeToken = (token: string): Payload => {
  * Creates a JWT token with given payload
  *
  * @param {Payload} payload Payload of the token
- * @returns {string} JWT token string
+ * @returns JWT token string
  */
 export const generateToken = (payload: Payload): string => {
   const token = jwt.sign(payload, PRIVATE_KEY, {

@@ -10,7 +10,7 @@ import { NotFoundError } from '../utils/errors';
  * Creates new Poll object (does not update course)
  *
  * @param {Object} data Object with courseId, description and optionsText (Array<String>)
- * @returns {Poll} Newly created poll object
+ * @returns Newly created poll object
  */
 export const create = async (data: {
   courseId: string;
@@ -28,7 +28,7 @@ export const create = async (data: {
  * Finds and returns Poll object by ID
  *
  * @param {string} pollId ID of the poll
- * @returns {Poll} Poll object
+ * @returns Poll object
  */
 export const get = async (pollId: string): Promise<IPoll> => {
   const poll = await Poll.findById(pollId);
@@ -41,7 +41,7 @@ export const get = async (pollId: string): Promise<IPoll> => {
  *
  * @param {string} pollId ID of the poll to be voted in
  * @param {Object} data Object with studentId and option no.
- * @returns {Poll} Updated poll object
+ * @returns Updated poll object
  */
 export const poll = async (
   poll: IPoll,

@@ -7,7 +7,7 @@ import { Types } from 'mongoose';
  *
  * @param {string} errorName Name of the error
  * @param {string} errorMessage Error message
- * @returns {Error} Error object with given name and message
+ * @returns Error object with given name and message
  */
 export const error = (errorName: string, errorMessage: string): Error => {
   const err = new Error();
@@ -20,7 +20,7 @@ export const error = (errorName: string, errorMessage: string): Error => {
  * Get username from IITK email id
  *
  * @param {string} email Email id to be parsed
- * @returns {string} Username of the email id
+ * @returns Username of the email id
  *
  */
 export const getUsernameFromEmail = (email: string): string => {
@@ -37,7 +37,7 @@ export const getUsernameFromEmail = (email: string): string => {
  *
  * @param {string} varName Name of the environment variable
  * @param {*} [defaultValue] Value to be returned if variable not found
- * @returns {*} Value of the environment variable
+ * @returns Value of the environment variable
  *
  */
 export const getEnvVariable = (
@@ -54,7 +54,7 @@ export const getEnvVariable = (
  * Hashes the given string
  *
  * @param {string} str String to be hashed
- * @returns {Promise<string>} Promise that resolves with hashed string
+ * @returns Promise that resolves with hashed string
  */
 export const hash = async (str: string): Promise<string> => {
   const saltRounds = 10;
@@ -67,7 +67,7 @@ export const hash = async (str: string): Promise<string> => {
  *
  * @param {string} str Plaintext string
  * @param {string} hash Hash to compare to
- * @returns {Promise<boolean>} Promise that resolves to true, if compare succeeds
+ * @returns Promise that resolves to true, if compare succeeds
  */
 export const compareHash = async (
   str: string,
@@ -81,7 +81,7 @@ export const compareHash = async (
  * Converts a valid string to a Mongoose ObjectID
  *
  * @param {string} str String to be converted to ObjectID
- * @returns {ObjectId} ObjectID corresponding to the string
+ * @returns ObjectID corresponding to the string
  */
 export const toObjectID = (str: string): Types.ObjectId => {
   return new Types.ObjectId(str);

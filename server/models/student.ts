@@ -2,20 +2,7 @@ import mng from 'mongoose';
 import { IITK_EMAIL_REGEX } from '../utils/constants';
 import { generateToken as genToken } from '../utils/token';
 
-export class StudentDoc extends mng.Model {
-  _id: mng.Types.ObjectId;
-  name: string;
-  iitkEmail: string;
-  rollNo: number;
-  password: string;
-  courses: mng.Types.ObjectId[];
-
-  generateToken(): string {
-    const token = genToken({ _id: this._id });
-    return token;
-  }
-}
-
+// Document interface
 export interface IStudent extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;
@@ -29,8 +16,25 @@ export interface IStudent extends mng.Document {
    * @returns {string} JWT token string
    */
   generateToken(): string;
+
+  /**
+   * Returns basic student info without courses
+   * @returns {IStudentInfo} Basic info of the student
+   */
+  getInfo(): IStudentInfo;
 }
 
+interface IStudentInfo {
+  _id: string;
+  name: string;
+  iitkEmail: string;
+  rollNo: number;
+}
+
+// Statics interface
+interface IStatics extends mng.Model<IStudent> {}
+
+// Database schema
 const studentSchema = new mng.Schema<IStudent>({
   name: {
     type: String,
@@ -57,7 +61,7 @@ const studentSchema = new mng.Schema<IStudent>({
     maxlength: 1024,
   },
   courses: {
-    type: [{ type: mng.Types.ObjectId, ref: 'Course' }],
+    type: [{ type: mng.Schema.Types.ObjectId, ref: 'Course' }],
     required: true,
     default: [],
   },
@@ -68,7 +72,20 @@ const studentSchema = new mng.Schema<IStudent>({
   },
 });
 
-studentSchema.loadClass(StudentDoc);
-const Student = mng.model<IStudent>('Student', studentSchema);
+// Instance methods
+studentSchema.methods.generateToken = function (): string {
+  const token = genToken({ _id: this._id });
+  return token;
+};
 
+studentSchema.methods.getInfo = function (): IStudentInfo {
+  return {
+    _id: this._id.toString(),
+    name: this.name,
+    iitkEmail: this.iitkEmail,
+    rollNo: this.rollNo,
+  };
+};
+
+const Student = mng.model<IStudent, IStatics>('Student', studentSchema);
 export default Student;

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, matchPath } from 'react-router-dom';
 import { openChat, openCourse } from '../redux/actions';
 import { getActiveCourse, getProfile, getActiveChat } from '../redux/selectors';
 import {

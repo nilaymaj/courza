@@ -1,13 +1,6 @@
 import mng from 'mongoose';
 
-class ChatDoc extends mng.Model {
-  _id: mng.Types.ObjectId;
-  title: string;
-  courseId: mng.Types.ObjectId;
-  creatorId: mng.Types.ObjectId;
-  messages: mng.Types.ObjectId[];
-}
-
+// Documnet interface
 export interface IChat extends mng.Document {
   _id: mng.Types.ObjectId;
   title: string;
@@ -16,6 +9,10 @@ export interface IChat extends mng.Document {
   messages: mng.Types.ObjectId[];
 }
 
+// Statics interface
+interface IStatics extends mng.Model<IChat> {}
+
+// Database schema
 const chatSchema = new mng.Schema<IChat>({
   title: {
     type: String,
@@ -40,7 +37,5 @@ const chatSchema = new mng.Schema<IChat>({
   },
 });
 
-chatSchema.loadClass(ChatDoc);
-const Chat = mng.model<IChat>('Chat', chatSchema);
-
+const Chat = mng.model<IChat, IStatics>('Chat', chatSchema);
 export default Chat;

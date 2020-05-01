@@ -2,19 +2,7 @@ import mng from 'mongoose';
 import Course from './course';
 import Student from './student';
 
-type Option = {
-  id: number;
-  text: string;
-  students: mng.Types.ObjectId[];
-};
-
-class PollDoc extends mng.Model {
-  _id: mng.Types.ObjectId;
-  courseId: mng.Types.ObjectId;
-  description: string;
-  options: Option[];
-}
-
+// Document interface
 export interface IPoll extends mng.Document {
   _id: mng.Types.ObjectId;
   courseId: mng.Types.ObjectId;
@@ -22,6 +10,16 @@ export interface IPoll extends mng.Document {
   options: Option[];
 }
 
+// Statics interface
+interface IStatics extends mng.Model<IPoll> {}
+
+type Option = {
+  id: number;
+  text: string;
+  students: mng.Types.ObjectId[];
+};
+
+// Database schema
 const pollSchema = new mng.Schema<IPoll>({
   courseId: {
     type: mng.Types.ObjectId,
@@ -47,7 +45,5 @@ const pollSchema = new mng.Schema<IPoll>({
   },
 });
 
-pollSchema.loadClass(PollDoc);
-const Poll = mng.model<IPoll>('Poll', pollSchema);
-
+const Poll = mng.model<IPoll, IStatics>('Poll', pollSchema);
 export default Poll;
