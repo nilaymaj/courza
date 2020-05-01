@@ -5,12 +5,14 @@ import controller from './controller';
 
 interface INewCourseReq extends Request {
   user: IStudent;
+  body: {
+    name: string;
+    code: string;
+  };
 }
 export const createNewCourse = controller(async (req: INewCourseReq, res) => {
-  const creator = req.user;
   const courseInfo = req.body;
-
-  const course = await CourseService.create({ ...courseInfo, creator });
+  const course = await CourseService.create(courseInfo);
   return res.send(course.toObject());
 });
 

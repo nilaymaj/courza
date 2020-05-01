@@ -15,13 +15,9 @@ import Chat, { IChat } from '../models/chat';
 export const create = async (data: {
   name: string;
   code: string;
-  creator: IStudent;
 }): Promise<ICourse> => {
   validate(data, newCourseValidator);
-  const course = new Course({
-    ...data,
-    creatorId: data.creator._id,
-  });
+  const course = new Course(data);
   await course.save();
   return course;
 };
@@ -58,13 +54,10 @@ export const getAll = async (): Promise<ICourseInfo[]> => {
  */
 export const createNewChat = async (
   course: ICourse,
-  data: { title: string; creatorId: string }
+  data: { title: string; creator: string }
 ): Promise<IChat> => {
   validate(data, newChatValidator);
-  const chat = new Chat({
-    ...data,
-    courseId: course._id.toString(),
-  });
+  const chat = new Chat({ ...data, course: course._id.toString() });
   course.chats.push(chat._id);
   await Promise.all([chat.save(), course.save()]);
   return chat;

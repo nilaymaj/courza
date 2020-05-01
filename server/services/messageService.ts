@@ -8,9 +8,9 @@ import { NotFoundError } from '../utils/errors';
  * @returns Newly created message object
  */
 export const create = async (data: {
-  authorId: string;
+  author: string;
   content: string;
-  chatId: string;
+  chat: string;
 }): Promise<IMessage> => {
   const message = new Message(data);
   await message.save();
@@ -38,7 +38,7 @@ export const get = async (messageId: string): Promise<IMessage> => {
  */
 export const getAll = async (chatId: string): Promise<Array<IMessageInfo>> => {
   const messages = await Message.find({ chatId })
-    .populate('authorId', ['name', '_id'])
+    .populate('author', ['name', '_id'])
     .lean();
   return <IMessageInfo[]>(<unknown>messages);
 };
