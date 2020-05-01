@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { AuthorizationError } from '../utils/errors';
+import mng from 'mongoose';
 
 let PUBLIC_KEY: string, PRIVATE_KEY: string;
 try {
@@ -17,7 +18,10 @@ try {
   throw new Error('Error in reading key.');
 }
 
-type Payload = string | object;
+type Payload = {
+  _id: string | mng.Types.ObjectId;
+  [k: string]: any;
+};
 
 /**
  * Decodes a JWT token to get payload
@@ -30,7 +34,7 @@ export const decodeToken = (token: string): Payload => {
     const decoded = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
     });
-    return decoded;
+    return <Payload>decoded;
   } catch (err) {
     throw new AuthorizationError('Missing or invalid token.');
   }

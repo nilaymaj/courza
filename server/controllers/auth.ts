@@ -27,7 +27,6 @@ interface IPingReq extends Request {}
 export const checkToken = controller(async (req: IPingReq, res) => {
   const token = req.cookies['cz-token'];
   const payload = decodeToken(token);
-  // @ts-ignore
-  const student = await StudentService.get(payload._id);
+  const student = await StudentService.get(payload._id.toString());
   res.send(pick(student.toObject(), ['_id', 'iitkEmail', 'courses', 'name']));
 });

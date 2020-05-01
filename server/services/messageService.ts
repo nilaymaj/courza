@@ -40,8 +40,7 @@ export const getAll = async (chatId: string): Promise<Array<IMessageInfo>> => {
   const messages = await Message.find({ chatId })
     .populate('authorId', ['name', '_id'])
     .lean();
-  // @ts-ignore
-  return messages;
+  return <IMessageInfo[]>(<unknown>messages);
 };
 
 /**

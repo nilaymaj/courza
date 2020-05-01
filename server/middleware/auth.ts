@@ -10,8 +10,7 @@ interface IAuthReq extends Request {
 export default controller(async (req: IAuthReq, _res, next) => {
   const token = req.cookies['cz-token'];
   const payload = decodeToken(token);
-  // @ts-ignore
-  const student = await StudentService.get(payload._id);
+  const student = await StudentService.get(payload._id.toString());
   req.user = student;
   next();
 });
