@@ -7,7 +7,6 @@ export interface ICourse extends mng.Document {
   name: string;
   code: string;
   students: mng.Types.ObjectId[];
-  creatorId: mng.Types.ObjectId;
   chats: mng.Types.ObjectId[];
   // Virtuals
   numOfStudents: number;
@@ -29,12 +28,7 @@ interface IStatics extends mng.Model<ICourse> {
    */
   getAllById(
     ids: mng.Types.ObjectId[]
-  ): Promise<
-    Pick<
-      ICourse,
-      '_id' | 'name' | 'code' | 'students' | 'creatorId' | 'chats'
-    >[]
-  >;
+  ): Promise<Pick<ICourse, '_id' | 'name' | 'code' | 'students' | 'chats'>[]>;
 }
 
 export interface ICourseInfo {
@@ -60,11 +54,6 @@ const courseSchema = new mng.Schema<ICourse>({
     type: [{ type: mng.Types.ObjectId, ref: 'Student' }],
     required: true,
     default: [],
-  },
-  creatorId: {
-    type: mng.Types.ObjectId,
-    ref: 'Student',
-    required: true,
   },
   chats: {
     type: [{ type: mng.Types.ObjectId, ref: 'Chat' }],

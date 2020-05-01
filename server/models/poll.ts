@@ -5,7 +5,7 @@ import Student from './student';
 // Document interface
 export interface IPoll extends mng.Document {
   _id: mng.Types.ObjectId;
-  courseId: mng.Types.ObjectId;
+  course: mng.Types.ObjectId;
   description: string;
   options: Option[];
 }
@@ -21,7 +21,7 @@ type Option = {
 
 // Database schema
 const pollSchema = new mng.Schema<IPoll>({
-  courseId: {
+  course: {
     type: mng.Types.ObjectId,
     ref: Course,
     required: true,

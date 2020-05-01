@@ -10,12 +10,12 @@ interface INewChatReq extends Request {
   body: { title: string };
 }
 export const createNewChat = controller(async (req: INewChatReq, res) => {
-  const creatorId = req.user._id.toString();
+  const creator = req.user._id.toString();
   const title = req.body.title;
 
   const chat = await CourseService.createNewChat(req.course, {
     title,
-    creatorId,
+    creator,
   });
   return res.send(chat.toObject());
 });

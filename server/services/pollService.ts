@@ -13,13 +13,13 @@ import { NotFoundError } from '../utils/errors';
  * @returns Newly created poll object
  */
 export const create = async (data: {
-  courseId: string;
+  course: string;
   description: string;
   optionsText: Array<string>;
 }): Promise<IPoll> => {
-  const { description, courseId, optionsText } = data;
+  const { description, course, optionsText } = data;
   const options = optionsText.map((text) => ({ text, students: [] }));
-  const poll = new Poll({ description, courseId, options });
+  const poll = new Poll({ description, course, options });
   await poll.save();
   return poll;
 };

@@ -3,15 +3,15 @@ import mng from 'mongoose';
 // Document interface
 export interface IMessage extends mng.Document {
   _id: mng.Types.ObjectId;
-  authorId: mng.Types.ObjectId;
+  author: mng.Types.ObjectId;
   content: string;
   votes: number;
-  chatId: mng.Types.ObjectId;
+  chat: mng.Types.ObjectId;
 }
 
 export interface IMessageInfo {
   _id: mng.Types.ObjectId;
-  authorId: { _id: mng.Types.ObjectId; name: string };
+  author: { _id: mng.Types.ObjectId; name: string };
   content: string;
   votes: number;
   chatId: mng.Types.ObjectId;
@@ -22,7 +22,7 @@ interface IStatics extends mng.Model<IMessage> {}
 
 // Database schema
 const messageSchema = new mng.Schema<IMessage>({
-  authorId: {
+  author: {
     type: mng.Types.ObjectId,
     ref: 'Student',
     required: true,
@@ -39,7 +39,7 @@ const messageSchema = new mng.Schema<IMessage>({
     default: 0,
     required: true,
   },
-  chatId: {
+  chat: {
     type: mng.Types.ObjectId,
     ref: 'Chat',
     required: true,

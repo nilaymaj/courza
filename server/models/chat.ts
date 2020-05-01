@@ -4,8 +4,8 @@ import mng from 'mongoose';
 export interface IChat extends mng.Document {
   _id: mng.Types.ObjectId;
   title: string;
-  courseId: mng.Types.ObjectId;
-  creatorId: mng.Types.ObjectId;
+  course: mng.Types.ObjectId;
+  creator: mng.Types.ObjectId;
   messages: mng.Types.ObjectId[];
 }
 
@@ -20,12 +20,12 @@ const chatSchema = new mng.Schema<IChat>({
     maxlength: 30,
     required: true,
   },
-  courseId: {
+  course: {
     type: mng.Types.ObjectId,
     ref: 'Course',
     required: true,
   },
-  creatorId: {
+  creator: {
     type: mng.Types.ObjectId,
     ref: 'Student',
     required: true,

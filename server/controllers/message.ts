@@ -22,10 +22,10 @@ interface INewMessageReq extends Request {
 }
 export const postNewMessage = controller(async (req: INewMessageReq, res) => {
   const chat = req.chat;
-  const authorId = req.user._id.toString();
+  const author = req.user._id.toString();
   const content = req.body.content;
   const message = await ChatService.postMessage(chat, {
-    authorId,
+    author,
     content,
   });
   return res.send(message.toObject());

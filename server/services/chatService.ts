@@ -1,6 +1,5 @@
 import Chat, { IChat } from '../models/chat';
 import Message, { IMessage } from '../models/message';
-import * as MessageService from './messageService';
 import { NotFoundError } from '../utils/errors';
 import { newMessageValidator } from '../validators';
 import { validate } from '../utils/validator';
@@ -24,7 +23,7 @@ export const get = async (chatId: string): Promise<IChat> => {
  * @returns Promise, resolves with Chat objects
  */
 export const getAll = async (courseId: string): Promise<IChat[]> => {
-  const chats = await Chat.find({ courseId });
+  const chats = await Chat.find({ course: courseId });
   return chats;
 };
 
@@ -54,12 +53,12 @@ export const changeTitle = async (
 export const postMessage = async (
   chat: IChat,
   data: {
-    authorId: string;
+    author: string;
     content: string;
   }
 ): Promise<IMessage> => {
   validate(data, newMessageValidator);
-  const message = new Message({ ...data, chatId: chat._id });
+  const message = new Message({ ...data, chat: chat._id });
   await message.save();
   chat.messages.push(message._id);
   await chat.save();
