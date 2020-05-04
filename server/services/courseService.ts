@@ -1,10 +1,7 @@
-import Course, { ICourse, ICourseInfo } from '../models/course';
-import { IStudent } from '../models/student';
-import * as ChatService from './chatService';
+import Course, { ICourse } from '../models/course';
 import { NotFoundError } from '../utils/errors';
 import { validate } from '../utils/validator';
-import { newCourseValidator, newChatValidator } from '../validators';
-import Chat, { IChat } from '../models/chat';
+import { newCourseValidator } from '../validators';
 
 /**
  * Creates new course in database
@@ -28,8 +25,8 @@ export const create = async (data: {
  * @param {string} courseId ID of the course
  * @returns Course object
  */
-export const get = async (courseId: string): Promise<ICourse> => {
-  const course = await Course.findById(courseId);
+export const get = async (courseId: string, lean = false) => {
+  const course = await Course.findById(courseId).lean(lean);
   if (!course) throw new NotFoundError('Course does not exist.');
   return course;
 };
@@ -39,26 +36,7 @@ export const get = async (courseId: string): Promise<ICourse> => {
  *
  * @returns Promise, resolves with array of Course objects
  */
-export const getAll = async (): Promise<ICourseInfo[]> => {
-  const allCourses = await Course.find();
-  const arr = allCourses.map((c) => c.getInfo());
-  return arr;
-};
-
-/**
- * Creates new course chat
- *
- * @param {ICourse} course Course object
- * @param {Object} data Object with title and creatorId of chat
- * @returns Newly create chat object
- */
-export const createNewChat = async (
-  course: ICourse,
-  data: { title: string; creator: string }
-): Promise<IChat> => {
-  validate(data, newChatValidator);
-  const chat = new Chat({ ...data, course: course._id.toString() });
-  course.chats.push(chat._id);
-  await Promise.all([chat.save(), course.save()]);
-  return chat;
+export const getAll = async (lean = false) => {
+  const allCourses = await Course.find().lean(lean);
+  return allCourses;
 };

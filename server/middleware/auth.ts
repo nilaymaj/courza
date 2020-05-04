@@ -1,6 +1,6 @@
 import { decodeToken } from '../utils/token';
 import { StudentService } from '../services';
-import controller from '../controllers/controller';
+import controller from '../routes/controller';
 import { Request } from 'express';
 import { IStudent } from '../models/student';
 

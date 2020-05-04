@@ -1,56 +1,37 @@
-import Message, { IMessage, IMessageInfo } from '../models/message';
+import Message, { IMessage } from '../models/message';
 import { NotFoundError } from '../utils/errors';
+import { IStudent } from '../models/student';
+import { IChat } from '../models/chat';
+import { validate } from '../utils/validator';
+import { newMessageValidator } from '../validators';
 
 /**
- * Creates new message object
- *
- * @param {Object} data Object containing authorId, body chatId
- * @returns Newly created message object
+ * Posts new message by student in given chat
  */
-export const create = async (data: {
-  author: string;
-  content: string;
-  chat: string;
-}): Promise<IMessage> => {
-  const message = new Message(data);
+export const postNew = async (
+  student: IStudent,
+  chat: IChat,
+  content: string
+): Promise<IMessage> => {
+  validate({ content }, newMessageValidator);
+  const message = new Message({ content, author: student._id, chat: chat._id });
   await message.save();
   return message;
 };
 
 /**
- * Finds and returns a Message object by its _id.
- *
- * @param {string} messageId ID of the message
- * @returns Message object
+ * Finds and returns message by ID
  */
-export const get = async (messageId: string): Promise<IMessage> => {
-  const message = await Message.findById(messageId);
-  if (!message) throw new NotFoundError('Message does not exist.');
+export const get = async (messageId: string, lean = false) => {
+  const message = await Message.findById(messageId).lean(lean);
+  if (!message) throw new NotFoundError('Chat does not exist');
   return message;
 };
 
 /**
- * Finds and returns array of Message objects of given chat,
- * with usernames attached
- *
- * @param {string} chatId ID of the chat
- * @returns Array of Message objects
+ * Returns all messages in a given chat
  */
-export const getAll = async (chatId: string): Promise<Array<IMessageInfo>> => {
-  const messages = await Message.find({ chatId })
-    .populate('author', ['name', '_id'])
-    .lean();
-  return <IMessageInfo[]>(<unknown>messages);
-};
-
-/**
- * Upvotes a message
- *
- * @param {Message} message Message to upvote
- * @returns Updated Message object
- */
-export const upvote = async (message: IMessage): Promise<IMessage> => {
-  message.votes++;
-  await message.save();
-  return message;
+export const getAll = async (chat: IChat, lean = false) => {
+  const messages = await Message.find({ chat: chat._id }).lean(lean);
+  return messages;
 };

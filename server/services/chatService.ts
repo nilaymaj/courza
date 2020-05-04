@@ -1,66 +1,62 @@
 import Chat, { IChat } from '../models/chat';
-import Message, { IMessage } from '../models/message';
-import { NotFoundError } from '../utils/errors';
-import { newMessageValidator } from '../validators';
+import { ICourse } from '../models/course';
+import { IStudent } from '../models/student';
+import { newChatValidator } from '../validators';
 import { validate } from '../utils/validator';
+import { NotFoundError } from '../utils/errors';
 
 /**
- * Finds and returns Chat object by ID
- *
- * @param {string} chatId ID of the chat
- * @returns Chat object
+ * Creates a new chat in given course
  */
-export const get = async (chatId: string): Promise<IChat> => {
-  const chat = await Chat.findById(chatId);
-  if (!chat) throw new NotFoundError('Chat does not exist.');
+export const createChat = async (
+  course: ICourse,
+  student: IStudent,
+  title: string
+): Promise<IChat> => {
+  validate({ title }, newChatValidator);
+  const chat = new Chat({
+    title: title,
+    creator: student._id,
+    course: course._id,
+  });
+  await chat.save();
   return chat;
 };
 
 /**
- * Returns all chats of a course
- *
- * @param {string} courseId ID of the course
- * @returns Promise, resolves with Chat objects
+ * Find and return chat by ID
  */
-export const getAll = async (courseId: string): Promise<IChat[]> => {
-  const chats = await Chat.find({ course: courseId });
+export const get = async (chatId: string, lean = false) => {
+  const chat = await Chat.findById(chatId).lean(lean);
+  if (!chat) throw new NotFoundError('Chat does not exist');
+  return chat;
+};
+
+/**
+ * Returns list of all chats from a course
+ */
+export const getAll = async (course: ICourse, lean = false) => {
+  const chats = await Chat.find({ course: course._id }).lean(lean);
   return chats;
 };
 
 /**
- * Updates the title of a chat
- *
- * @param {Chat} chat Chat object
- * @param {string} newTitle New title of the chat
- * @returns Updated chat object
+ * Changes the title of a chat
  */
-export const changeTitle = async (
+export const renameChat = async (
   chat: IChat,
-  newTitle: string
+  title: string
 ): Promise<IChat> => {
-  chat.title = newTitle;
+  validate({ title }, newChatValidator);
+  chat.title = title;
   await chat.save();
   return chat;
 };
 
 /**
- * Adds new message to chat
- *
- * @param {IChat} chat Chat object
- * @param {Object} data Object with authorId and content of message
- * @returns Newly created Message object
+ * Deletes chat from database
  */
-export const postMessage = async (
-  chat: IChat,
-  data: {
-    author: string;
-    content: string;
-  }
-): Promise<IMessage> => {
-  validate(data, newMessageValidator);
-  const message = new Message({ ...data, chat: chat._id });
-  await message.save();
-  chat.messages.push(message._id);
-  await chat.save();
-  return message;
+export const deleteChat = async (chat: IChat): Promise<void> => {
+  await chat.remove();
+  return;
 };

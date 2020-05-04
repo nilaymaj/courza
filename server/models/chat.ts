@@ -6,7 +6,7 @@ export interface IChat extends mng.Document {
   title: string;
   course: mng.Types.ObjectId;
   creator: mng.Types.ObjectId;
-  messages: mng.Types.ObjectId[];
+  // messages: mng.Types.ObjectId[];
 }
 
 // Statics interface
@@ -29,11 +29,6 @@ const chatSchema = new mng.Schema<IChat>({
     type: mng.Types.ObjectId,
     ref: 'Student',
     required: true,
-  },
-  messages: {
-    type: [{ type: mng.Types.ObjectId, ref: 'Message' }],
-    required: true,
-    default: [],
   },
 });
 

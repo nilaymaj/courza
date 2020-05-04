@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, Handler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import handleErr from '../middleware/errorHandler';
 
 type IHandler<T extends Request> = (

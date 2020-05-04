@@ -9,7 +9,6 @@ export interface IStudent extends mng.Document {
   iitkEmail: string;
   rollNo: number;
   password: string;
-  courses: mng.Types.ObjectId[];
 
   /**
    * Generate JWT token with student ID as payload
@@ -24,7 +23,7 @@ export interface IStudent extends mng.Document {
   getInfo(): IStudentInfo;
 }
 
-interface IStudentInfo {
+export interface IStudentInfo {
   _id: string;
   name: string;
   iitkEmail: string;
@@ -59,11 +58,6 @@ const studentSchema = new mng.Schema<IStudent>({
     required: true,
     minlength: 8,
     maxlength: 1024,
-  },
-  courses: {
-    type: [{ type: mng.Schema.Types.ObjectId, ref: 'Course' }],
-    required: true,
-    default: [],
   },
   regStatus: {
     type: String,
