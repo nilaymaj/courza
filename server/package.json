@@ -11,6 +11,7 @@
     "build": "webpack --hide-modules",
     "serve": "nodemon dist/main.js",
     "start": "yarn build && (yarn watch & yarn serve)",
+    "db:populate": "tsc --esModuleInterop scripts/populate.ts && node scripts/populate.js",
     "test": "jest --silent",
     "flow": "flow"
   },
@@ -38,6 +39,7 @@
     "@types/jsonwebtoken": "^8.3.9",
     "@types/lodash": "^4.14.150",
     "@types/mongoose": "^5.7.14",
+    "@types/node": "^13.13.4",
     "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.1.0",

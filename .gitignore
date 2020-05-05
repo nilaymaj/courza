@@ -1,3 +1,9 @@
 **/node_modules
+server/yarn-error.log
+server/keys
+
+# Ignore build output
 **/dist
-keys
+
+# Ignore transpiled scripts
+server/scripts/*.js

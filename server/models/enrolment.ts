@@ -11,18 +11,21 @@ export interface IEnrolment extends mng.Document {
 interface IStatics extends mng.Model<IEnrolment> {}
 
 // Database schema
-const enrolmentSchema = new mng.Schema<IEnrolment>({
-  student: {
-    type: mng.Schema.Types.ObjectId,
-    ref: 'Student',
-    required: true,
+const enrolmentSchema = new mng.Schema<IEnrolment>(
+  {
+    student: {
+      type: mng.Schema.Types.ObjectId,
+      ref: 'Student',
+      required: true,
+    },
+    course: {
+      type: mng.Schema.Types.ObjectId,
+      ref: 'Course',
+      required: true,
+    },
   },
-  course: {
-    type: mng.Schema.Types.ObjectId,
-    ref: 'Course',
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const Enrolment = mng.model<IEnrolment, IStatics>('Enrolment', enrolmentSchema);
 export default Enrolment;

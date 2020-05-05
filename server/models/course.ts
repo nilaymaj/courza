@@ -12,18 +12,21 @@ export interface ICourse extends mng.Document {
 interface IStatics extends mng.Model<ICourse> {}
 
 // Database schema
-const courseSchema = new mng.Schema<ICourse>({
-  name: {
-    type: String,
-    required: true,
+const courseSchema = new mng.Schema<ICourse>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+      match: COURSE_CODE_REGEX,
+    },
   },
-  code: {
-    type: String,
-    required: true,
-    unique: true,
-    match: COURSE_CODE_REGEX,
-  },
-});
+  { timestamps: true }
+);
 
 const Course = mng.model<ICourse, IStatics>('Course', courseSchema);
 export default Course;

@@ -13,24 +13,27 @@ export interface IChat extends mng.Document {
 interface IStatics extends mng.Model<IChat> {}
 
 // Database schema
-const chatSchema = new mng.Schema<IChat>({
-  title: {
-    type: String,
-    minlength: 5,
-    maxlength: 30,
-    required: true,
+const chatSchema = new mng.Schema<IChat>(
+  {
+    title: {
+      type: String,
+      minlength: 5,
+      maxlength: 30,
+      required: true,
+    },
+    course: {
+      type: mng.Types.ObjectId,
+      ref: 'Course',
+      required: true,
+    },
+    creator: {
+      type: mng.Types.ObjectId,
+      ref: 'Student',
+      required: true,
+    },
   },
-  course: {
-    type: mng.Types.ObjectId,
-    ref: 'Course',
-    required: true,
-  },
-  creator: {
-    type: mng.Types.ObjectId,
-    ref: 'Student',
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const Chat = mng.model<IChat, IStatics>('Chat', chatSchema);
 export default Chat;

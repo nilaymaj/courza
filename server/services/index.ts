@@ -1,4 +1,5 @@
 import * as ChatService from './chatService';
+import * as AuthService from './authService';
 import * as MessageService from './messageService';
 import * as StudentService from './studentService';
 import * as CourseService from './courseService';
@@ -10,4 +11,5 @@ export {
   StudentService,
   CourseService,
   EnrolmentService,
+  AuthService,
 };

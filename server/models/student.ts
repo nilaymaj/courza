@@ -34,37 +34,40 @@ export interface IStudentInfo {
 interface IStatics extends mng.Model<IStudent> {}
 
 // Database schema
-const studentSchema = new mng.Schema<IStudent>({
-  name: {
-    type: String,
-    required: true,
+const studentSchema = new mng.Schema<IStudent>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    iitkEmail: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      unique: true,
+      required: true,
+      match: IITK_EMAIL_REGEX,
+    },
+    rollNo: {
+      type: Number,
+      required: true,
+      unique: true,
+      min: 10000,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      maxlength: 1024,
+    },
+    regStatus: {
+      type: String,
+      enum: ['unverified', 'done'],
+      default: 'unverified',
+    },
   },
-  iitkEmail: {
-    type: String,
-    lowercase: true,
-    trim: true,
-    unique: true,
-    required: true,
-    match: IITK_EMAIL_REGEX,
-  },
-  rollNo: {
-    type: Number,
-    required: true,
-    unique: true,
-    min: 10000,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 8,
-    maxlength: 1024,
-  },
-  regStatus: {
-    type: String,
-    enum: ['unverified', 'done'],
-    default: 'unverified',
-  },
-});
+  { timestamps: true }
+);
 
 // Instance methods
 studentSchema.methods.generateToken = function (): string {
