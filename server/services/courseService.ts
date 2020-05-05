@@ -1,7 +1,6 @@
 import Course, { ICourse } from '../models/course';
 import { NotFoundError } from '../utils/errors';
-import { validate } from '../utils/validator';
-import { newCourseValidator } from '../validators';
+import { validateCourse } from '../utils/validators';
 
 /**
  * Creates new course in database
@@ -13,7 +12,7 @@ export const create = async (data: {
   name: string;
   code: string;
 }): Promise<ICourse> => {
-  validate(data, newCourseValidator);
+  validateCourse(data);
   const course = new Course(data);
   await course.save();
   return course;

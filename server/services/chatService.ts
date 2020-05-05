@@ -1,8 +1,7 @@
 import Chat, { IChat } from '../models/chat';
 import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
-import { newChatValidator } from '../validators';
-import { validate } from '../utils/validator';
+import { validateChat } from '../utils/validators';
 import { NotFoundError } from '../utils/errors';
 import Message from '../models/message';
 
@@ -14,7 +13,7 @@ export const createChat = async (
   student: IStudent,
   title: string
 ): Promise<IChat> => {
-  validate({ title }, newChatValidator);
+  validateChat({ title });
   const chat = new Chat({
     title: title,
     creator: student._id,
@@ -48,7 +47,7 @@ export const renameChat = async (
   chat: IChat,
   title: string
 ): Promise<IChat> => {
-  validate({ title }, newChatValidator);
+  validateChat({ title });
   chat.title = title;
   await chat.save();
   return chat;

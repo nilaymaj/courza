@@ -2,8 +2,7 @@ import Message, { IMessage } from '../models/message';
 import { NotFoundError } from '../utils/errors';
 import { IStudent } from '../models/student';
 import { IChat } from '../models/chat';
-import { validate } from '../utils/validator';
-import { newMessageValidator } from '../validators';
+import { validateMessage } from '../utils/validators';
 
 /**
  * Posts new message by student in given chat
@@ -13,7 +12,7 @@ export const postNew = async (
   chat: IChat,
   content: string
 ): Promise<IMessage> => {
-  validate({ content }, newMessageValidator);
+  validateMessage({ content });
   const message = new Message({ content, author: student._id, chat: chat._id });
   await message.save();
   return message;
