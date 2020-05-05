@@ -4,7 +4,7 @@ import * as React from 'react';
 
 // Type for fetched message
 export type RawMessage = {|
-  authorId: {
+  author: {
     name: string,
     _id: string,
   },
@@ -38,14 +38,11 @@ export const parseToUIMessage = (
   profileId: string
 ): UIMessage => {
   const uiMessage = {
-    author: {
-      name: rawMessage.authorId.name,
-      _id: rawMessage.authorId._id,
-    },
+    author: rawMessage.author,
     _id: rawMessage._id,
     content: rawMessage.content,
     date: new Date(rawMessage.createdAt),
-    isOwn: rawMessage.authorId._id === profileId,
+    isOwn: rawMessage.author._id === profileId,
   };
   return uiMessage;
 };

@@ -31,6 +31,8 @@ export const get = async (messageId: string, lean = false) => {
  * Returns all messages in a given chat
  */
 export const getAll = async (chat: IChat, lean = false) => {
-  const messages = await Message.find({ chat: chat._id }).lean(lean);
+  const messages = await Message.find({ chat: chat._id })
+    .populate('author', ['_id', 'name'])
+    .lean(lean);
   return messages;
 };
