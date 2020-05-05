@@ -5,5 +5,5 @@ server/keys
 # Ignore build output
 **/dist
 
-# Ignore transpiled scripts
-server/scripts/*.js
+# Ignore transpiled files
+server/**/*.js

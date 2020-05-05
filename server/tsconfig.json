@@ -8,5 +8,6 @@
     "moduleResolution": "node",
     "esModuleInterop": true
   },
-  "include": ["*"]
+  "include": ["*"],
+  "exclude": ["scripts/*"]
 }

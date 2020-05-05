@@ -11,7 +11,7 @@
     "build": "webpack --hide-modules",
     "serve": "nodemon dist/main.js",
     "start": "yarn build && (yarn watch & yarn serve)",
-    "db:populate": "tsc --esModuleInterop scripts/populate.ts && node scripts/populate.js",
+    "db:populate": "tsc --esModuleInterop scripts/populate.ts && node scripts/populate.js && rm -f scripts/populate.js",
     "test": "jest --silent",
     "flow": "flow"
   },

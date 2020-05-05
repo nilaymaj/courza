@@ -38,9 +38,11 @@ const sampleMessages = [
   { content: "Nope, I don't think so :(" },
 ];
 
+let db;
+
 const populate = async () => {
   // Connect to database
-  const db = await connect(DEV_DB_URL, {
+  db = await connect(DEV_DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -83,12 +85,9 @@ const populate = async () => {
     chat1,
     sampleMessages[1].content
   );
-
-  await db.disconnect();
 };
 
 populate()
-  .then(() => {
-    console.log('Populated database!');
-  })
-  .catch((err) => console.error('Could not populate database: ', err));
+  .then(() => console.log('Populated database!'))
+  .catch((err) => console.error('Could not populate database: ', err))
+  .finally(() => db && db.disconnect());
