@@ -1,7 +1,12 @@
 import * as Errors from '../utils/errors';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-export default function errorHandler(err: Error, req: Request, res: Response) {
+export default function errorHandler(
+  err: Error,
+  req: Request,
+  res: Response,
+  _next?: NextFunction
+) {
   console.log(err);
   switch (err.name) {
     case 'NotFoundError':

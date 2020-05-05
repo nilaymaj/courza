@@ -3,6 +3,7 @@ import { Request, Router } from 'express';
 import controller from './controller';
 import { IStudent } from '../models/student';
 import { ICourse } from '../models/course';
+import { IChat } from '../models/chat';
 const router = Router();
 
 // Create new chat
@@ -29,6 +30,19 @@ router.post(
   controller(async (req: IAllChatsReq, res) => {
     const chats = await ChatService.getAll(req.course, true);
     return res.send(chats);
+  })
+);
+
+// Rename chat
+interface IRenameChatReq extends Request {
+  chat: IChat;
+  body: { title: string };
+}
+router.post(
+  '/rename',
+  controller(async (req: IRenameChatReq, res) => {
+    const chat = await ChatService.renameChat(req.chat, req.body.title);
+    return res.send(chat.toObject());
   })
 );
 

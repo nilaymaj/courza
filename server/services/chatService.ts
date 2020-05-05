@@ -4,6 +4,7 @@ import { IStudent } from '../models/student';
 import { newChatValidator } from '../validators';
 import { validate } from '../utils/validator';
 import { NotFoundError } from '../utils/errors';
+import Message from '../models/message';
 
 /**
  * Creates a new chat in given course
@@ -57,6 +58,7 @@ export const renameChat = async (
  * Deletes chat from database
  */
 export const deleteChat = async (chat: IChat): Promise<void> => {
+  await Message.deleteMany({ chat: chat._id });
   await chat.remove();
   return;
 };
