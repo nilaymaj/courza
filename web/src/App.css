@@ -29,7 +29,8 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  /* background: transparent; */
+  background: rgb(230, 230, 230);
   right: 10px;
   margin-right: 10px;
 }

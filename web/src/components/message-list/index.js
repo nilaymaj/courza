@@ -6,10 +6,12 @@ import Message from '../message';
 
 type Props = {|
   loading: boolean,
-  messages: ?Array<UIMessage>,
+  messages: Array<UIMessage>,
 |};
 
 const MessageList = (props: Props) => {
+  const messages = props.messages;
+
   // Scroll to bottom when opened
   React.useEffect(() => {
     scrollToBottom(true);
@@ -27,11 +29,9 @@ const MessageList = (props: Props) => {
           <EuiLoadingContent></EuiLoadingContent>
           <EuiSpacer></EuiSpacer>
         </div>
-      ) : props.messages && props.messages.length ? (
+      ) : messages && messages.length ? (
         // Message list
-        props.messages.map((m) => (
-          <Message message={m} key={m._id || m.tempId} />
-        ))
+        messages.map((m) => <Message message={m} key={m._id || m.tempId} />)
       ) : (
         // No messages in chat
         <EuiEmptyPrompt

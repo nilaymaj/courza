@@ -1,6 +1,8 @@
 // @flow
 import { animateScroll, scroller } from 'react-scroll';
 import * as React from 'react';
+import mdIt from 'markdown-it';
+import mdSlack from 'markdown-it-slack';
 
 // Type for fetched message
 export type RawMessage = {|
@@ -106,12 +108,9 @@ export const scrollToMessage = (messageId: string, instant?: boolean) => {
  * @returns {Array<React.Node>} Corresponding JSX
  */
 export const parseContentToJsx = (content: string): Array<React.Node> => {
-  return content.split('\n').map((item, i) => {
-    return (
-      <span key={i}>
-        <span>{item}</span>
-        <br />
-      </span>
-    );
-  });
+  const md = mdIt({ breaks: true, linkify: true });
+  md.block.ruler.enableOnly(['paragraph']);
+  md.use(mdSlack);
+  const result = md.render(content);
+  return result;
 };

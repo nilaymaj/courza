@@ -8,11 +8,12 @@
 
 .cz-messages__list {
   flex-grow: 1;
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex; */
+  /* justify-content: flex-end; */
   width: 100%;
-  flex-direction: column;
+  /* flex-direction: column; */
   padding: 20px 0;
+  bottom: 0;
   overflow-y: scroll;
 }
 

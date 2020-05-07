@@ -115,9 +115,9 @@ export const useMessageManager = () => {
   }, [chatId, profile._id]);
 
   /**
-   * Get list of messages to display to user
+   * List of messages to display to user
    */
-  const getDisplayMessages = React.useCallback((): Array<UIMessage> => {
+  const displayMessages = React.useMemo(() => {
     return [...messages, ...tempMessages];
   }, [messages, tempMessages]);
 
@@ -140,5 +140,5 @@ export const useMessageManager = () => {
     [chatId, messages, tempMessages, profile._id, profile.name]
   );
 
-  return [initMessages, getDisplayMessages, postNewMessage];
+  return [initMessages, displayMessages, postNewMessage];
 };

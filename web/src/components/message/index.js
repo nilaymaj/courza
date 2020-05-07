@@ -27,7 +27,11 @@ const Message = (props: Props) => {
   const date = moment(message.date);
   const timestamp = date.calendar();
   const className = classes(['cz-message', { highlight: message.isOwn }]);
-  const htmlContent = parseContentToJsx(message.content);
+
+  // Avoid converting to markdown on each render
+  const htmlContent = React.useMemo(() => {
+    return parseContentToJsx(message.content);
+  }, [message.content]);
 
   return (
     <Element
@@ -41,7 +45,7 @@ const Message = (props: Props) => {
         className={className}
         timelineIcon={<EuiAvatar size="l" name={message.author.name} />}
       >
-        <EuiText>{htmlContent}</EuiText>
+        <EuiText dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </EuiComment>
     </Element>
   );
