@@ -44,6 +44,17 @@
     ]
   },
   "devDependencies": {
-    "redux-devtools": "^3.5.0"
+    "@types/autosize": "^3.0.7",
+    "@types/classnames": "^2.2.10",
+    "@types/markdown-it": "^10.0.1",
+    "@types/node": "^13.13.5",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "@types/react-redux": "^7.1.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-scroll": "^1.5.4",
+    "@types/yup": "^0.28.0",
+    "redux-devtools": "^3.5.0",
+    "typescript": "^3.8.3"
   }
 }

@@ -136,5 +136,7 @@
   }
 }
 
-@import './components/message/style.css';
-@import './components/message-list/style.css';
+/* @import './components/message/style.css';
+@import './components/message-list/style.css'; */
+
+@import './ui/chat-screen/style.css';
