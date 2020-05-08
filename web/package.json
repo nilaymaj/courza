@@ -8,7 +8,6 @@
     "autosize": "^4.0.2",
     "axios": "^0.19.1",
     "classnames": "^2.2.6",
-    "flow-bin": "^0.123.0",
     "markdown-it": "^10.0.0",
     "markdown-it-slack": "^1.2.0",
     "moment": "^2.24.0",
