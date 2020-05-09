@@ -66,6 +66,20 @@ export default function (state = initialState, action: Action) {
         sidebarOpen: open,
       };
     }
+    case 'ADD_NEW_CHAT': {
+      const { courseId, chat } = action;
+      const newCourses = [...state.courses];
+      const course = newCourses.find((c) => c._id === courseId);
+      if (!course) {
+        console.warn('Tried to add chat for non-existent course');
+        return state;
+      }
+      course.chats.push(chat);
+      return {
+        ...state,
+        courses: newCourses,
+      };
+    }
     default:
       return state;
   }

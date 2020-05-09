@@ -136,7 +136,9 @@
   }
 }
 
-/* @import './components/message/style.css';
-@import './components/message-list/style.css'; */
+.cz-overlay {
+  /* Override EUI to keep modal over navbar */
+  z-index: 10000 !important;
+}
 
 @import './ui/chat-screen/style.css';

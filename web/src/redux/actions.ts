@@ -1,4 +1,4 @@
-import { Course, Profile } from '../types';
+import { Course, Chat, Profile } from '../types';
 
 export interface Login {
   type: 'LOGIN';
@@ -16,6 +16,12 @@ export interface OpenChat {
   chatId: string;
 }
 
+export interface AddNewChat {
+  type: 'ADD_NEW_CHAT';
+  courseId: string;
+  chat: Chat;
+}
+
 export interface SetLoading {
   type: 'SET_LOADING';
   loading: boolean;
@@ -26,7 +32,13 @@ export interface ToggleSidebar {
   open?: boolean;
 }
 
-export type Action = Login | OpenCourse | OpenChat | SetLoading | ToggleSidebar;
+export type Action =
+  | Login
+  | OpenCourse
+  | OpenChat
+  | AddNewChat
+  | SetLoading
+  | ToggleSidebar;
 
 /**
  * Set login status to true with fetched profile
@@ -48,6 +60,13 @@ export const openCourse = (courseId: string): OpenCourse => {
  */
 export const openChat = (chatId: string): OpenChat => {
   return { type: 'OPEN_CHAT', chatId };
+};
+
+/**
+ * Add new chat to course with given ID
+ */
+export const addNewChat = (courseId: string, chat: Chat): AddNewChat => {
+  return { type: 'ADD_NEW_CHAT', courseId, chat };
 };
 
 /**

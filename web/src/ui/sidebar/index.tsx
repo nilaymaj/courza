@@ -19,8 +19,10 @@ import {
   getCourseChats,
   isSidebarOpen,
 } from '../../redux/selectors';
-import { toggleSidebar } from '../../redux/actions';
+import { toggleSidebar, addNewChat } from '../../redux/actions';
 import { useAppNavigator } from '../hooks';
+import CreateChatDialog from '../dialogs/create-chat-dialog';
+import { createNewChat } from '../../utils/requests';
 
 const CourseSelect = () => {
   const courses = useSelector(getCourses);
@@ -52,7 +54,11 @@ const CourseSelect = () => {
   );
 };
 
-const ChatSelect = () => {
+type ChatSelectProps = {
+  onCreate: () => void;
+};
+
+const ChatSelect = (props: ChatSelectProps) => {
   const chats = useSelector(getCourseChats);
   const activeChat = useSelector(getActiveChat);
   const appNav = useAppNavigator();
@@ -68,6 +74,7 @@ const ChatSelect = () => {
           title="Create new topic"
           iconType="plusInCircle"
           aria-label="create new topic"
+          onClick={props.onCreate}
         ></EuiButtonIcon>
       }
     >
@@ -105,26 +112,46 @@ const ChatSelect = () => {
 };
 
 const Sidebar = () => {
-  const open = useSelector(isSidebarOpen);
   const dispatch = useDispatch();
+  const open = useSelector(isSidebarOpen);
+  const activeCourse = useSelector(getActiveCourse);
+  const appNav = useAppNavigator();
+  const [newChatDialogOpen, setNewChatDialogOpen] = React.useState(false);
+
+  const handleCreateChat = async (title: string, description: string) => {
+    const courseId = activeCourse && activeCourse._id;
+    if (!courseId)
+      return console.warn('Cannot create chat when no course is open.');
+    const newChat = await createNewChat(courseId, title, description);
+    dispatch(addNewChat(courseId, newChat));
+    appNav.goToChat(newChat._id, courseId);
+  };
 
   return (
-    <EuiCollapsibleNav
-      isOpen={open}
-      isDocked
-      onClose={() => dispatch(toggleSidebar())}
-      button={
-        <EuiHeaderSectionItemButton
-          aria-label="Toggle sidebar"
-          onClick={() => dispatch(toggleSidebar())}
-        >
-          <EuiIcon type="menu" size="m" aria-hidden="true" />
-        </EuiHeaderSectionItemButton>
-      }
-    >
-      <CourseSelect></CourseSelect>
-      <ChatSelect></ChatSelect>
-    </EuiCollapsibleNav>
+    <>
+      <EuiCollapsibleNav
+        isOpen={open}
+        isDocked
+        onClose={() => dispatch(toggleSidebar())}
+        button={
+          <EuiHeaderSectionItemButton
+            aria-label="Toggle sidebar"
+            onClick={() => dispatch(toggleSidebar())}
+          >
+            <EuiIcon type="menu" size="m" aria-hidden="true" />
+          </EuiHeaderSectionItemButton>
+        }
+      >
+        <CourseSelect></CourseSelect>
+        <ChatSelect onCreate={() => setNewChatDialogOpen(true)}></ChatSelect>
+      </EuiCollapsibleNav>
+      {newChatDialogOpen && (
+        <CreateChatDialog
+          onCreate={handleCreateChat}
+          onClose={() => setNewChatDialogOpen(false)}
+        ></CreateChatDialog>
+      )}
+    </>
   );
 };
 

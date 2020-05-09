@@ -8,6 +8,7 @@ import Dashboard from './dashboard';
 import { useStateFromRoute } from './hooks';
 import { openCourse, openChat } from '../redux/actions';
 import LoadingPage from './loading-page';
+import CreateChatDialog from './dialogs/create-chat-dialog';
 
 const MainContainer = () => {
   const match = useRouteMatch();
@@ -33,29 +34,33 @@ const MainContainer = () => {
     return () => setLoading(true);
   }, [appState, dispatch]);
 
+  if (loading)
+    return (
+      <>
+        <Topbar></Topbar>
+        <LoadingPage></LoadingPage>
+      </>
+    );
+
   return (
     <>
       <Topbar></Topbar>
-      {loading ? (
-        <LoadingPage />
-      ) : (
-        <Switch>
-          <Route
-            path={match.url + '/'}
-            exact
-            render={() => <Dashboard />}
-          ></Route>
-          <Route
-            path={match.url + '/c/:courseId'}
-            exact
-            render={() => <CourseHome />}
-          ></Route>
-          <Route
-            path={match.url + '/c/:courseId/:chatId'}
-            render={() => <ChatScreen />}
-          ></Route>
-        </Switch>
-      )}
+      <Switch>
+        <Route
+          path={match.url + '/'}
+          exact
+          render={() => <Dashboard />}
+        ></Route>
+        <Route
+          path={match.url + '/c/:courseId'}
+          exact
+          render={() => <CourseHome />}
+        ></Route>
+        <Route
+          path={match.url + '/c/:courseId/:chatId'}
+          render={() => <ChatScreen />}
+        ></Route>
+      </Switch>
     </>
   );
 };

@@ -8,7 +8,6 @@ const request = async (method: Method, url: string, data?: {}) => {
     method,
     data,
     url: BASE_URL + url,
-    withCredentials: true,
   });
   return res.data;
 };
@@ -48,5 +47,18 @@ export const getChatMessages = async (chatId: string) => {
 
 export const postMessage = async (chatId: string, content: string) => {
   const res = await request('POST', '/messages/new', { chatId, content });
+  return res;
+};
+
+export const createNewChat = async (
+  courseId: string,
+  title: string,
+  description: string
+) => {
+  const res = await request('POST', '/chats/new', {
+    courseId,
+    title,
+    description,
+  });
   return res;
 };
