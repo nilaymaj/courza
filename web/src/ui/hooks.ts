@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, matchPath } from 'react-router-dom';
-import { openChat, openCourse } from '../redux/actions';
+import { openChat, openCourse, resetActiveState } from '../redux/actions';
 import { getActiveCourse } from '../redux/selectors';
 import { Schema } from 'yup';
 
@@ -88,8 +88,9 @@ export const useAppNavigator = () => {
   );
 
   const goToHome = React.useCallback((): void => {
+    dispatch(resetActiveState());
     history.push(`/home`);
-  }, [history]);
+  }, [dispatch, history]);
 
   return { goToChat, goToCourse, goToHome };
 };

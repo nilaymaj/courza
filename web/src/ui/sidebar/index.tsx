@@ -29,26 +29,37 @@ const CourseSelect = () => {
   const activeCourse = useSelector(getActiveCourse);
   const appNav = useAppNavigator();
 
-  const options = courses.map((c) => ({
-    value: c._id,
-    inputDisplay: <EuiText>{c.code}</EuiText>,
-    dropdownDisplay: (
-      <>
-        <strong>{c.code}</strong>
-        <EuiText size="s" color="subdued">
-          <p>{c.name}</p>
-        </EuiText>
-      </>
-    ),
-  }));
+  const handleOpenCourse = (courseId: string) => {
+    if (courseId === 'home') appNav.goToHome();
+    else appNav.goToCourse(courseId);
+  };
+
+  const options = [
+    {
+      value: 'home',
+      inputDisplay: <EuiText>Dashboard</EuiText>,
+    },
+    ...courses.map((c) => ({
+      value: c._id,
+      inputDisplay: <EuiText>{c.code}</EuiText>,
+      dropdownDisplay: (
+        <>
+          <strong>{c.code}</strong>
+          <EuiText size="s" color="subdued">
+            <p>{c.name}</p>
+          </EuiText>
+        </>
+      ),
+    })),
+  ];
 
   return (
     <EuiCollapsibleNavGroup>
       <EuiSuperSelect
         hasDividers
         options={options}
-        valueOfSelected={activeCourse && activeCourse._id}
-        onChange={(cId) => appNav.goToCourse(cId)}
+        valueOfSelected={activeCourse ? activeCourse._id : 'home'}
+        onChange={handleOpenCourse}
       ></EuiSuperSelect>
     </EuiCollapsibleNavGroup>
   );
@@ -78,28 +89,27 @@ const ChatSelect = (props: ChatSelectProps) => {
         ></EuiButtonIcon>
       }
     >
-      {activeChat ? (
+      {chats && chats.length ? (
         <EuiListGroup maxWidth="none" color="subdued">
-          {chats &&
-            chats.map((c) => {
-              const active = c._id === activeChat._id;
-              return (
-                <div onClick={() => appNav.goToChat(c._id)} key={c._id}>
-                  <EuiListGroupItem
-                    label={c.title}
-                    isActive={active}
-                    iconType="empty"
-                    value={c._id}
-                    key={c._id}
-                    onClick={() => {}}
-                    style={{
-                      padding: 10,
-                      background: active ? '#eee' : undefined,
-                    }}
-                  ></EuiListGroupItem>
-                </div>
-              );
-            })}
+          {chats.map((c) => {
+            const active = activeChat ? c._id === activeChat._id : false;
+            return (
+              <div onClick={() => appNav.goToChat(c._id)} key={c._id}>
+                <EuiListGroupItem
+                  label={c.title}
+                  isActive={active}
+                  iconType="empty"
+                  value={c._id}
+                  key={c._id}
+                  onClick={() => {}}
+                  style={{
+                    padding: 10,
+                    background: active ? '#eee' : undefined,
+                  }}
+                ></EuiListGroupItem>
+              </div>
+            );
+          })}
         </EuiListGroup>
       ) : (
         <EuiEmptyPrompt
@@ -143,7 +153,14 @@ const Sidebar = () => {
         }
       >
         <CourseSelect></CourseSelect>
-        <ChatSelect onCreate={() => setNewChatDialogOpen(true)}></ChatSelect>
+        {!!activeCourse ? (
+          <ChatSelect onCreate={() => setNewChatDialogOpen(true)}></ChatSelect>
+        ) : (
+          <EuiEmptyPrompt
+            iconType="indexFlush"
+            body={<p>Select a course to see details</p>}
+          />
+        )}
       </EuiCollapsibleNav>
       {newChatDialogOpen && (
         <CreateChatDialog

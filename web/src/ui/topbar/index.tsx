@@ -21,16 +21,17 @@ const Topbar = () => {
   const appNav = useAppNavigator();
 
   const breadcrumbs = React.useMemo(() => {
-    const bc: Breadcrumb[] = [];
-    if (course) {
-      bc.push({
-        text: course.code,
-        onClick: (e: React.MouseEvent) => {
-          e.preventDefault();
-          appNav.goToCourse(course._id);
-        },
-      });
-    }
+    const bc: Breadcrumb[] = [
+      {
+        text: course ? course.code : 'Home',
+        onClick: course
+          ? (e: React.MouseEvent) => {
+              e.preventDefault();
+              appNav.goToCourse(course._id);
+            }
+          : () => {},
+      },
+    ];
     if (chat) {
       bc.push({
         text: chat ? chat.title : '',

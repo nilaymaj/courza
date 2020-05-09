@@ -33,7 +33,7 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         activeCourseId: courseId,
-        activeChatId: course.chats[0] && course.chats[0]._id,
+        activeChatId: null,
       };
     }
     case 'OPEN_CHAT': {
@@ -49,8 +49,6 @@ export default function (state = initialState, action: Action) {
         isLoggedIn: true,
         profile,
         courses,
-        activeCourseId: courses[0] && courses[0]._id,
-        activeChatId: courses[0].chats[0] && courses[0].chats[0]._id,
       };
     }
     case 'SET_LOADING': {
@@ -78,6 +76,13 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         courses: newCourses,
+      };
+    }
+    case 'RESET_ACTIVE': {
+      return {
+        ...state,
+        activeChatId: null,
+        activeCourseId: null,
       };
     }
     default:

@@ -32,13 +32,18 @@ export interface ToggleSidebar {
   open?: boolean;
 }
 
+export interface ResetActiveState {
+  type: 'RESET_ACTIVE';
+}
+
 export type Action =
   | Login
   | OpenCourse
   | OpenChat
   | AddNewChat
   | SetLoading
-  | ToggleSidebar;
+  | ToggleSidebar
+  | ResetActiveState;
 
 /**
  * Set login status to true with fetched profile
@@ -82,4 +87,11 @@ export const setLoading = (loading: boolean): SetLoading => {
  */
 export const toggleSidebar = (open?: boolean): ToggleSidebar => {
   return { type: 'TOGGLE_SIDEBAR', open };
+};
+
+/**
+ * Reset active course and active chat to null
+ */
+export const resetActiveState = (): ResetActiveState => {
+  return { type: 'RESET_ACTIVE' };
 };
