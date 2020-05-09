@@ -27,11 +27,6 @@ export interface SetLoading {
   loading: boolean;
 }
 
-export interface ToggleSidebar {
-  type: 'TOGGLE_SIDEBAR';
-  open?: boolean;
-}
-
 export interface ResetActiveState {
   type: 'RESET_ACTIVE';
 }
@@ -42,7 +37,6 @@ export type Action =
   | OpenChat
   | AddNewChat
   | SetLoading
-  | ToggleSidebar
   | ResetActiveState;
 
 /**
@@ -79,14 +73,6 @@ export const addNewChat = (courseId: string, chat: Chat): AddNewChat => {
  */
 export const setLoading = (loading: boolean): SetLoading => {
   return { type: 'SET_LOADING', loading };
-};
-
-/**
- * Sets sidebar toggle state
- * If `open` not provided, toggles sidebar
- */
-export const toggleSidebar = (open?: boolean): ToggleSidebar => {
-  return { type: 'TOGGLE_SIDEBAR', open };
 };
 
 /**

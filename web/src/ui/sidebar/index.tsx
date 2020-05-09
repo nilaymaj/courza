@@ -17,9 +17,8 @@ import {
   getActiveCourse,
   getActiveChat,
   getCourseChats,
-  isSidebarOpen,
 } from '../../redux/selectors';
-import { toggleSidebar, addNewChat } from '../../redux/actions';
+import { addNewChat } from '../../redux/actions';
 import { useAppNavigator } from '../hooks';
 import CreateChatDialog from '../dialogs/create-chat-dialog';
 import { createNewChat } from '../../utils/requests';
@@ -123,8 +122,8 @@ const ChatSelect = (props: ChatSelectProps) => {
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const open = useSelector(isSidebarOpen);
   const activeCourse = useSelector(getActiveCourse);
+  const [open, setOpen] = React.useState(false);
   const appNav = useAppNavigator();
   const [newChatDialogOpen, setNewChatDialogOpen] = React.useState(false);
 
@@ -142,11 +141,11 @@ const Sidebar = () => {
       <EuiCollapsibleNav
         isOpen={open}
         isDocked
-        onClose={() => dispatch(toggleSidebar())}
+        onClose={() => setOpen(false)}
         button={
           <EuiHeaderSectionItemButton
             aria-label="Toggle sidebar"
-            onClick={() => dispatch(toggleSidebar())}
+            onClick={() => setOpen(!open)}
           >
             <EuiIcon type="menu" size="m" aria-hidden="true" />
           </EuiHeaderSectionItemButton>

@@ -5,7 +5,6 @@ export interface Store {
   isLoggedIn: boolean;
   profile: Profile | null;
   loading: boolean;
-  sidebarOpen: boolean;
   courses: Course[];
   activeCourseId: string | null;
   activeChatId: string | null;
@@ -15,7 +14,6 @@ const initialState: Store = {
   isLoggedIn: false,
   profile: null,
   loading: true,
-  sidebarOpen: false,
   courses: [],
   activeCourseId: null,
   activeChatId: null,
@@ -55,13 +53,6 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         loading: action.loading,
-      };
-    }
-    case 'TOGGLE_SIDEBAR': {
-      let open = action.open === undefined ? !state.sidebarOpen : action.open;
-      return {
-        ...state,
-        sidebarOpen: open,
       };
     }
     case 'ADD_NEW_CHAT': {

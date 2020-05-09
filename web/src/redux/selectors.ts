@@ -4,7 +4,6 @@ export const getCourses = (store: Store) => store && store.courses;
 export const getProfile = (store: Store) => store && store.profile;
 export const isLoggedIn = (store: Store) => store && store.isLoggedIn;
 export const isLoading = (store: Store) => store && store.loading;
-export const isSidebarOpen = (store: Store) => store && store.sidebarOpen;
 
 export const getActiveCourse = (store: Store) => {
   if (!store) return;
