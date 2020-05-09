@@ -10,13 +10,18 @@ const router = Router();
 interface INewChatReq extends Request {
   user: IStudent;
   course: ICourse;
-  body: { title: string };
+  body: { title: string; description: string };
 }
 router.post(
   '/new',
   controller(async (req: INewChatReq, res) => {
-    const title = req.body.title;
-    const chat = await ChatService.createChat(req.course, req.user, title);
+    const { title, description } = req.body;
+    const chat = await ChatService.createChat(
+      req.course,
+      req.user,
+      title,
+      description
+    );
     return res.send(chat.toObject());
   })
 );

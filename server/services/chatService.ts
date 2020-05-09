@@ -3,6 +3,7 @@ import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
 import { validateChat } from '../utils/validators';
 import { NotFoundError } from '../utils/errors';
+import { postNew } from './messageService';
 import Message from '../models/message';
 
 /**
@@ -11,15 +12,17 @@ import Message from '../models/message';
 export const createChat = async (
   course: ICourse,
   student: IStudent,
-  title: string
+  title: string,
+  description: string
 ): Promise<IChat> => {
-  validateChat({ title });
+  validateChat({ title, description });
   const chat = new Chat({
     title: title,
     creator: student._id,
     course: course._id,
   });
   await chat.save();
+  await postNew(student, chat, description);
   return chat;
 };
 
@@ -47,7 +50,7 @@ export const renameChat = async (
   chat: IChat,
   title: string
 ): Promise<IChat> => {
-  validateChat({ title });
+  validateChat({ title }, true);
   chat.title = title;
   await chat.save();
   return chat;

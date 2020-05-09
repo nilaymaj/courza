@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import { IITK_EMAIL_REGEX, COURSE_CODE_REGEX } from './constants';
 import { ValidationError } from './errors';
 
-const $ = Joi.extend((joi) => ({
+const $ = <Joi.Root>Joi.extend((joi) => ({
   type: 'iitkEmail',
   base: joi.string().email(),
   messages: {
@@ -40,16 +40,25 @@ export const validateCourse = (body: { name: string; code: string }) => {
     body,
     $.object({
       name: $.string().required(),
+      // @ts-ignore
       code: $.courseCode().required(),
     }).unknown()
   );
 };
 
-export const validateChat = (body: { title: string }) => {
+export const validateChat = (
+  body: { title: string; description?: string },
+  titleOnly?: boolean
+) => {
+  const baseDescrValidator = $.string().min(1).max(1024);
+  const descrValidator = titleOnly
+    ? baseDescrValidator
+    : baseDescrValidator.required();
   validate(
     body,
     $.object({
-      title: $.string().min(5).max(30).required(),
+      title: $.string().min(5).max(64).required(),
+      description: descrValidator,
     }).unknown()
   );
 };
