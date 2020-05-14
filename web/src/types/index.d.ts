@@ -23,3 +23,10 @@ export interface Profile {
   iitkEmail: string;
   rollNo: number;
 }
+
+export interface Resource {
+  _id: string;
+  name: string;
+  description: string;
+  url: string;
+}

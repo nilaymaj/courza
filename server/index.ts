@@ -6,14 +6,10 @@ import cookieParser from 'cookie-parser';
 import { connect } from 'mongoose';
 import MainRouter from './routes';
 import * as logger from './utils/logger';
-import { initSocketManager } from './realtime';
 import { DEV_DB_URL } from './utils/constants';
 import http from 'http';
-import socketIo from 'socket.io';
 
 const server = http.createServer(app);
-const io = socketIo(server, { serveClient: false });
-initSocketManager(io);
 
 // Middleware
 app.use(cors());

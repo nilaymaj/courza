@@ -8,7 +8,7 @@ import Dashboard from './dashboard';
 import { useStateFromRoute } from './hooks';
 import { openCourse, openChat } from '../redux/actions';
 import LoadingPage from './loading-page';
-import CreateChatDialog from './dialogs/create-chat-dialog';
+import ResourcesScreen from './resources-screen';
 
 const MainContainer = () => {
   const match = useRouteMatch();
@@ -55,6 +55,11 @@ const MainContainer = () => {
           path={match.url + '/c/:courseId'}
           exact
           render={() => <CourseHome />}
+        ></Route>
+        <Route
+          path={match.url + '/c/:courseId/resources'}
+          exact
+          render={() => <ResourcesScreen />}
         ></Route>
         <Route
           path={match.url + '/c/:courseId/:chatId'}
