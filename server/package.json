@@ -49,6 +49,7 @@
     "flow-bin": "^0.123.0",
     "flow-remove-types": "^2.123.0",
     "jest": "^24.9.0",
+    "nodemon": "^2.0.4",
     "remove-flow-types-loader": "^1.1.0",
     "typescript": "^3.8.3",
     "webpack": "^4.41.5",

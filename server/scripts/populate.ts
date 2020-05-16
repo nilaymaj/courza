@@ -29,13 +29,20 @@ const sampleCourses = [
 ];
 
 const sampleChats = [
-  { title: 'Any info about major quiz 1?' },
-  { title: 'Postpone the quiz' },
+  {
+    title: 'Any info about major quiz 1?',
+    description: 'Does anyone have any information about major quiz 1?',
+  },
+  {
+    title: 'Postpone the quiz',
+    description:
+      'We need to postpone the quiz to around a week after Antaragni, at least.',
+  },
 ];
 
 const sampleMessages = [
-  { content: 'Does anyone have any info about major quiz 1?' },
-  { content: "Nope, I don't think so :(" },
+  { content: 'I think the prof said something in a class.' },
+  { content: "Which one? I don't think I missed any classes" },
 ];
 
 let db;
@@ -66,22 +73,24 @@ const populate = async () => {
   const chat1 = await Services.ChatService.createChat(
     course1,
     student1,
-    sampleChats[0].title
+    sampleChats[0].title,
+    sampleChats[0].description
   );
   const chat2 = await Services.ChatService.createChat(
     course1,
     student2,
-    sampleChats[1].title
+    sampleChats[1].title,
+    sampleChats[1].description
   );
 
   // Add some messages in first chat
   await Services.MessageService.postNew(
-    student1,
+    student2,
     chat1,
     sampleMessages[0].content
   );
   await Services.MessageService.postNew(
-    student2,
+    student1,
     chat1,
     sampleMessages[1].content
   );
