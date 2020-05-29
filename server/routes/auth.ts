@@ -4,6 +4,8 @@ import * as AuthService from '../services/authService';
 import * as StudentService from '../services/studentService';
 import { decodeToken } from '../utils/token';
 import controller from './controller';
+import upload from '../middleware/file';
+import fs from 'fs';
 const router = Router();
 
 // Register new student
@@ -42,6 +44,21 @@ router.get(
     const payload = decodeToken(token);
     const student = await StudentService.get(payload._id.toString());
     res.send(pick(student.toObject(), ['_id', 'iitkEmail', 'courses', 'name']));
+  })
+);
+
+// AWS upload request (only for testing, remove later)
+interface IUploadTestReq extends Request {}
+router.post(
+  '/testupload',
+  upload.single('image'),
+  controller(async (req: IUploadTestReq, res) => {
+    console.log(req.file);
+    res.send('Done?');
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.log(err);
+      else console.log('Deleted file');
+    });
   })
 );
 

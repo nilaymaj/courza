@@ -1,6 +1,7 @@
 import Joi from '@hapi/joi';
 import { IITK_EMAIL_REGEX, COURSE_CODE_REGEX } from './constants';
 import { ValidationError } from './errors';
+import { Metafile } from '../types';
 
 const $ = <Joi.Root>Joi.extend((joi) => ({
   type: 'iitkEmail',
@@ -68,6 +69,16 @@ export const validateMessage = (body: { content: string }) => {
     body,
     $.object({
       content: $.string().min(1).max(1024).required(),
+    }).unknown()
+  );
+};
+
+export const validatePdf = (body: Metafile) => {
+  validate(
+    body,
+    $.object({
+      mimetype: $.string().equal('application/pdf'),
+      size: $.number().max(10 * 1000 * 1000), // 10MB
     }).unknown()
   );
 };

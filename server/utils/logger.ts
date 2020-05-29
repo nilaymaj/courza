@@ -4,6 +4,7 @@ import { has, get } from 'lodash';
 const LOG_AREAS = {
   db: 'green',
   server: 'cyan',
+  aws: 'yellow',
   web: 'blue',
 };
 
@@ -12,7 +13,7 @@ const LOG_LEVELS = {
   warn: 'yellow',
 };
 
-type LogArea = 'db' | 'server' | 'web';
+type LogArea = 'db' | 'server' | 'web' | 'aws';
 
 const boldenLog = (logMessage: string, logArea: LogArea): string => {
   if (!logArea) return logMessage;

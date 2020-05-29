@@ -7,6 +7,7 @@ import { connect } from 'mongoose';
 import MainRouter from './routes';
 import * as logger from './utils/logger';
 import { DEV_DB_URL } from './utils/constants';
+import { initStorage } from './utils/storage';
 import http from 'http';
 
 const server = http.createServer(app);
@@ -29,6 +30,15 @@ connect(DEV_DB_URL, {
   })
   .catch((err) => {
     logger.err(`Error connecting to db: ${err}`, 'db');
+  });
+
+// Set up AWS service object
+initStorage()
+  .then(() => {
+    logger.log('Credentials loaded successfully', 'aws');
+  })
+  .catch((err) => {
+    logger.err(`Couldn't load credentials: ${err}`, 'aws');
   });
 
 // Start listening

@@ -4,6 +4,7 @@ import AuthRouter from './auth';
 import StudentRouter from './student';
 import MessageRouter from './message';
 import EnrolmentRouter from './enrol';
+import ResourceRouter from './resource';
 import * as Mw from '../middleware';
 import { Router } from 'express';
 const router = Router();
@@ -19,6 +20,7 @@ router.use('/courses', CourseRouter);
 router.use('/chats', ChatRouter);
 router.use('/students', StudentRouter);
 router.use('/messages', MessageRouter);
+router.use('/resources', ResourceRouter);
 router.use(Mw.errorHandler);
 
 export default router;

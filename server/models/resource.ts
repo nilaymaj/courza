@@ -5,6 +5,7 @@ export interface IResource extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;
   description: string;
+  url: string;
   student: mng.Types.ObjectId;
   course: mng.Types.ObjectId;
 }
@@ -24,6 +25,10 @@ const resourceSchema = new mng.Schema<IResource>(
     description: {
       type: String,
       maxlength: 256,
+    },
+    url: {
+      type: String,
+      required: true,
     },
     student: {
       type: mng.Types.ObjectId,

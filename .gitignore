@@ -1,6 +1,7 @@
 **/node_modules
 server/yarn-error.log
 server/keys
+server/uploads
 
 # Ignore build output
 **/dist
