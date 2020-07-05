@@ -2,28 +2,30 @@ import { Request, Router } from 'express';
 import { IStudent } from '../models/student';
 import { ICourse } from '../models/course';
 import * as ResourceService from '../services/resourceService';
+import { Metafile } from '../types';
 import controller from './controller';
 import upload from '../middleware/file';
 import fs from 'fs';
+import { objectify } from '../middleware';
 const router = Router();
 
-// Test route
+// Upload a PDF resource
 interface IUploadPdfReq extends Request {
   course: ICourse;
   user: IStudent;
+  file: Metafile;
   body: {
     name: string;
     description: string;
-    file: {} /* File */;
   };
 }
 router.post(
-  '/test',
+  '/new',
   upload.single('file'),
+  objectify,
   controller(async (req: IUploadPdfReq, res) => {
     const { user, course, file } = req;
     const { name, description } = req.body;
-    console.log(user, course);
     const resource = await ResourceService.uploadPdfResource(
       user,
       course,
@@ -35,6 +37,19 @@ router.post(
       else console.log('Deleted file');
     });
     res.send(resource);
+  })
+);
+
+// View all course resources
+interface IUploadPdfReq extends Request {
+  course: ICourse;
+}
+router.get(
+  '/all',
+  controller(async (req: IUploadPdfReq, res) => {
+    const { course } = req;
+    const resources = await ResourceService.getAll(course, true);
+    res.send(resources);
   })
 );
 

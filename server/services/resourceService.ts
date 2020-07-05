@@ -5,6 +5,9 @@ import { uploadFile } from '../utils/storage';
 import { Metafile } from '../types';
 import { validatePdf } from '../utils/validators';
 
+/**
+ * Uploads PDF file to cloud and creates new resource in database
+ */
 export const uploadPdfResource = async (
   student: IStudent,
   course: ICourse,
@@ -21,4 +24,14 @@ export const uploadPdfResource = async (
   });
   await resource.save();
   return resource;
+};
+
+/**
+ * Returns list of all course resources from database
+ */
+export const getAll = async (course: ICourse, lean = false) => {
+  const allResources = Resource.find({ course: course._id })
+    .populate('student', ['_id', 'name'])
+    .lean(lean);
+  return allResources;
 };
