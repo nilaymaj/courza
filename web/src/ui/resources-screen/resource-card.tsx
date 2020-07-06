@@ -14,7 +14,7 @@ const ResourceCard = (props: Props) => {
       layout="horizontal"
       icon={<EuiIcon size="xxl" type={pdfIcon} />}
       title={resource.name}
-      description={resource.description}
+      description={`Uploaded by ${resource.student.name}`}
       onClick={() => window.open(resource.url, '_blank')}
     />
   );

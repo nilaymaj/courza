@@ -1,4 +1,4 @@
-import Resource, { IResource } from '../models/resource';
+import Resource from '../models/resource';
 import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
 import { uploadFile } from '../utils/storage';
@@ -8,10 +8,10 @@ import { validatePdf } from '../utils/validators';
 /**
  * Uploads PDF file to cloud and creates new resource in database
  */
-export const uploadPdfResource = async (
+export const uploadPdf = async (
   student: IStudent,
   course: ICourse,
-  data: { name: string; description: string },
+  name: string,
   metafile: Metafile
 ) => {
   validatePdf(metafile);
@@ -19,7 +19,7 @@ export const uploadPdfResource = async (
   const resource = new Resource({
     student: student._id,
     course: course._id,
-    ...data,
+    name,
     url,
   });
   await resource.save();

@@ -22,11 +22,9 @@ interface IObjectifyReq extends Request {
 }
 export default controller(async (req: IObjectifyReq, res, next) => {
   const { courseId, chatId, messageId } = req.body;
-  console.log(req.body);
   try {
     if (courseId) {
       req.course = await Services.CourseService.get(courseId);
-      console.log('Objectify: req.course:', req.course);
       if (!req.course) throw new NotFoundError('Course not found');
     }
     if (chatId) {

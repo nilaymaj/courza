@@ -4,7 +4,6 @@ import mng from 'mongoose';
 export interface IResource extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;
-  description: string;
   url: string;
   student: mng.Types.ObjectId;
   course: mng.Types.ObjectId;
@@ -21,10 +20,6 @@ const resourceSchema = new mng.Schema<IResource>(
       minlength: 5,
       maxlength: 30,
       required: true,
-    },
-    description: {
-      type: String,
-      maxlength: 256,
     },
     url: {
       type: String,

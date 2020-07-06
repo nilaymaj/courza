@@ -1,5 +1,5 @@
-import { EuiTextArea } from '@elastic/eui';
-import React from 'react';
+import * as React from 'react';
+import { EuiCallOut } from '@elastic/eui';
 import * as yup from 'yup';
 import { useFormField } from '../hooks';
 
@@ -20,25 +20,30 @@ import {
 } from '@elastic/eui';
 
 const nameValidator = yup.string().required().max(16).min(2);
-const descriptionValidator = yup.string().required().max(1024).min(1);
 
 type Props = {
-  onUpload: (name: string, description: string, file: File) => Promise<void>;
+  onUpload: (name: string, file: File) => Promise<void>;
   onClose: () => void;
 };
 
 const UploadResourceDialog = (props: Props) => {
-  const [name, setName, nameError] = useFormField('', nameValidator);
-  const [descr, setDescr, descrError] = useFormField('', descriptionValidator);
-  const [file, setFile] = React.useState<File | null>(null);
+  const [formError, setFormError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const [file, setFile] = React.useState<File | null>(null);
+  const [name, setName, nameError] = useFormField('', nameValidator);
 
   const handleUpload = async () => {
     if (file === null) return;
     setLoading(true);
-    await props.onUpload(name, descr, file);
+    try {
+      await props.onUpload(name, file);
+      props.onClose();
+    } catch (err) {
+      const status = err.response.status;
+      if (status === 400)
+        setFormError("Invalid data. Check the information you've provided.");
+    }
     setLoading(false);
-    props.onClose();
   };
 
   const handleFileChange = (files: FileList | null) => {
@@ -56,6 +61,17 @@ const UploadResourceDialog = (props: Props) => {
         </EuiModalHeader>
         <EuiModalBody>
           <EuiForm>
+            {!!formError && (
+              <>
+                <EuiCallOut
+                  title={formError}
+                  size="s"
+                  color="danger"
+                  iconType="alert"
+                ></EuiCallOut>
+                <EuiSpacer></EuiSpacer>
+              </>
+            )}
             <EuiFormRow
               label="Name"
               helpText="Keep it short and descriptive"
@@ -69,18 +85,6 @@ const UploadResourceDialog = (props: Props) => {
               />
             </EuiFormRow>
             <EuiSpacer />
-            <EuiFormRow
-              label="Description"
-              helpText="A brief description of what the resource is"
-              isInvalid={!!descrError}
-              error={descrError}
-            >
-              <EuiTextArea
-                name="description"
-                value={descr}
-                onChange={(e) => setDescr(e.target.value)}
-              />
-            </EuiFormRow>
             <EuiFormRow label="File" helpText="Try to keep it under 2 MB">
               <EuiFilePicker
                 id="asdf2"

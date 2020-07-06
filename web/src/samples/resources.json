@@ -3,24 +3,40 @@
     "_id": "idOfResource1",
     "name": "Transformer notes - I",
     "description": "This pdf has notes for the first part of the transformer theory.",
-    "url": "https://google.com/?q=1"
+    "url": "https://google.com/?q=1",
+    "student": {
+      "name": "John Doe",
+      "_id": "idOfUser1"
+    }
   },
   {
     "_id": "idOfResource2",
     "name": "Three-phase networks",
     "description": "Formula sheet for three-phase networks",
-    "url": "https://google.com/?q=2"
+    "url": "https://google.com/?q=2",
+    "student": {
+      "name": "Luke Skywalker",
+      "_id": "idOfUser2"
+    }
   },
   {
     "_id": "idOfResource3",
     "name": "Some random resource",
     "description": "This is just some random resource",
-    "url": "https://google.com/?q=3"
+    "url": "https://google.com/?q=3",
+    "student": {
+      "name": "John Doe",
+      "_id": "idOfUser1"
+    }
   },
   {
     "_id": "idOfResource4",
     "name": "Some random resource (again)",
     "description": "This is just some random resource again",
-    "url": "https://google.com/?q=4"
+    "url": "https://google.com/?q=4",
+    "student": {
+      "name": "Someone",
+      "_id": "idOfUser3"
+    }
   }
 ]

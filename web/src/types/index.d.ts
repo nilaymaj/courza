@@ -27,6 +27,9 @@ export interface Profile {
 export interface Resource {
   _id: string;
   name: string;
-  description: string;
   url: string;
+  student: {
+    name: string;
+    _id: string;
+  };
 }

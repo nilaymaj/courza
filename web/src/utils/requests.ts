@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Resource } from '../types';
 type Method = 'POST' | 'GET';
 
 const BASE_URL = process.env.COURZA_BASE_URL || 'http://localhost:8000/api';
@@ -60,5 +61,25 @@ export const createNewChat = async (
     title,
     description,
   });
+  return res;
+};
+
+export const getAllCourseResources = async (
+  courseId: string
+): Promise<Resource[]> => {
+  const res = await request('POST', '/resources/all', { courseId });
+  return res;
+};
+
+export const postNewResource = async (
+  courseId: string,
+  name: string,
+  file: File
+) => {
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('file', file);
+  formData.append('courseId', courseId);
+  const res = await request('POST', '/resources/new', formData);
   return res;
 };
