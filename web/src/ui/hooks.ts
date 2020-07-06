@@ -5,6 +5,15 @@ import { openChat, openCourse, resetActiveState } from '../redux/actions';
 import { getActiveCourse } from '../redux/selectors';
 import { Schema } from 'yup';
 
+/**
+ * Custom hook for setting page title for current screen
+ */
+export const usePageTitle = (title: string) => {
+  React.useEffect(() => {
+    document.title = title;
+  }, [title]);
+};
+
 type FieldValue = boolean | string | number;
 
 /**

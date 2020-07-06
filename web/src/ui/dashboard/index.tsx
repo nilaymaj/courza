@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
+import { usePageTitle } from '../hooks';
 
 const Dashboard = () => {
-  React.useEffect(() => {
-    document.title = 'Home | Courza';
-  }, []);
+  usePageTitle('Home | Courza');
+
   return (
     <div className="cz-course__wrapper">
       <div className="cz-course__panel">
