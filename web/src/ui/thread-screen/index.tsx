@@ -6,11 +6,13 @@ import { getActiveThread } from '../../redux/selectors';
 import { useMessageManager } from './utils';
 import MessageList from './message-list';
 import ThreadInput from './thread-input';
+import { usePageTitle } from '../hooks';
 
 const ThreadScreen = () => {
   const [loading, setLoading] = React.useState(true);
   const activeThread = useSelector(getActiveThread) as Thread;
   const Manager = useMessageManager();
+  usePageTitle(`${activeThread.title} | Courza`);
 
   // Fetch messages on thread change
   React.useEffect(() => {

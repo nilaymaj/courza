@@ -9,27 +9,25 @@ import {
   EuiButtonIcon,
 } from '@elastic/eui';
 import { getActiveCourse } from '../../redux/selectors';
-import { Resource } from '../../types/index';
+import { Resource, Course } from '../../types/index';
 import ResourceCard from './resource-card';
 import { getAllCourseResources, postNewResource } from '../../utils/requests';
 import UploadResourceDialog from '../dialogs/upload-resource-dialog';
 import { usePageTitle } from '../hooks';
 
 const ResourcesScreen = () => {
-  const course = useSelector(getActiveCourse);
+  const course = useSelector(getActiveCourse) as Course;
   const [resources, setResources] = React.useState<null | Resource[]>(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   usePageTitle(`${course && course.code} Resources | Courza`);
 
   const fetchResources = React.useCallback(async () => {
-    if (!course) throw new Error("Can't fetch resources if no course open.");
     const resources = await getAllCourseResources(course._id);
     setResources(resources);
   }, [course]);
 
   const onPostNewResource = React.useCallback(
     async (name: string, file: File) => {
-      if (!course) throw new Error("Can't post resource if no course open.");
       await postNewResource(course._id, name, file);
       fetchResources();
     },
