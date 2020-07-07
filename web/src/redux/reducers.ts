@@ -6,8 +6,10 @@ export interface Store {
   profile: Profile | null;
   loading: boolean;
   courses: Course[];
+
   activeCourseId: string | null;
   activeThreadId: string | null;
+  resourcesOpen: boolean;
 }
 
 const initialState: Store = {
@@ -15,8 +17,11 @@ const initialState: Store = {
   profile: null,
   loading: true,
   courses: [],
+
+  // Navigation state
   activeCourseId: null,
   activeThreadId: null,
+  resourcesOpen: false,
 };
 
 export default function (state = initialState, action: Action) {
@@ -32,12 +37,14 @@ export default function (state = initialState, action: Action) {
         ...state,
         activeCourseId: courseId,
         activeThreadId: null,
+        resourcesOpen: false,
       };
     }
-    case 'OPEN_CHAT': {
+    case 'OPEN_THREAD': {
       return {
         ...state,
         activeThreadId: action.threadId,
+        resourcesOpen: false,
       };
     }
     case 'LOGIN': {
@@ -55,7 +62,7 @@ export default function (state = initialState, action: Action) {
         loading: action.loading,
       };
     }
-    case 'ADD_NEW_CHAT': {
+    case 'ADD_NEW_THREAD': {
       const { courseId, thread } = action;
       const newCourses = [...state.courses];
       const course = newCourses.find((c) => c._id === courseId);

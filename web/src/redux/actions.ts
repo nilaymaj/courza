@@ -12,12 +12,12 @@ export interface OpenCourse {
 }
 
 export interface OpenThread {
-  type: 'OPEN_CHAT';
+  type: 'OPEN_THREAD';
   threadId: string;
 }
 
 export interface AddNewThread {
-  type: 'ADD_NEW_CHAT';
+  type: 'ADD_NEW_THREAD';
   courseId: string;
   thread: Thread;
 }
@@ -58,7 +58,7 @@ export const openCourse = (courseId: string): OpenCourse => {
  * Set active thread ID
  */
 export const openThread = (threadId: string): OpenThread => {
-  return { type: 'OPEN_CHAT', threadId };
+  return { type: 'OPEN_THREAD', threadId };
 };
 
 /**
@@ -68,7 +68,7 @@ export const addNewThread = (
   courseId: string,
   thread: Thread
 ): AddNewThread => {
-  return { type: 'ADD_NEW_CHAT', courseId, thread };
+  return { type: 'ADD_NEW_THREAD', courseId, thread };
 };
 
 /**
