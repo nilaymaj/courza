@@ -37,15 +37,15 @@ const ThreadSelect = () => {
   return (
     <>
       <EuiCollapsibleNavGroup
-        title="Topics"
+        title="Threads"
         iconType="editorComment"
         isCollapsible={true}
         initialIsOpen={true}
         extraAction={
           <EuiButtonIcon
-            title="Create new topic"
+            title="Create new thread"
             iconType="plusInCircle"
-            aria-label="create new topic"
+            aria-label="create new thread"
             onClick={() => setDialogOpen(true)}
           ></EuiButtonIcon>
         }
@@ -77,7 +77,9 @@ const ThreadSelect = () => {
         ) : (
           <EuiEmptyPrompt
             iconType="asterisk"
-            body={<p>This course does not have any topics yet - create one!</p>}
+            body={
+              <p>This course does not have any threads yet - create one!</p>
+            }
           />
         )}
       </EuiCollapsibleNavGroup>
