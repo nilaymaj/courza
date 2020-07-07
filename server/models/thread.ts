@@ -1,19 +1,18 @@
 import mng from 'mongoose';
 
-// Documnet interface
-export interface IChat extends mng.Document {
+// Document interface
+export interface IThread extends mng.Document {
   _id: mng.Types.ObjectId;
   title: string;
   course: mng.Types.ObjectId;
   creator: mng.Types.ObjectId;
-  // messages: mng.Types.ObjectId[];
 }
 
 // Statics interface
-interface IStatics extends mng.Model<IChat> {}
+interface IStatics extends mng.Model<IThread> {}
 
 // Database schema
-const chatSchema = new mng.Schema<IChat>(
+const threadSchema = new mng.Schema<IThread>(
   {
     title: {
       type: String,
@@ -35,5 +34,5 @@ const chatSchema = new mng.Schema<IChat>(
   { timestamps: true }
 );
 
-const Chat = mng.model<IChat, IStatics>('Chat', chatSchema);
-export default Chat;
+const Thread = mng.model<IThread, IStatics>('Thread', threadSchema);
+export default Thread;

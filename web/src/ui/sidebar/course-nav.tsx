@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ChatSelect from './chat-select';
+import ThreadSelect from './thread-select';
 import { EuiListGroup, EuiListGroupItem } from '@elastic/eui';
 
 const CourseNav = () => {
@@ -18,7 +18,7 @@ const CourseNav = () => {
           }}
         ></EuiListGroupItem>
       </EuiListGroup>
-      <ChatSelect></ChatSelect>
+      <ThreadSelect></ThreadSelect>
     </>
   );
 };

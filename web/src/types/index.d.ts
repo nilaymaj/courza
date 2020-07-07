@@ -8,10 +8,10 @@ export interface Course {
   _id: string;
   name: string;
   code: string;
-  chats: Chat[];
+  threads: Thread[];
 }
 
-export interface Chat {
+export interface Thread {
   _id: string;
   title: string;
   creator: string;

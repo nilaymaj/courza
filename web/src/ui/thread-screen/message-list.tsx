@@ -32,7 +32,7 @@ const MessageList = (props: Props) => {
         // Message list
         messages.map((m) => <Message message={m} key={m._id || m.tempId} />)
       ) : (
-        // No messages in chat
+        // No messages in thread
         <EuiEmptyPrompt
           iconType="asterisk"
           title={<h2>No comments yet!</h2>}

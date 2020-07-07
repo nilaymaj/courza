@@ -26,7 +26,7 @@ type Props = {
   onClose: () => void;
 };
 
-const CreateChatDialog = (props: Props) => {
+const CreateThreadDialog = (props: Props) => {
   const [title, setTitle, titleError] = useFormField('', titleValidator);
   const [descr, setDescr, descrError] = useFormField('', descriptionValidator);
   const [loading, setLoading] = React.useState(false);
@@ -42,7 +42,7 @@ const CreateChatDialog = (props: Props) => {
     <EuiOverlayMask className="cz-overlay">
       <EuiModal onClose={props.onClose} initialFocus="[name=title]">
         <EuiModalHeader>
-          <EuiModalHeaderTitle>Create new chat</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>Create new thread</EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
           <EuiForm>
@@ -61,7 +61,7 @@ const CreateChatDialog = (props: Props) => {
             <EuiSpacer />
             <EuiFormRow
               label="Description"
-              helpText="This will be posted as the first comment on the chat"
+              helpText="This will be posted as the first comment on the thread"
               isInvalid={!!descrError}
               error={descrError}
             >
@@ -86,4 +86,4 @@ const CreateChatDialog = (props: Props) => {
   );
 };
 
-export default CreateChatDialog;
+export default CreateThreadDialog;

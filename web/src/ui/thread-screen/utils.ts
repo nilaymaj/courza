@@ -3,9 +3,9 @@ import mdIt from 'markdown-it';
 import mdSlack from 'markdown-it-slack';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { postMessage, getChatMessages } from '../../utils/requests';
-import { getProfile, getActiveChat } from '../../redux/selectors';
-import { Profile, Chat } from '../../types';
+import { postMessage, getThreadMessages } from '../../utils/requests';
+import { getProfile, getActiveThread } from '../../redux/selectors';
+import { Profile, Thread } from '../../types';
 
 // Type for fetched message
 export type RawMessage = {
@@ -13,7 +13,7 @@ export type RawMessage = {
     name: string;
     _id: string;
   };
-  chatId: string;
+  threadId: string;
   content: string;
   createdAt: string;
   updatedAt: string;
@@ -119,26 +119,26 @@ export const parseContentToJsx = (content: string): string => {
 };
 
 /**
- * Custom hook for managing chat message list,
+ * Custom hook for managing thread message list,
  * including creating and validating optimistic messages
  */
 export const useMessageManager = () => {
   const profile = useSelector(getProfile) as Profile;
-  const chatId = (useSelector(getActiveChat) as Chat)._id;
+  const threadId = (useSelector(getActiveThread) as Thread)._id;
   const [messages, setMessages] = React.useState<Array<UIMessage>>([]);
   const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
   const tempMessageId = React.useRef<number>(1);
 
   /**
-   * Fetch chat messages and initiate message manager
+   * Fetch thread messages and initiate message manager
    */
   const initMessages = React.useCallback(async (): Promise<void> => {
-    const initMs = await getChatMessages(chatId);
+    const initMs = await getThreadMessages(threadId);
     const parsedMs = (initMs as RawMessage[]).map((m) =>
       parseToUIMessage(m, profile._id)
     );
     setMessages(parsedMs);
-  }, [chatId, profile._id]);
+  }, [threadId, profile._id]);
 
   /**
    * List of messages to display to user
@@ -158,12 +158,12 @@ export const useMessageManager = () => {
       const message = createTempMessage(baseProfile, content, tId);
       setTempMessages([...tempMessages, message]);
       // Send request to server, update message ID from response
-      const actualMessage = await postMessage(chatId, content);
+      const actualMessage = await postMessage(threadId, content);
       const updMessage = { ...message, _id: actualMessage._id };
       setTempMessages(tempMessages);
       setMessages([...messages, updMessage]);
     },
-    [chatId, messages, tempMessages, profile._id, profile.name]
+    [threadId, messages, tempMessages, profile._id, profile.name]
   );
 
   return {

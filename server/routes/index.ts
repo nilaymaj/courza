@@ -1,5 +1,5 @@
 import CourseRouter from './course';
-import ChatRouter from './chat';
+import ThreadRouter from './thread';
 import AuthRouter from './auth';
 import StudentRouter from './student';
 import MessageRouter from './message';
@@ -17,7 +17,7 @@ router.use(Mw.auth);
 router.use(Mw.objectify);
 router.use('/enrol', EnrolmentRouter);
 router.use('/courses', CourseRouter);
-router.use('/chats', ChatRouter);
+router.use('/threads', ThreadRouter);
 router.use('/students', StudentRouter);
 router.use('/messages', MessageRouter);
 router.use('/resources', ResourceRouter);

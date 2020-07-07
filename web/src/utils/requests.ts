@@ -13,8 +13,8 @@ const request = async (method: Method, url: string, data?: {}) => {
   return res.data;
 };
 
-export const viewAllChats = async (courseId: string) => {
-  const res = await request('POST', '/chats/all', { courseId });
+export const viewAllThreads = async (courseId: string) => {
+  const res = await request('POST', '/threads/all', { courseId });
   return res;
 };
 
@@ -41,22 +41,22 @@ export const login = async (iitkEmail: string, password: string) => {
   return res;
 };
 
-export const getChatMessages = async (chatId: string) => {
-  const res = await request('POST', '/messages/all', { chatId });
+export const getThreadMessages = async (threadId: string) => {
+  const res = await request('POST', '/messages/all', { threadId });
   return res;
 };
 
-export const postMessage = async (chatId: string, content: string) => {
-  const res = await request('POST', '/messages/new', { chatId, content });
+export const postMessage = async (threadId: string, content: string) => {
+  const res = await request('POST', '/messages/new', { threadId, content });
   return res;
 };
 
-export const createNewChat = async (
+export const createNewThread = async (
   courseId: string,
   title: string,
   description: string
 ) => {
-  const res = await request('POST', '/chats/new', {
+  const res = await request('POST', '/threads/new', {
     courseId,
     title,
     description,

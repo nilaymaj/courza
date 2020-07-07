@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, matchPath } from 'react-router-dom';
-import { openChat, openCourse, resetActiveState } from '../redux/actions';
+import { openThread, openCourse, resetActiveState } from '../redux/actions';
 import { getActiveCourse } from '../redux/selectors';
 import { Schema } from 'yup';
 
@@ -54,11 +54,15 @@ export const useFormField = <T extends FieldValue>(
 
 /**
  * Parses current location using react-router's matchPath
- * to return current course ID and chat ID
+ * to return current course ID and thread ID
  */
 export const useStateFromRoute = (): RouteState => {
   const history = useHistory();
-  const matchURLs = ['/home/c/:courseId/:chatId', '/home/c/:courseId', '/home'];
+  const matchURLs = [
+    '/home/c/:courseId/:threadId',
+    '/home/c/:courseId',
+    '/home',
+  ];
   let data;
   for (const url of matchURLs) {
     data = matchPath(history.location.pathname, { path: url });
@@ -78,12 +82,12 @@ export const useAppNavigator = () => {
   const history = useHistory();
   const cId = activeCourse && activeCourse._id;
 
-  const goToChat = React.useCallback(
-    (chatId: string, courseId?: string): void => {
+  const goToThread = React.useCallback(
+    (threadId: string, courseId?: string): void => {
       if (!courseId) courseId = cId;
       if (!courseId) return;
-      dispatch(openChat(chatId));
-      history.push(`/home/c/${courseId}/${chatId}`);
+      dispatch(openThread(threadId));
+      history.push(`/home/c/${courseId}/${threadId}`);
     },
     [dispatch, history, cId]
   );
@@ -101,10 +105,10 @@ export const useAppNavigator = () => {
     history.push(`/home`);
   }, [dispatch, history]);
 
-  return { goToChat, goToCourse, goToHome };
+  return { goToThread, goToCourse, goToHome };
 };
 
 type RouteState = {
   courseId?: string;
-  chatId?: string;
+  threadId?: string;
 };

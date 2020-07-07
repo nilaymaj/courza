@@ -14,7 +14,7 @@ type Props = {
   loading: boolean;
 };
 
-const ChatInput = (props: Props) => {
+const ThreadInput = (props: Props) => {
   const [input, setInput] = React.useState<string>('');
   const textareaRef = React.useRef<null | HTMLTextAreaElement>(null);
   const { loading, onPost } = props;
@@ -72,4 +72,4 @@ const ChatInput = (props: Props) => {
   );
 };
 
-export default ChatInput;
+export default ThreadInput;

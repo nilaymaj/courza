@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getActiveCourse, getActiveChat } from '../../redux/selectors';
+import { getActiveCourse, getActiveThread } from '../../redux/selectors';
 import Sidebar from '../sidebar';
 import { useAppNavigator } from '../hooks';
 import * as mainIcon from '../../assets/icon-512.png';
@@ -17,7 +17,7 @@ import {
 
 const Topbar = () => {
   const course = useSelector(getActiveCourse);
-  const chat = useSelector(getActiveChat);
+  const thread = useSelector(getActiveThread);
   const appNav = useAppNavigator();
 
   const breadcrumbs = React.useMemo(() => {
@@ -32,13 +32,13 @@ const Topbar = () => {
           : () => {},
       },
     ];
-    if (chat) {
+    if (thread) {
       bc.push({
-        text: chat ? chat.title : '',
+        text: thread ? thread.title : '',
       });
     }
     return bc;
-  }, [course, chat, appNav]);
+  }, [course, thread, appNav]);
 
   return (
     <EuiHeader position="fixed">

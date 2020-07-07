@@ -12,17 +12,17 @@ export const getActiveCourse = (store: Store) => {
   return course;
 };
 
-export const getActiveChat = (store: Store) => {
+export const getActiveThread = (store: Store) => {
   if (!store) return;
   const course = getActiveCourse(store);
   if (!course) return;
-  const chat = course.chats.find((c) => c._id === store.activeChatId);
-  return chat;
+  const thread = course.threads.find((c) => c._id === store.activeThreadId);
+  return thread;
 };
 
-export const getCourseChats = (store: Store) => {
+export const getCourseThreads = (store: Store) => {
   if (!store) return;
   const course = getActiveCourse(store);
   if (!course) return;
-  return course.chats;
+  return course.threads;
 };

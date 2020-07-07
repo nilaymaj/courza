@@ -2,7 +2,7 @@ import { Request, Router } from 'express';
 import { IStudent } from '../models/student';
 import controller from './controller';
 import * as EnrolmentService from '../services/enrolmentService';
-import * as ChatService from '../services/chatService';
+import * as ThreadService from '../services/threadService';
 const router = Router();
 
 // Get basic student profile
@@ -30,8 +30,8 @@ router.get(
     const fullCourses = await Promise.all(
       courses.map(async (c) => {
         // @ts-ignore
-        const chats = await ChatService.getAll(c, true);
-        return { ...c, chats };
+        const threads = await ThreadService.getAll(c, true);
+        return { ...c, threads };
       })
     );
     return res.send({ ...basicInfo, courses: fullCourses });

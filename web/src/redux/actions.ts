@@ -1,4 +1,4 @@
-import { Course, Chat, Profile } from '../types';
+import { Course, Thread, Profile } from '../types';
 
 export interface Login {
   type: 'LOGIN';
@@ -11,15 +11,15 @@ export interface OpenCourse {
   courseId: string;
 }
 
-export interface OpenChat {
+export interface OpenThread {
   type: 'OPEN_CHAT';
-  chatId: string;
+  threadId: string;
 }
 
-export interface AddNewChat {
+export interface AddNewThread {
   type: 'ADD_NEW_CHAT';
   courseId: string;
-  chat: Chat;
+  thread: Thread;
 }
 
 export interface SetLoading {
@@ -34,8 +34,8 @@ export interface ResetActiveState {
 export type Action =
   | Login
   | OpenCourse
-  | OpenChat
-  | AddNewChat
+  | OpenThread
+  | AddNewThread
   | SetLoading
   | ResetActiveState;
 
@@ -55,17 +55,20 @@ export const openCourse = (courseId: string): OpenCourse => {
 };
 
 /**
- * Set active chat ID
+ * Set active thread ID
  */
-export const openChat = (chatId: string): OpenChat => {
-  return { type: 'OPEN_CHAT', chatId };
+export const openThread = (threadId: string): OpenThread => {
+  return { type: 'OPEN_CHAT', threadId };
 };
 
 /**
- * Add new chat to course with given ID
+ * Add new thread to course with given ID
  */
-export const addNewChat = (courseId: string, chat: Chat): AddNewChat => {
-  return { type: 'ADD_NEW_CHAT', courseId, chat };
+export const addNewThread = (
+  courseId: string,
+  thread: Thread
+): AddNewThread => {
+  return { type: 'ADD_NEW_CHAT', courseId, thread };
 };
 
 /**
@@ -76,7 +79,7 @@ export const setLoading = (loading: boolean): SetLoading => {
 };
 
 /**
- * Reset active course and active chat to null
+ * Reset active course and active thread to null
  */
 export const resetActiveState = (): ResetActiveState => {
   return { type: 'RESET_ACTIVE' };

@@ -4,32 +4,32 @@ import { ValidationError, NotFoundError } from '../utils/errors';
 import controller from '../routes/controller';
 import { Request } from 'express';
 import { ICourse } from '../models/course';
-import { IChat } from '../models/chat';
+import { IThread } from '../models/thread';
 import { IMessage } from '../models/message';
 
-// This middleware looks at studentId, courseId and chatId of the request body.
+// This middleware looks at studentId, courseId and threadId of the request body.
 // If any are found, the middleware attaches corresponding document object to the request.
 
 interface IObjectifyReq extends Request {
-  chat?: IChat;
+  thread?: IThread;
   course?: ICourse;
   message?: IMessage;
   body: {
     courseId: string;
-    chatId: string;
+    threadId: string;
     messageId: string;
   };
 }
 export default controller(async (req: IObjectifyReq, res, next) => {
-  const { courseId, chatId, messageId } = req.body;
+  const { courseId, threadId, messageId } = req.body;
   try {
     if (courseId) {
       req.course = await Services.CourseService.get(courseId);
       if (!req.course) throw new NotFoundError('Course not found');
     }
-    if (chatId) {
-      req.chat = await Services.ChatService.get(chatId);
-      if (!req.chat) throw new NotFoundError('Chat not found');
+    if (threadId) {
+      req.thread = await Services.ThreadService.get(threadId);
+      if (!req.thread) throw new NotFoundError('Thread not found');
     }
     if (messageId) {
       req.message = await Services.MessageService.get(messageId);

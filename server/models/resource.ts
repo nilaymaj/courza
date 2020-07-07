@@ -1,6 +1,6 @@
 import mng from 'mongoose';
 
-// Documnet interface
+// Document interface
 export interface IResource extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;

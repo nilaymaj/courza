@@ -1,16 +1,16 @@
 [
   {
-    "_id": "idOfChat1",
+    "_id": "idOfThread1",
     "title": "Postponing the quiz",
     "body": "Can we postpone the quiz to some other date?"
   },
   {
-    "_id": "idOfChat2",
+    "_id": "idOfThread2",
     "title": "Lecture notes should be sent",
     "body": "Can we ask the professor to send lecture notes?"
   },
   {
-    "_id": "idOfChat3",
+    "_id": "idOfThread3",
     "title": "Assassinate the professor",
     "body": "Can we hire someone to assassinate the professor?"
   }

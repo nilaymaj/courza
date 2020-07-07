@@ -6,7 +6,7 @@ export interface IMessage extends mng.Document {
   author: mng.Types.ObjectId;
   content: string;
   votes: number;
-  chat: mng.Types.ObjectId;
+  thread: mng.Types.ObjectId;
 }
 
 export interface IMessageInfo {
@@ -14,7 +14,7 @@ export interface IMessageInfo {
   author: { _id: mng.Types.ObjectId; name: string };
   content: string;
   votes: number;
-  chatId: mng.Types.ObjectId;
+  threadId: mng.Types.ObjectId;
 }
 
 // Statics interface
@@ -40,9 +40,9 @@ const messageSchema = new mng.Schema<IMessage>(
       default: 0,
       required: true,
     },
-    chat: {
+    thread: {
       type: mng.Types.ObjectId,
-      ref: 'Chat',
+      ref: 'Thread',
       required: true,
     },
   },

@@ -7,7 +7,7 @@ export interface Store {
   loading: boolean;
   courses: Course[];
   activeCourseId: string | null;
-  activeChatId: string | null;
+  activeThreadId: string | null;
 }
 
 const initialState: Store = {
@@ -16,7 +16,7 @@ const initialState: Store = {
   loading: true,
   courses: [],
   activeCourseId: null,
-  activeChatId: null,
+  activeThreadId: null,
 };
 
 export default function (state = initialState, action: Action) {
@@ -31,13 +31,13 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         activeCourseId: courseId,
-        activeChatId: null,
+        activeThreadId: null,
       };
     }
     case 'OPEN_CHAT': {
       return {
         ...state,
-        activeChatId: action.chatId,
+        activeThreadId: action.threadId,
       };
     }
     case 'LOGIN': {
@@ -56,14 +56,14 @@ export default function (state = initialState, action: Action) {
       };
     }
     case 'ADD_NEW_CHAT': {
-      const { courseId, chat } = action;
+      const { courseId, thread } = action;
       const newCourses = [...state.courses];
       const course = newCourses.find((c) => c._id === courseId);
       if (!course) {
-        console.warn('Tried to add chat for non-existent course');
+        console.warn('Tried to add thread for non-existent course');
         return state;
       }
-      course.chats.push(chat);
+      course.threads.push(thread);
       return {
         ...state,
         courses: newCourses,
@@ -72,7 +72,7 @@ export default function (state = initialState, action: Action) {
     case 'RESET_ACTIVE': {
       return {
         ...state,
-        activeChatId: null,
+        activeThreadId: null,
         activeCourseId: null,
       };
     }

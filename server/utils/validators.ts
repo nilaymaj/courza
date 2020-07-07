@@ -47,7 +47,7 @@ export const validateCourse = (body: { name: string; code: string }) => {
   );
 };
 
-export const validateChat = (
+export const validateThread = (
   body: { title: string; description?: string },
   titleOnly?: boolean
 ) => {

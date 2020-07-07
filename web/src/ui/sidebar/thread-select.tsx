@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAppNavigator } from '../hooks';
 import {
-  getCourseChats,
-  getActiveChat,
+  getCourseThreads,
+  getActiveThread,
   getActiveCourse,
 } from '../../redux/selectors';
-import { addNewChat } from '../../redux/actions';
-import CreateChatDialog from '../dialogs/create-chat-dialog';
-import { createNewChat } from '../../utils/requests';
+import { addNewThread } from '../../redux/actions';
+import CreateThreadDialog from '../dialogs/create-thread-dialog';
+import { createNewThread } from '../../utils/requests';
 import {
   EuiCollapsibleNavGroup,
   EuiButtonIcon,
@@ -17,21 +17,21 @@ import {
   EuiEmptyPrompt,
 } from '@elastic/eui';
 
-const ChatSelect = () => {
+const ThreadSelect = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch();
-  const chats = useSelector(getCourseChats);
+  const threads = useSelector(getCourseThreads);
   const activeCourse = useSelector(getActiveCourse);
-  const activeChat = useSelector(getActiveChat);
+  const activeThread = useSelector(getActiveThread);
   const appNav = useAppNavigator();
 
-  const handleCreateChat = async (title: string, description: string) => {
+  const handleCreateThread = async (title: string, description: string) => {
     const courseId = activeCourse && activeCourse._id;
     if (!courseId)
-      return console.warn('Cannot create chat when no course is open.');
-    const newChat = await createNewChat(courseId, title, description);
-    dispatch(addNewChat(courseId, newChat));
-    appNav.goToChat(newChat._id, courseId);
+      return console.warn('Cannot create thread when no course is open.');
+    const newThread = await createNewThread(courseId, title, description);
+    dispatch(addNewThread(courseId, newThread));
+    appNav.goToThread(newThread._id, courseId);
   };
 
   return (
@@ -50,12 +50,12 @@ const ChatSelect = () => {
           ></EuiButtonIcon>
         }
       >
-        {chats && chats.length ? (
+        {threads && threads.length ? (
           <EuiListGroup maxWidth="none" color="subdued">
-            {chats.map((c) => {
-              const active = activeChat ? c._id === activeChat._id : false;
+            {threads.map((c) => {
+              const active = activeThread ? c._id === activeThread._id : false;
               return (
-                <div onClick={() => appNav.goToChat(c._id)} key={c._id}>
+                <div onClick={() => appNav.goToThread(c._id)} key={c._id}>
                   <EuiListGroupItem
                     label={c.title}
                     isActive={active}
@@ -82,13 +82,13 @@ const ChatSelect = () => {
         )}
       </EuiCollapsibleNavGroup>
       {dialogOpen && (
-        <CreateChatDialog
-          onCreate={handleCreateChat}
+        <CreateThreadDialog
+          onCreate={handleCreateThread}
           onClose={() => setDialogOpen(false)}
-        ></CreateChatDialog>
+        ></CreateThreadDialog>
       )}
     </>
   );
 };
 
-export default ChatSelect;
+export default ThreadSelect;

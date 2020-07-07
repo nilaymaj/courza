@@ -28,7 +28,7 @@ const sampleCourses = [
   },
 ];
 
-const sampleChats = [
+const sampleThreads = [
   {
     title: 'Any info about major quiz 1?',
     description: 'Does anyone have any information about major quiz 1?',
@@ -69,29 +69,29 @@ const populate = async () => {
   await Services.EnrolmentService.joinCourse(student2, course1);
   await Services.EnrolmentService.joinCourse(student2, course2);
 
-  // Create both chats in first course
-  const chat1 = await Services.ChatService.createChat(
+  // Create both threads in first course
+  const thread1 = await Services.ThreadService.createThread(
     course1,
     student1,
-    sampleChats[0].title,
-    sampleChats[0].description
+    sampleThreads[0].title,
+    sampleThreads[0].description
   );
-  const chat2 = await Services.ChatService.createChat(
+  const thread2 = await Services.ThreadService.createThread(
     course1,
     student2,
-    sampleChats[1].title,
-    sampleChats[1].description
+    sampleThreads[1].title,
+    sampleThreads[1].description
   );
 
-  // Add some messages in first chat
+  // Add some messages in first thread
   await Services.MessageService.postNew(
     student2,
-    chat1,
+    thread1,
     sampleMessages[0].content
   );
   await Services.MessageService.postNew(
     student1,
-    chat1,
+    thread1,
     sampleMessages[1].content
   );
 };

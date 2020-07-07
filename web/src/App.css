@@ -90,12 +90,12 @@
   width: 350px;
 }
 
-.cz-chat__wrapper {
+.cz-thread__wrapper {
   height: 100%;
   display: flex;
 }
 
-.cz-chat__messagepanel {
+.cz-thread__messagepanel {
   height: 100%;
   display: flex;
   flex: 7;
@@ -103,17 +103,17 @@
   justify-content: center;
 }
 
-.cz-chat__chatpanel {
+.cz-thread__threadpanel {
   flex: 3;
 }
 
 @media (max-width: 1111px) {
-  .cz-chat__chatpanel {
+  .cz-thread__threadpanel {
     display: none;
   }
 }
 
-.cz-chatpanel__wrapper {
+.cz-threadpanel__wrapper {
   height: 100%;
 }
 
@@ -141,4 +141,4 @@
   z-index: 10000 !important;
 }
 
-@import './ui/chat-screen/style.css';
+@import './ui/thread-screen/style.css';

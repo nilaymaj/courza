@@ -20,7 +20,7 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
-  background: url('../../assets/chat-bg-white.jpg');
+  background: url('../../assets/thread-bg-white.jpg');
 }
 
 .cz-messages__list {

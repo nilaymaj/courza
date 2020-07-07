@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Topbar from './topbar';
-import ChatScreen from './chat-screen';
+import ThreadScreen from './thread-screen';
 import CourseHome from './course-home';
 import Dashboard from './dashboard';
 import { useStateFromRoute } from './hooks';
-import { openCourse, openChat } from '../redux/actions';
+import { openCourse, openThread } from '../redux/actions';
 import LoadingPage from './loading-page';
 import ResourcesScreen from './resources-screen';
 
@@ -29,7 +29,7 @@ const MainContainer = () => {
   React.useEffect(() => {
     if (!appState) return;
     if (appState.courseId) dispatch(openCourse(appState.courseId));
-    if (appState.chatId) dispatch(openChat(appState.chatId));
+    if (appState.threadId) dispatch(openThread(appState.threadId));
     setLoading(false);
     return () => setLoading(true);
   }, [appState, dispatch]);
@@ -62,8 +62,8 @@ const MainContainer = () => {
           render={() => <ResourcesScreen />}
         ></Route>
         <Route
-          path={match.url + '/c/:courseId/:chatId'}
-          render={() => <ChatScreen />}
+          path={match.url + '/c/:courseId/:threadId'}
+          render={() => <ThreadScreen />}
         ></Route>
       </Switch>
     </>
