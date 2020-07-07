@@ -47,6 +47,12 @@ export default function (state = initialState, action: Action) {
         resourcesOpen: false,
       };
     }
+    case 'OPEN_RESOURCES': {
+      return {
+        ...state,
+        resourcesOpen: true,
+      };
+    }
     case 'LOGIN': {
       const { profile, courses } = action;
       return {
@@ -81,6 +87,7 @@ export default function (state = initialState, action: Action) {
         ...state,
         activeThreadId: null,
         activeCourseId: null,
+        resourcesOpen: false,
       };
     }
     default:

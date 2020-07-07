@@ -16,6 +16,10 @@ export interface OpenThread {
   threadId: string;
 }
 
+export interface OpenResources {
+  type: 'OPEN_RESOURCES';
+}
+
 export interface AddNewThread {
   type: 'ADD_NEW_THREAD';
   courseId: string;
@@ -35,6 +39,7 @@ export type Action =
   | Login
   | OpenCourse
   | OpenThread
+  | OpenResources
   | AddNewThread
   | SetLoading
   | ResetActiveState;
@@ -59,6 +64,13 @@ export const openCourse = (courseId: string): OpenCourse => {
  */
 export const openThread = (threadId: string): OpenThread => {
   return { type: 'OPEN_THREAD', threadId };
+};
+
+/**
+ * Open resources page of current course
+ */
+export const openResources = (): OpenResources => {
+  return { type: 'OPEN_RESOURCES' };
 };
 
 /**

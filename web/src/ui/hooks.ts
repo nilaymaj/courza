@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, matchPath } from 'react-router-dom';
-import { openThread, openCourse, resetActiveState } from '../redux/actions';
+import {
+  openThread,
+  openCourse,
+  resetActiveState,
+  openResources,
+} from '../redux/actions';
 import { getActiveCourse } from '../redux/selectors';
 import { Schema } from 'yup';
 
@@ -68,6 +73,10 @@ export const useStateFromRoute = (): RouteState => {
     data = matchPath(history.location.pathname, { path: url });
     if (data) break;
   }
+
+  // TODO: Fix this please
+  // @ts-ignore
+  if (data.params.threadId === 'resources') data.params.resourcesOpen = true;
   // @ts-ignore
   return data && data.params;
 };
@@ -100,15 +109,21 @@ export const useAppNavigator = () => {
     [dispatch, history]
   );
 
+  const goToResources = React.useCallback(() => {
+    dispatch(openResources());
+    history.push(`/home/c/${cId}/resources`);
+  }, [dispatch, history, cId]);
+
   const goToHome = React.useCallback((): void => {
     dispatch(resetActiveState());
     history.push(`/home`);
   }, [dispatch, history]);
 
-  return { goToThread, goToCourse, goToHome };
+  return { goToThread, goToCourse, goToHome, goToResources };
 };
 
 type RouteState = {
   courseId?: string;
   threadId?: string;
+  resourcesOpen?: boolean;
 };
