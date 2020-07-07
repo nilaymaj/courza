@@ -1,11 +1,13 @@
 import AWS from 'aws-sdk';
-import path from 'path';
 import fs from 'fs';
 import { warn } from './logger';
 import { Metafile } from '../types';
+import { NotFoundError } from './errors';
 
-const filepath = '../utils/token.ts';
 let S3Instance: null | AWS.S3 = null;
+const FILE_URL_REGEX = /https:\/\/courza.s3.ap-south-1.amazonaws.com\/([^\/]+)\/([^\/]+)\/([^\/]+)/;
+
+type Category = 'resources' | 'profile' | 'image';
 
 export const initStorage = async () => {
   AWS.config.loadFromPath('./keys/aws-credentials.json');
@@ -14,7 +16,6 @@ export const initStorage = async () => {
       if (err) reject(err);
       else {
         S3Instance = new AWS.S3();
-        // _testFileUpload();
         resolve();
       }
     });
@@ -28,25 +29,34 @@ const _getS3 = () => {
   return S3Instance;
 };
 
-const _testFileUpload = async () => {
-  const filedata = fs.readFileSync(path.join(__dirname, filepath));
-  const S3 = _getS3();
-  const params = { Bucket: 'courza', Key: 'test/sometoken.ts', Body: filedata };
-  S3.upload(params)
-    .promise()
-    .then(() => console.log('Uploaded test file'))
-    .catch((err) => console.log(err));
-};
-
-export const uploadFile = async (metafile: Metafile) => {
+/**
+ * Uploads a file of given category to AWS storage
+ */
+export const upload = async (category: Category, metafile: Metafile) => {
   const S3 = _getS3();
   const filestream = fs.createReadStream(metafile.path);
   const params: AWS.S3.PutObjectRequest = {
     Bucket: 'courza',
-    Key: `resources/${metafile.filename}/${metafile.originalname}`,
+    Key: `${category}/${metafile.filename}/${metafile.originalname}`,
     Body: filestream,
     ContentType: metafile.mimetype,
   };
   const res = await S3.upload(params).promise();
   return res.Location;
+};
+
+/**
+ * Destroys file at given path in AWS storage
+ */
+export const destroy = async (filePath: string) => {
+  const S3 = _getS3();
+  const matches = filePath.match(FILE_URL_REGEX);
+  if (!matches) throw new NotFoundError('Invalid file URL');
+  const [_, category, folder, filename] = matches;
+  const params: AWS.S3.DeleteObjectRequest = {
+    Bucket: 'courza',
+    Key: `${category}/${folder}/${filename}`,
+  };
+  const res = await S3.deleteObject(params).promise();
+  warn(`AWS Delete object response: ${res.$response}`, 'aws');
 };

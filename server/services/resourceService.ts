@@ -1,7 +1,7 @@
 import Resource from '../models/resource';
 import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
-import { uploadFile } from '../utils/storage';
+import * as Cloud from '../utils/storage';
 import { Metafile } from '../types';
 import { validatePdf } from '../utils/validators';
 
@@ -15,7 +15,7 @@ export const uploadPdf = async (
   metafile: Metafile
 ) => {
   validatePdf(metafile);
-  const url = await uploadFile(metafile);
+  const url = await Cloud.upload('resources', metafile);
   const resource = new Resource({
     student: student._id,
     course: course._id,
