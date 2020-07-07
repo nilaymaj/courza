@@ -66,7 +66,7 @@ const ThreadSelect = () => {
                     style={{
                       padding: 10,
                       background: active
-                        ? 'rgba(211, 218, 230, 0.25)'
+                        ? 'rgba(128, 128, 128, 0.07)'
                         : undefined,
                     }}
                   ></EuiListGroupItem>

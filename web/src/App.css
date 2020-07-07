@@ -24,13 +24,12 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 0.5em;
+  width: 0.3em;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  /* background: transparent; */
-  background: rgb(230, 230, 230);
+  background: transparent;
   right: 10px;
   margin-right: 10px;
 }
