@@ -3,14 +3,13 @@ import { useSelector } from 'react-redux';
 import {
   EuiPanel,
   EuiEmptyPrompt,
-  EuiFlexGrid,
-  EuiFlexItem,
   EuiAccordion,
   EuiButtonIcon,
+  EuiListGroup,
 } from '@elastic/eui';
 import { getActiveCourse } from '../../redux/selectors';
 import { Resource, Course } from '../../types/index';
-import ResourceCard from './resource-card';
+import ResourceListItem from './resource-list-item';
 import { getAllCourseResources, postNewResource } from '../../utils/requests';
 import UploadResourceDialog from '../dialogs/upload-resource-dialog';
 import { usePageTitle } from '../hooks';
@@ -60,13 +59,11 @@ const ResourcesScreen = () => {
               }
               paddingSize="l"
             >
-              <EuiFlexGrid gutterSize="s" columns={3}>
+              <EuiListGroup flush maxWidth={false}>
                 {resources.map((r) => (
-                  <EuiFlexItem key={r._id}>
-                    <ResourceCard resource={r}></ResourceCard>
-                  </EuiFlexItem>
+                  <ResourceListItem resource={r}></ResourceListItem>
                 ))}
-              </EuiFlexGrid>
+              </EuiListGroup>
             </EuiAccordion>
           )}
         </EuiPanel>
