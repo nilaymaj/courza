@@ -16,6 +16,7 @@ interface IUploadPdfReq extends Request {
   file: Metafile;
   body: {
     name: string;
+    category: string;
   };
 }
 router.post(
@@ -24,8 +25,12 @@ router.post(
   objectify,
   controller(async (req: IUploadPdfReq, res) => {
     const { user, course, file } = req;
-    const { name } = req.body;
-    const resource = await ResourceService.uploadPdf(user, course, name, file);
+    const resource = await ResourceService.uploadPdf(
+      user,
+      course,
+      file,
+      req.body
+    );
     fs.unlink(req.file.path, (err) => {
       if (err) console.log(err);
       else console.log('Deleted file');

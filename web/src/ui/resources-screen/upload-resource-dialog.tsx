@@ -22,7 +22,8 @@ import {
 const nameValidator = yup.string().required().max(16).min(2);
 
 type Props = {
-  onUpload: (name: string, file: File) => Promise<void>;
+  category: string;
+  onUpload: (name: string, file: File, category: string) => Promise<void>;
   onClose: () => void;
 };
 
@@ -36,12 +37,13 @@ const UploadResourceDialog = (props: Props) => {
     if (file === null) return;
     setLoading(true);
     try {
-      await props.onUpload(name, file);
+      await props.onUpload(name, file, props.category);
       props.onClose();
     } catch (err) {
       const status = err.response.status;
       if (status === 400)
         setFormError("Invalid data. Check the information you've provided.");
+      else setFormError('An unknown error occured. Try again later.');
     }
     setLoading(false);
   };

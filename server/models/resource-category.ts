@@ -1,29 +1,23 @@
 import mng from 'mongoose';
 
 // Document interface
-export interface IResource extends mng.Document {
+export interface IResourceCategory extends mng.Document {
   _id: mng.Types.ObjectId;
   name: string;
-  url: string;
   student: mng.Types.ObjectId;
   course: mng.Types.ObjectId;
-  category: mng.Types.ObjectId;
 }
 
 // Statics interface
-interface IStatics extends mng.Model<IResource> {}
+interface IStatics extends mng.Model<IResourceCategory> {}
 
 // Database schema
-const resourceSchema = new mng.Schema<IResource>(
+const resourceCategorySchema = new mng.Schema<IResourceCategory>(
   {
     name: {
       type: String,
       minlength: 5,
       maxlength: 30,
-      required: true,
-    },
-    url: {
-      type: String,
       required: true,
     },
     student: {
@@ -36,14 +30,15 @@ const resourceSchema = new mng.Schema<IResource>(
       ref: 'Course',
       required: true,
     },
-    category: {
-      type: mng.Types.ObjectId,
-      ref: 'ResourceCategory',
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
-const Resource = mng.model<IResource, IStatics>('Resource', resourceSchema);
-export default Resource;
+// Create compound index of name and course
+resourceCategorySchema.index({ name: 1, course: 1 }, { unique: true });
+
+const ResourceCategory = mng.model<IResourceCategory, IStatics>(
+  'ResourceCategory',
+  resourceCategorySchema
+);
+export default ResourceCategory;

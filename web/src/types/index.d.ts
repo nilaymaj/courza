@@ -32,4 +32,8 @@ export interface Resource {
     name: string;
     _id: string;
   };
+  category: {
+    name: string;
+    _id: string;
+  };
 }

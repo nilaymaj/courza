@@ -74,12 +74,14 @@ export const getAllCourseResources = async (
 export const postNewResource = async (
   courseId: string,
   name: string,
-  file: File
+  file: File,
+  category: string
 ) => {
   const formData = new FormData();
   formData.append('name', name);
-  formData.append('file', file);
+  formData.append('category', category);
   formData.append('courseId', courseId);
+  formData.append('file', file);
   const res = await request('POST', '/resources/new', formData);
   return res;
 };

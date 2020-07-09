@@ -1,4 +1,7 @@
 import Resource from '../models/resource';
+import ResourceCategory, {
+  IResourceCategory,
+} from '../models/resource-category';
 import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
 import * as Cloud from '../utils/storage';
@@ -11,15 +14,32 @@ import { validatePdf } from '../utils/validators';
 export const uploadPdf = async (
   student: IStudent,
   course: ICourse,
-  name: string,
-  metafile: Metafile
+  metafile: Metafile,
+  data: { name: string; category: string }
 ) => {
   validatePdf(metafile);
+  // Check if category exists, otherwise create one.
+  let category: IResourceCategory;
+  category = await ResourceCategory.findOne({
+    name: data.category,
+    course: course._id,
+  });
+  if (!category) {
+    category = new ResourceCategory({
+      name: data.category,
+      student: student._id,
+      course: course._id,
+    });
+    await category.save();
+  }
+  // Upload file to cloud
   const url = await Cloud.upload('resources', metafile);
+  // Create resource in database
   const resource = new Resource({
     student: student._id,
     course: course._id,
-    name,
+    name: data.name,
+    category: category._id,
     url,
   });
   await resource.save();
@@ -32,6 +52,7 @@ export const uploadPdf = async (
 export const getAll = async (course: ICourse, lean = false) => {
   const allResources = Resource.find({ course: course._id })
     .populate('student', ['_id', 'name'])
+    .populate('category', ['_id', 'name'])
     .lean(lean);
   return allResources;
 };
