@@ -3,32 +3,30 @@ import { IStudent } from '../models/student';
 import { ICourse } from '../models/course';
 import * as ResourceService from '../services/resourceService';
 import { Metafile } from '../types';
-import controller from './controller';
+import controller, { getByIdOrThrow } from './controller';
 import upload from '../middleware/file';
 import fs from 'fs';
-import { objectify } from '../middleware';
 const router = Router();
 
 // Upload a PDF resource
 interface IUploadPdfReq extends Request {
-  course: ICourse;
   user: IStudent;
   file: Metafile;
   body: {
     name: string;
     category: string;
+    courseId: string;
   };
 }
 router.post(
   '/new',
   upload.single('file'),
-  objectify,
   controller(async (req: IUploadPdfReq, res) => {
-    const { user, course, file } = req;
+    const course = await getByIdOrThrow('Course', req.body.courseId);
     const resource = await ResourceService.uploadPdf(
-      user,
+      req.user,
       course,
-      file,
+      req.file,
       req.body
     );
     fs.unlink(req.file.path, (err) => {
@@ -41,12 +39,15 @@ router.post(
 
 // View all course resources
 interface IViewResourcesReq extends Request {
-  course: ICourse;
+  body: {
+    courseId: string;
+  };
 }
 router.post(
   '/all',
   controller(async (req: IViewResourcesReq, res) => {
-    const resources = await ResourceService.getAll(req.course, true);
+    const course = await getByIdOrThrow('Course', req.body.courseId);
+    const resources = await ResourceService.getAll(course, true);
     res.send(resources);
   })
 );

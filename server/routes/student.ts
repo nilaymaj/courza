@@ -8,6 +8,7 @@ const router = Router();
 // Get basic student profile
 interface IProfileReq extends Request {
   user: IStudent;
+  body: {};
 }
 router.get(
   '/profile',
@@ -20,6 +21,7 @@ router.get(
 // Get full student profile
 interface IFullProfileReq extends Request {
   user: IStudent;
+  body: {};
 }
 router.get(
   '/fullprofile',

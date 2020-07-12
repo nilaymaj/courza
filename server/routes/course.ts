@@ -6,7 +6,6 @@ const router = Router();
 
 // Create new course
 interface INewCourseReq extends Request {
-  user: IStudent;
   body: {
     name: string;
     code: string;
@@ -22,7 +21,9 @@ router.post(
 );
 
 // View all courses
-interface IAllCoursesReq extends Request {}
+interface IAllCoursesReq extends Request {
+  body: {};
+}
 router.get(
   '/all',
   controller(async (req: IAllCoursesReq, res) => {

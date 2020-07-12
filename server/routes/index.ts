@@ -14,7 +14,6 @@ const router = Router();
 
 router.use('/auth', AuthRouter);
 router.use(Mw.auth);
-router.use(Mw.objectify);
 router.use('/enrol', EnrolmentRouter);
 router.use('/courses', CourseRouter);
 router.use('/threads', ThreadRouter);

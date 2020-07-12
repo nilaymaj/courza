@@ -2,19 +2,22 @@ import * as EnrolmentService from '../services/enrolmentService';
 import { Router, Request } from 'express';
 import { ICourse } from '../models/course';
 import { IStudent } from '../models/student';
-import controller from './controller';
+import controller, { getByIdOrThrow } from './controller';
 const router = Router();
 
 // Enrol student in course
 interface IJoinCourseReq extends Request {
   user: IStudent;
+  body: {
+    courseId: string;
+  };
   course: ICourse;
 }
 router.post(
   '/join',
   controller(async (req: IJoinCourseReq, res) => {
-    const { user, course } = req;
-    await EnrolmentService.joinCourse(user, course);
+    const course = await getByIdOrThrow('Course', req.body.courseId);
+    await EnrolmentService.joinCourse(req.user, course);
     return res.send(course);
   })
 );
@@ -22,13 +25,15 @@ router.post(
 // Deregister student from course
 interface IUnenrolCourseReq extends Request {
   user: IStudent;
-  course: ICourse;
+  body: {
+    courseId: string;
+  };
 }
 router.post(
   '/leave',
   controller(async (req: IUnenrolCourseReq, res) => {
-    const { user, course } = req;
-    await EnrolmentService.leaveCourse(user, course);
+    const course = await getByIdOrThrow('Course', req.body.courseId);
+    await EnrolmentService.leaveCourse(req.user, course);
     res.send(course);
   })
 );
@@ -36,6 +41,7 @@ router.post(
 // View student's courses
 interface IStudCoursesReq extends Request {
   user: IStudent;
+  body: {};
 }
 router.get(
   '/view',
