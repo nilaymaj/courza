@@ -14,7 +14,7 @@ const request = async (method: Method, url: string, data?: {}) => {
 };
 
 export const viewAllThreads = async (courseId: string) => {
-  const res = await request('POST', '/threads/all', { courseId });
+  const res = await request('GET', `/threads/all?courseId=${courseId}`);
   return res;
 };
 
@@ -42,7 +42,7 @@ export const login = async (iitkEmail: string, password: string) => {
 };
 
 export const getThreadMessages = async (threadId: string) => {
-  const res = await request('POST', '/messages/all', { threadId });
+  const res = await request('GET', `/messages/all?threadId=${threadId}`);
   return res;
 };
 
@@ -67,7 +67,7 @@ export const createNewThread = async (
 export const getAllCourseResources = async (
   courseId: string
 ): Promise<Resource[]> => {
-  const res = await request('POST', '/resources/all', { courseId });
+  const res = await request('GET', `/resources/all?courseId=${courseId}`);
   return res;
 };
 

@@ -27,14 +27,15 @@ router.post(
 
 // View all threads of a course
 interface IAllThreadsReq extends Request {
-  body: {
+  query: {
     courseId: string;
   };
+  body: {};
 }
-router.post(
+router.get(
   '/all',
   controller(async (req: IAllThreadsReq, res) => {
-    const course = await getByIdOrThrow('Course', req.body.courseId);
+    const course = await getByIdOrThrow('Course', req.query.courseId);
     const threads = await ThreadService.getAll(course, true);
     return res.send(threads);
   })

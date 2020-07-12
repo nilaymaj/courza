@@ -44,6 +44,7 @@ export const getByIdOrThrow = async <T extends keyof AllModelDocs>(
 ): Promise<CreatedDoc<T>> => {
   const mdl = mng.model(model);
   try {
+    console.log(`Finding id ${id} in model ${mdl.modelName}`);
     const doc = await mdl.findById(id);
     if (!doc) throw new Error(); // Skip to catch block
     return <CreatedDoc<T>>doc;

@@ -39,14 +39,15 @@ router.post(
 
 // View all course resources
 interface IViewResourcesReq extends Request {
-  body: {
+  body: {};
+  query: {
     courseId: string;
   };
 }
-router.post(
+router.get(
   '/all',
   controller(async (req: IViewResourcesReq, res) => {
-    const course = await getByIdOrThrow('Course', req.body.courseId);
+    const course = await getByIdOrThrow('Course', req.query.courseId);
     const resources = await ResourceService.getAll(course, true);
     res.send(resources);
   })

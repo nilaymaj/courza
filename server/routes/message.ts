@@ -6,14 +6,15 @@ const router = Router();
 
 // View all messages of thread
 interface IAllMessagesReq extends Request {
-  body: {
+  body: {};
+  query: {
     threadId: string;
   };
 }
-router.post(
+router.get(
   '/all',
   controller(async (req: IAllMessagesReq, res) => {
-    const thread = await getByIdOrThrow('Thread', req.body.threadId);
+    const thread = await getByIdOrThrow('Thread', req.query.threadId);
     const messages = await MessageService.getAll(thread);
     return res.send(messages);
   })
