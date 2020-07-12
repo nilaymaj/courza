@@ -27,7 +27,11 @@ router.post(
     const student = await AuthService.login(iitkEmail, password);
     const token = AuthService.getToken(student);
     const profile = student.getInfo();
-    res.cookie('cz-token', token).send(profile);
+    res
+      .cookie('cz-token', token, {
+        sameSite: 'none',
+      })
+      .send(profile);
   })
 );
 

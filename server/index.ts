@@ -13,7 +13,7 @@ import http from 'http';
 const server = http.createServer(app);
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'http://test.lclhost.com:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
