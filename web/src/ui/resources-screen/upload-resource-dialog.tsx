@@ -2,6 +2,7 @@ import * as React from 'react';
 import { EuiCallOut } from '@elastic/eui';
 import * as yup from 'yup';
 import { useFormField } from '../hooks';
+import { validateFile } from '../../utils/base';
 
 import {
   EuiButton,
@@ -32,6 +33,7 @@ const UploadResourceDialog = (props: Props) => {
   const [loading, setLoading] = React.useState(false);
   const [file, setFile] = React.useState<File | null>(null);
   const [name, setName, nameError] = useFormField('', nameValidator);
+  const [fileError, setFileError] = React.useState<string | null>(null);
 
   const handleUpload = async () => {
     if (file === null) return;
@@ -49,10 +51,15 @@ const UploadResourceDialog = (props: Props) => {
   };
 
   const handleFileChange = (files: FileList | null) => {
-    if (files === null) return;
+    if (files === null || files.length === 0) return;
     const file = files[0];
     // Add any validation here
-    setFile(file);
+    const err = validateFile(file, {
+      mimetypes: ['application/pdf'],
+      maxSize: 9000,
+    });
+    if (!err) return setFile(file);
+    setFileError(err);
   };
 
   return (
@@ -77,7 +84,7 @@ const UploadResourceDialog = (props: Props) => {
             <EuiFormRow
               label="Name"
               helpText="Keep it short and descriptive"
-              isInvalid={!!nameError}
+              isInvalid={!!nameError || !name}
               error={nameError}
             >
               <EuiFieldText
@@ -87,12 +94,15 @@ const UploadResourceDialog = (props: Props) => {
               />
             </EuiFormRow>
             <EuiSpacer />
-            <EuiFormRow label="File" helpText="Try to keep it under 2 MB">
+            <EuiFormRow
+              label="File"
+              helpText="Try to keep it under 2 MB"
+              isInvalid={!!fileError}
+              error={fileError}
+            >
               <EuiFilePicker
-                id="asdf2"
-                initialPromptText="Select or drag and drop a file"
+                isInvalid={!!fileError}
                 onChange={handleFileChange}
-                aria-label="Use aria labels when no actual label is in use"
               />
             </EuiFormRow>
           </EuiForm>
