@@ -1,11 +1,13 @@
 import { animateScroll, scroller } from 'react-scroll';
 import mdIt from 'markdown-it';
-import mdSlack from 'markdown-it-slack';
+import mdSlack from 'slack-markdown-it';
+import mdEmoji from 'markdown-it-emoji';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { postMessage, getThreadMessages } from '../../utils/requests';
 import { getProfile, getActiveThread } from '../../redux/selectors';
 import { Profile, Thread } from '../../types';
+import twemoji from 'twemoji';
 
 // Type for fetched message
 export type RawMessage = {
@@ -105,17 +107,19 @@ export const scrollToMessage = (messageId: string, instant?: boolean) => {
 };
 
 /**
- * Converts plaintext with newline '\n's to JSX
+ * Converts markdown text with newline '\n's and
+ * emoji-text to corresponding JSX
  *
- * @param {string} content Plaintext
+ * @param {string} content Markdown plaintext
  * @returns {Array<React.Node>} Corresponding JSX
  */
 export const parseContentToJsx = (content: string): string => {
   const md = mdIt({ breaks: true, linkify: true });
-  md.block.ruler.enableOnly(['paragraph']);
   md.use(mdSlack);
-  const result = md.render(content);
-  return result;
+  md.use(mdEmoji);
+  md.block.ruler.enableOnly(['paragraph']);
+  md.renderer.rules.emoji = (token, idx) => twemoji.parse(token[idx].content);
+  return md.render(content);
 };
 
 /**
