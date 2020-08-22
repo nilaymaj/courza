@@ -25,13 +25,14 @@ cd server
 yarn start
 ```
 
-This starts up the Webpack dev bundler and runs the server. Make sure the `mongod` service is running (you can start it with `sudo service mongod start`).
+This starts up the Webpack dev bundler and runs the server. Make sure the MongoDB service is running on your system.
 
 If the app runs fine, you should see the following lines logged at the end:
 
 ```
 [server] Started server at port 8000
 [db] Successfully connected to database.
+[aws] Credentials loaded successfully
 ```
 
 ### Starting the web-app
@@ -40,9 +41,3 @@ If the app runs fine, you should see the following lines logged at the end:
 cd web
 yarn start
 ```
-
-**Note:** Chrome has a security feature that disables setting cookies on localhost, so login will not work. To work around this, run Chrome with web security disables as follows:
-
-`google-chrome --disable-web-security --user-data-dir=<some temp dir>`
-
-There are alternative workarounds mentioned on the web. If you can get any to work, please share!
