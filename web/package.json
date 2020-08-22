@@ -2,6 +2,7 @@
   "name": "courza-web",
   "version": "1.0.0",
   "private": true,
+  "proxy": "http://localhost:8000/api",
   "dependencies": {
     "@elastic/datemath": "^5.0.3",
     "@elastic/eui": "^22.6.0",

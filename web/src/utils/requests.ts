@@ -2,17 +2,14 @@ import axios from 'axios';
 import { Resource } from '../types';
 type Method = 'POST' | 'GET';
 
-const BASE_URL =
-  process.env.COURZA_BASE_URL || 'http://test.lclhost.com:8000/api';
-
-const request = async (method: Method, url: string, data?: {}) => {
-  const res = await axios({
+const request = async (method: Method, url: string, data?: any) => {
+  const response = await axios({
     method,
     data,
-    url: BASE_URL + url,
+    url,
     withCredentials: true,
   });
-  return res.data;
+  return response.data;
 };
 
 export const viewAllThreads = async (courseId: string) => {
