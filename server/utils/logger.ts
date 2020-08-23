@@ -6,6 +6,7 @@ const LOG_AREAS = {
   server: 'cyan',
   aws: 'yellow',
   web: 'blue',
+  ws: 'red',
 };
 
 const LOG_LEVELS = {
@@ -13,7 +14,7 @@ const LOG_LEVELS = {
   warn: 'yellow',
 };
 
-type LogArea = 'db' | 'server' | 'web' | 'aws';
+type LogArea = keyof typeof LOG_AREAS;
 
 const boldenLog = (logMessage: string, logArea: LogArea): string => {
   if (!logArea) return logMessage;
