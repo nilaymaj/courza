@@ -20,6 +20,8 @@ export const postNew = async (
     thread: thread._id,
   });
   await message.save();
+  // @ts-ignore Document#populate typings are apparently a bit inaccurate
+  await message.populate('author', ['_id', 'name']).execPopulate();
   ioEmitter.emitToCourse(thread.course, 'new-message', message);
   return message;
 };

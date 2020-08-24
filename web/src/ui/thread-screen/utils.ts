@@ -1,12 +1,17 @@
+import * as React from 'react';
 import { animateScroll, scroller } from 'react-scroll';
 import mdIt from 'markdown-it';
 import mdSlack from 'slack-markdown-it';
 import mdEmoji from 'markdown-it-emoji';
-import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { postMessage, getThreadMessages } from '../../utils/requests';
-import { getProfile, getActiveThread } from '../../redux/selectors';
-import { Profile, Thread } from '../../types';
+import {
+  getProfile,
+  getActiveThread,
+  getActiveCourse,
+} from '../../redux/selectors';
+import { Profile, Thread, Course } from '../../types';
+import { useNewMessageEvent } from '../../realtime/hooks';
 import twemoji from 'twemoji';
 
 // Type for fetched message
@@ -129,9 +134,14 @@ export const parseContentToJsx = (content: string): string => {
 export const useMessageManager = () => {
   const profile = useSelector(getProfile) as Profile;
   const threadId = (useSelector(getActiveThread) as Thread)._id;
+  const courseId = (useSelector(getActiveCourse) as Course)._id;
   const [messages, setMessages] = React.useState<Array<UIMessage>>([]);
   const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
   const tempMessageId = React.useRef<number>(1);
+
+  useNewMessageEvent(courseId, threadId, (message) => {
+    setMessages([...messages, message]);
+  });
 
   /**
    * Fetch thread messages and initiate message manager

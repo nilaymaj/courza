@@ -9,6 +9,7 @@ import { useStateFromRoute } from './hooks';
 import { openCourse, openThread } from '../redux/actions';
 import LoadingPage from './loading-page';
 import ResourcesScreen from './resources-screen';
+import RealtimeEventsProvider from '../realtime';
 
 const MainContainer = () => {
   const match = useRouteMatch();
@@ -43,7 +44,7 @@ const MainContainer = () => {
     );
 
   return (
-    <>
+    <RealtimeEventsProvider>
       <Topbar></Topbar>
       <Switch>
         <Route
@@ -66,7 +67,7 @@ const MainContainer = () => {
           render={() => <ThreadScreen />}
         ></Route>
       </Switch>
-    </>
+    </RealtimeEventsProvider>
   );
 };
 
