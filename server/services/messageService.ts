@@ -3,6 +3,7 @@ import { NotFoundError } from '../utils/errors';
 import { IStudent } from '../models/student';
 import { IThread } from '../models/thread';
 import { validateMessage } from '../utils/validators';
+import ioEmitter from '../realtime';
 
 /**
  * Posts new message by student in given thread
@@ -19,6 +20,7 @@ export const postNew = async (
     thread: thread._id,
   });
   await message.save();
+  ioEmitter.emitToCourse(thread.course, 'new-message', message);
   return message;
 };
 

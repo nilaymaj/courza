@@ -1,17 +1,23 @@
 import socketIoEmitter from 'socket.io-emitter';
+import { EventType, EventPayload } from './events';
+import mng from 'mongoose';
 
 let _socketEmitter: socketIoEmitter.SocketIOEmitter;
 
 const _getIo = () => {
-  const io = socketIoEmitter({ host: 'localhost', port: 6379 });
-  _socketEmitter = io;
+  if (_socketEmitter) return _socketEmitter;
+  _socketEmitter = socketIoEmitter({ host: 'localhost', port: 6379 });
   return _socketEmitter;
 };
 
 /**
  * Send an event to all users or users in a particular channel
  */
-export const emit = (data: any, channel?: string) => {
+export const emitToCourse = <T extends EventType>(
+  courseId: string | mng.Types.ObjectId,
+  type: T,
+  payload: EventPayload<T>
+) => {
   const io = _getIo();
-  io.emit(channel, data);
+  io.emit(courseId, { type, payload });
 };

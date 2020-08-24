@@ -5,6 +5,7 @@ import { validateThread } from '../utils/validators';
 import { NotFoundError } from '../utils/errors';
 import { postNew } from './messageService';
 import Message from '../models/message';
+import ioEmitter from '../realtime';
 
 /**
  * Creates a new thread in given course
@@ -23,6 +24,7 @@ export const createThread = async (
   });
   await thread.save();
   await postNew(student, thread, description);
+  ioEmitter.emitToCourse(course._id, 'new-thread', thread);
   return thread;
 };
 

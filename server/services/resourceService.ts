@@ -7,6 +7,7 @@ import { IStudent } from '../models/student';
 import * as Cloud from '../utils/storage';
 import { Metafile } from '../types';
 import { validatePdf } from '../utils/validators';
+import ioEmitter from '../realtime';
 
 /**
  * Uploads PDF file to cloud and creates new resource in database
@@ -43,6 +44,7 @@ export const uploadPdf = async (
     url,
   });
   await resource.save();
+  ioEmitter.emitToCourse(course._id, 'new-resource', resource);
   return resource;
 };
 
