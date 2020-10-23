@@ -5,7 +5,7 @@ import startHttpServer from './server';
 import { init as startSocketServer } from './realtime';
 
 const numSocketWorkers =
-  process.env.NODE_ENV === 'production' ? os.cpus().length : 2;
+  process.env.NODE_ENV === 'production' ? os.cpus().length : 1;
 
 // Initiate process cluster with master node for HTTP server
 // and worker nodes for Socket.IO server
