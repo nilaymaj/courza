@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { EuiIcon, EuiText, EuiListGroupItem, EuiTextColor } from '@elastic/eui';
-import { Resource } from '../../types';
 import pdfIcon from '../../assets/pdf-icon.svg';
 
 type Props = {
-  resource: Resource;
+  resource: IResource;
 };
 
 const ResourceCard = (props: Props) => {

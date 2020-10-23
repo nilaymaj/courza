@@ -10,7 +10,6 @@ import {
   getActiveThread,
   getActiveCourse,
 } from '../../redux/selectors';
-import { Profile, Thread, Course } from '../../types';
 import { useNewMessageEvent } from '../../realtime/hooks';
 import twemoji from 'twemoji';
 
@@ -132,9 +131,9 @@ export const parseContentToJsx = (content: string): string => {
  * including creating and validating optimistic messages
  */
 export const useMessageManager = () => {
-  const profile = useSelector(getProfile) as Profile;
-  const threadId = (useSelector(getActiveThread) as Thread)._id;
-  const courseId = (useSelector(getActiveCourse) as Course)._id;
+  const profile = useSelector(getProfile) as IProfile;
+  const threadId = (useSelector(getActiveThread) as IThread)._id;
+  const courseId = (useSelector(getActiveCourse) as ICourse)._id;
   const [messages, setMessages] = React.useState<Array<UIMessage>>([]);
   const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
   const tempMessageId = React.useRef<number>(1);

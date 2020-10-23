@@ -3,11 +3,10 @@ import {
   EuiDescriptionListTitle,
   EuiDescriptionListDescription,
 } from '@elastic/eui';
-import { Thread } from '../../../types';
 import classes from 'classnames';
 
 type Props = {
-  thread: Thread;
+  thread: IThread;
   hasUnread: boolean;
   isActive: boolean;
   onClick: () => void;

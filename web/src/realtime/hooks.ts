@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Profile } from '../types';
 import { RawMessage } from '../ui/thread-screen/utils';
 import { useSelector } from 'react-redux';
 import { getProfile } from '../redux/selectors';
@@ -15,7 +14,7 @@ export const useNewMessageEvent = (
   threadId?: string
 ) => {
   const socketManager = React.useContext(RealtimeEventsContext);
-  const profile = useSelector(getProfile) as Profile;
+  const profile = useSelector(getProfile) as IProfile;
 
   React.useEffect(() => {
     socketManager.addListener(courseId, (payload) => {

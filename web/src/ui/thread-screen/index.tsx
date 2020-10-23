@@ -1,5 +1,4 @@
 import React from 'react';
-import { Thread } from '../../types';
 import { useSelector } from 'react-redux';
 import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
 import { getActiveThread } from '../../redux/selectors';
@@ -10,7 +9,7 @@ import { usePageTitle } from '../hooks';
 
 const ThreadScreen = () => {
   const [loading, setLoading] = React.useState(true);
-  const activeThread = useSelector(getActiveThread) as Thread;
+  const activeThread = useSelector(getActiveThread) as IThread;
   const Manager = useMessageManager();
   usePageTitle(`${activeThread.title} | Courza`);
 

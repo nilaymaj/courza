@@ -1,7 +1,5 @@
-import { Resource } from '../../types';
-
 export type CategorisedResources = {
-  [categoryName: string]: Resource[];
+  [categoryName: string]: IResource[];
 };
 
 /**
@@ -11,7 +9,7 @@ export type CategorisedResources = {
  * @returns {string} Description of the return type
  */
 export const categoriseResources = (
-  resources: Resource[]
+  resources: IResource[]
 ): CategorisedResources => {
   const result = {};
   resources.forEach((r) => {

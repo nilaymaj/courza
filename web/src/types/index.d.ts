@@ -1,30 +1,30 @@
-export interface CourseInfo {
+declare interface ICourseInfo {
   _id: string;
   name: string;
   code: string;
 }
 
-export interface Course {
+declare interface ICourse {
   _id: string;
   name: string;
   code: string;
-  threads: Thread[];
+  threads: IThread[];
 }
 
-export interface Thread {
+declare interface IThread {
   _id: string;
   title: string;
   creator: string;
 }
 
-export interface Profile {
+declare interface IProfile {
   _id: string;
   name: string;
   iitkEmail: string;
   rollNo: number;
 }
 
-export interface Resource {
+declare interface IResource {
   _id: string;
   name: string;
   url: string;

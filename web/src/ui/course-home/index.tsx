@@ -3,10 +3,9 @@ import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
 import { getActiveCourse } from '../../redux/selectors';
 import { usePageTitle } from '../hooks';
 import { useSelector } from 'react-redux';
-import { Course } from '../../types';
 
 const CourseHome = () => {
-  const course = useSelector(getActiveCourse) as Course;
+  const course = useSelector(getActiveCourse) as ICourse;
   usePageTitle(`${course.code} | Courza`);
 
   return (

@@ -16,14 +16,13 @@ import {
   EuiDescriptionList,
 } from '@elastic/eui';
 import ThreadRow from './thread-row';
-import { Course } from '../../../types';
 import { useNewMessageEvent } from '../../../realtime/hooks';
 
 const ThreadSelect = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch();
   const threads = useSelector(getCourseThreads);
-  const activeCourse = useSelector(getActiveCourse) as Course;
+  const activeCourse = useSelector(getActiveCourse) as ICourse;
   const activeThread = useSelector(getActiveThread);
   const appNav = useAppNavigator();
 

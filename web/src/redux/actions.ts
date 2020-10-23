@@ -1,9 +1,7 @@
-import { Course, Thread, Profile } from '../types';
-
 export interface Login {
   type: 'LOGIN';
-  courses: Course[];
-  profile: Profile;
+  courses: ICourse[];
+  profile: IProfile;
 }
 
 export interface OpenCourse {
@@ -23,7 +21,7 @@ export interface OpenResources {
 export interface AddNewThread {
   type: 'ADD_NEW_THREAD';
   courseId: string;
-  thread: Thread;
+  thread: IThread;
 }
 
 export interface SetLoading {
@@ -47,7 +45,7 @@ export type Action =
 /**
  * Set login status to true with fetched profile
  */
-export const login = (data: Profile & { courses: Course[] }): Login => {
+export const login = (data: IProfile & { courses: ICourse[] }): Login => {
   const { courses, ...profile } = data;
   return { type: 'LOGIN', courses, profile };
 };
@@ -78,7 +76,7 @@ export const openResources = (): OpenResources => {
  */
 export const addNewThread = (
   courseId: string,
-  thread: Thread
+  thread: IThread
 ): AddNewThread => {
   return { type: 'ADD_NEW_THREAD', courseId, thread };
 };

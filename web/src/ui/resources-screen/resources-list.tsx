@@ -6,13 +6,12 @@ import {
   EuiButtonEmpty,
 } from '@elastic/eui';
 import ResourceListItem from './resource-list-item';
-import { Resource } from '../../types';
 import { CategorisedResources } from './utils';
 import CreateCategoryDialog from './create-category-dialog';
 
 type CategoryProps = {
   category: string;
-  resources: Resource[];
+  resources: IResource[];
   onUpload: () => void;
 };
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Resource } from '../types';
 type Method = 'POST' | 'GET';
 
 const request = async (method: Method, url: string, data?: any) => {
@@ -65,7 +64,7 @@ export const createNewThread = async (
 
 export const getAllCourseResources = async (
   courseId: string
-): Promise<Resource[]> => {
+): Promise<IResource[]> => {
   const res = await request('GET', `/resources/all?courseId=${courseId}`);
   return res;
 };

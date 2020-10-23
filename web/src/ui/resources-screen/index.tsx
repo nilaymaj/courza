@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { EuiPanel, EuiEmptyPrompt, EuiLoadingSpinner } from '@elastic/eui';
 import { getActiveCourse } from '../../redux/selectors';
-import { Course } from '../../types/index';
 import { getAllCourseResources, postNewResource } from '../../utils/requests';
 import UploadResourceDialog from './upload-resource-dialog';
 import { usePageTitle } from '../hooks';
@@ -10,7 +9,7 @@ import ResourcesList from './resources-list';
 import { categoriseResources, CategorisedResources } from './utils';
 
 const ResourcesScreen = () => {
-  const course = useSelector(getActiveCourse) as Course;
+  const course = useSelector(getActiveCourse) as ICourse;
   const [resources, setResources] = React.useState<null | CategorisedResources>(
     null
   );

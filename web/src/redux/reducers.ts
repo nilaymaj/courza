@@ -1,11 +1,10 @@
-import { Course, Profile } from '../types';
 import { Action } from './actions';
 
 export interface Store {
   isLoggedIn: boolean;
-  profile: Profile | null;
+  profile: IProfile | null;
   loading: boolean;
-  courses: Course[];
+  courses: ICourse[];
 
   activeCourseId: string | null;
   activeThreadId: string | null;
