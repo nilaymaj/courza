@@ -1,12 +1,5 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useAppNavigator } from '../../hooks';
-import {
-  getCourseThreads,
-  getActiveThread,
-  getActiveCourse,
-} from '../../../redux/selectors';
-import { addNewThread } from '../../../redux/actions';
 import CreateThreadDialog from '../../dialogs/create-thread-dialog';
 import { createNewThread } from '../../../utils/requests';
 import {
@@ -17,13 +10,15 @@ import {
 } from '@elastic/eui';
 import ThreadRow from './thread-row';
 import { useNewMessageEvent } from '../../../realtime/hooks';
+import { ThreadsContext } from '../../../providers/thread-provider';
+import { useActiveCourse, useActiveThread } from '../../../providers/route';
 
 const ThreadSelect = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const dispatch = useDispatch();
-  const threads = useSelector(getCourseThreads);
-  const activeCourse = useSelector(getActiveCourse) as ICourse;
-  const activeThread = useSelector(getActiveThread);
+  const threadsManager = React.useContext(ThreadsContext);
+  const threads = threadsManager.threads;
+  const activeCourse = useActiveCourse() as ICourse;
+  const activeThread = useActiveThread();
   const appNav = useAppNavigator();
 
   const handleCreateThread = async (title: string, description: string) => {
@@ -31,13 +26,12 @@ const ThreadSelect = () => {
     if (!courseId)
       return console.warn('Cannot create thread when no course is open.');
     const newThread = await createNewThread(courseId, title, description);
-    dispatch(addNewThread(courseId, newThread));
+    threadsManager.addNewThread(newThread);
     appNav.goToThread(newThread._id, courseId);
   };
 
   useNewMessageEvent(activeCourse._id, (message) => {
     if (activeThread && activeThread._id === message.threadId) return;
-
     console.log('Message received: ', message);
   });
 
@@ -59,13 +53,13 @@ const ThreadSelect = () => {
       >
         {threads && threads.length ? (
           <EuiDescriptionList>
-            {threads.map((t) => (
+            {threads.map(({ thread }) => (
               <ThreadRow
-                key={t._id}
-                onClick={() => appNav.goToThread(t._id)}
-                isActive={t._id === activeThread?._id}
+                key={thread._id}
+                onClick={() => appNav.goToThread(thread._id)}
+                isActive={thread._id === activeThread?._id}
                 hasUnread={false}
-                thread={t}
+                thread={thread}
               />
             ))}
           </EuiDescriptionList>

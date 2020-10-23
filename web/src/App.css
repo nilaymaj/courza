@@ -9,6 +9,8 @@
   --color-danger__highlight: #eb4646;
   --color-danger__faded: #ff8b8b;
 
+  --color-overlay: rgba(128, 128, 175, 0.1);
+
   --font-heading: 'Oswald', sans-serif;
   --font-body: 'Source Sans Pro', sans-serif;
   --font-tertiary: 'Raleway', sans-serif;
@@ -161,11 +163,11 @@
 }
 
 .cz-sidebar__threadlist.active {
-  background: rgba(128, 128, 128, 0.1);
+  background: var(--color-overlay);
 }
 
 .cz-sidebar__threadlist:hover {
-  background: rgba(128, 128, 128, 0.1);
+  background: var(--color-overlay);
 }
 
 @import './ui/thread-screen/style.css';

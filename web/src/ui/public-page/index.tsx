@@ -4,27 +4,23 @@ import { EuiText } from '@elastic/eui';
 import mainLogo from '../../assets/main-logo.png';
 import LoginForm from './login-form';
 import LoadingPage from '../loading-page';
-import { useDispatch, useSelector } from 'react-redux';
-import { login as lgnAction, setLoading } from '../../redux/actions';
-import { getFullProfile } from '../../utils/requests';
-import { isLoading } from '../../redux/selectors';
+import { useDispatch } from 'react-redux';
+import { login } from '../../providers/redux/actions';
+import { getProfile } from '../../utils/requests';
 
 const PublicPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const loading = useSelector(isLoading);
+  const [loading, setLoading] = React.useState(false);
 
   // Fetch profile, send user to prev route or home
   const handleLogin = React.useCallback(async () => {
-    dispatch(setLoading(true));
-    const profile = await getFullProfile();
-    dispatch(lgnAction(profile));
+    setLoading(true);
+    const profile = await getProfile();
+    dispatch(login(profile));
     const routeState = history.location.state;
-    // TODO: Try to remove this ts-ignore
-    // @ts-ignore
-    if (routeState) history.replace(routeState.from);
+    if (routeState) history.replace((routeState as { from: string }).from);
     else history.replace('/home');
-    dispatch(setLoading(false));
   }, [history, dispatch]);
 
   // Check if user is already logged in
@@ -33,10 +29,10 @@ const PublicPage = () => {
       try {
         await handleLogin();
       } catch (error) {
-        dispatch(setLoading(false));
+        setLoading(false);
       }
     })();
-  }, [handleLogin, dispatch]);
+  }, [handleLogin]);
 
   return loading ? (
     <LoadingPage />

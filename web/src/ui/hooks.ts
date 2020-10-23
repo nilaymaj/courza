@@ -1,14 +1,7 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, matchPath } from 'react-router-dom';
-import {
-  openThread,
-  openCourse,
-  resetActiveState,
-  openResources,
-} from '../redux/actions';
-import { getActiveCourse } from '../redux/selectors';
 import { Schema } from 'yup';
+import { useActiveCourse } from '../providers/route';
 
 /**
  * Custom hook for setting page title for current screen
@@ -86,38 +79,32 @@ export const useStateFromRoute = (): RouteState => {
  * the app and accordingly updating Redux state
  */
 export const useAppNavigator = () => {
-  const dispatch = useDispatch();
-  const activeCourse = useSelector(getActiveCourse);
+  const activeCourseId = useActiveCourse()?._id;
   const history = useHistory();
-  const cId = activeCourse && activeCourse._id;
 
   const goToThread = React.useCallback(
     (threadId: string, courseId?: string): void => {
-      if (!courseId) courseId = cId;
+      if (!courseId) courseId = activeCourseId;
       if (!courseId) return;
-      dispatch(openThread(threadId));
       history.push(`/home/c/${courseId}/${threadId}`);
     },
-    [dispatch, history, cId]
+    [history, activeCourseId]
   );
 
   const goToCourse = React.useCallback(
     (courseId: string): void => {
-      dispatch(openCourse(courseId));
       history.push(`/home/c/${courseId}`);
     },
-    [dispatch, history]
+    [history]
   );
 
   const goToResources = React.useCallback(() => {
-    dispatch(openResources());
-    history.push(`/home/c/${cId}/resources`);
-  }, [dispatch, history, cId]);
+    history.push(`/home/c/${activeCourseId}/resources`);
+  }, [history, activeCourseId]);
 
   const goToHome = React.useCallback((): void => {
-    dispatch(resetActiveState());
     history.push(`/home`);
-  }, [dispatch, history]);
+  }, [history]);
 
   return { goToThread, goToCourse, goToHome, goToResources };
 };

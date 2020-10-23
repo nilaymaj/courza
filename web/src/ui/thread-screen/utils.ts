@@ -5,13 +5,10 @@ import mdSlack from 'slack-markdown-it';
 import mdEmoji from 'markdown-it-emoji';
 import { useSelector } from 'react-redux';
 import { postMessage, getThreadMessages } from '../../utils/requests';
-import {
-  getProfile,
-  getActiveThread,
-  getActiveCourse,
-} from '../../redux/selectors';
+import { getProfile } from '../../providers/redux/selectors';
 import { useNewMessageEvent } from '../../realtime/hooks';
 import twemoji from 'twemoji';
+import { useActiveCourse, useActiveThread } from '../../providers/route';
 
 // Type for fetched message
 export type RawMessage = {
@@ -132,8 +129,8 @@ export const parseContentToJsx = (content: string): string => {
  */
 export const useMessageManager = () => {
   const profile = useSelector(getProfile) as IProfile;
-  const threadId = (useSelector(getActiveThread) as IThread)._id;
-  const courseId = (useSelector(getActiveCourse) as ICourse)._id;
+  const threadId = (useActiveThread() as IThread)._id;
+  const courseId = (useActiveCourse() as ICourse)._id;
   const [messages, setMessages] = React.useState<Array<UIMessage>>([]);
   const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
   const tempMessageId = React.useRef<number>(1);

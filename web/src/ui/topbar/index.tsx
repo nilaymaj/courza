@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { getActiveCourse, getActiveThread } from '../../redux/selectors';
+import { useActiveCourse, useActiveThread } from '../../providers/route';
 import Sidebar from '../sidebar';
 import { useAppNavigator } from '../hooks';
 import * as mainIcon from '../../assets/icon-512.png';
@@ -16,8 +15,8 @@ import {
 } from '@elastic/eui';
 
 const Topbar = () => {
-  const course = useSelector(getActiveCourse);
-  const thread = useSelector(getActiveThread);
+  const course = useActiveCourse();
+  const thread = useActiveThread();
   const appNav = useAppNavigator();
 
   const breadcrumbs = React.useMemo(() => {

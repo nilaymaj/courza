@@ -4,7 +4,7 @@ import { PrivateRoute } from './utils/base';
 import { useSelector } from 'react-redux';
 import PublicPage from './ui/public-page';
 import MainContainer from './ui/main-container';
-import { isLoggedIn } from './redux/selectors';
+import { isLoggedIn } from './providers/redux/selectors';
 import './App.css';
 import '@elastic/eui/dist/eui_theme_light.css';
 

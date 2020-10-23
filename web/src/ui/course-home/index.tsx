@@ -1,11 +1,10 @@
 import React from 'react';
 import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
-import { getActiveCourse } from '../../redux/selectors';
 import { usePageTitle } from '../hooks';
-import { useSelector } from 'react-redux';
+import { useActiveCourse } from '../../providers/route';
 
 const CourseHome = () => {
-  const course = useSelector(getActiveCourse) as ICourse;
+  const course = useActiveCourse() as ICourse;
   usePageTitle(`${course.code} | Courza`);
 
   return (

@@ -5,13 +5,12 @@ import {
   EuiIcon,
   EuiEmptyPrompt,
 } from '@elastic/eui';
-import { useSelector } from 'react-redux';
-import { getActiveCourse } from '../../redux/selectors';
 import CourseSelect from './course-select';
 import CourseNav from './course-nav';
+import { useActiveCourse } from '../../providers/route';
 
 const Sidebar = () => {
-  const activeCourse = useSelector(getActiveCourse);
+  const activeCourse = useActiveCourse();
   const [open, setOpen] = React.useState(false);
 
   return (

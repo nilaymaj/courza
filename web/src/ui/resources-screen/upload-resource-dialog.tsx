@@ -20,7 +20,7 @@ import {
   EuiFilePicker,
 } from '@elastic/eui';
 
-const nameValidator = yup.string().required().max(16).min(2);
+const nameValidator = yup.string().required().max(32).min(2);
 
 type Props = {
   category: string;

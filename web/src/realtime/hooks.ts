@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RawMessage } from '../ui/thread-screen/utils';
 import { useSelector } from 'react-redux';
-import { getProfile } from '../redux/selectors';
+import { getProfile } from '../providers/redux/selectors';
 import { RealtimeEventsContext } from './index';
 
 /**

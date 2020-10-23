@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { useAppNavigator } from '../hooks';
-import { getCourses, getActiveCourse } from '../../redux/selectors';
 import { EuiText, EuiCollapsibleNavGroup, EuiSuperSelect } from '@elastic/eui';
+import { CoursesContext } from '../../providers/course-provider';
+import { useActiveCourse } from '../../providers/route';
 
 const CourseSelect = () => {
-  const courses = useSelector(getCourses);
-  const activeCourse = useSelector(getActiveCourse);
+  const courses = React.useContext(CoursesContext).courses;
+  const activeCourse = useActiveCourse();
   const appNav = useAppNavigator();
 
   const handleOpenCourse = (courseId: string) => {
@@ -19,14 +19,14 @@ const CourseSelect = () => {
       value: 'home',
       inputDisplay: <EuiText>Dashboard</EuiText>,
     },
-    ...courses.map((c) => ({
-      value: c._id,
-      inputDisplay: <EuiText>{c.code}</EuiText>,
+    ...courses.map(({ course }) => ({
+      value: course._id,
+      inputDisplay: <EuiText>{course.code}</EuiText>,
       dropdownDisplay: (
         <>
-          <strong>{c.code}</strong>
+          <strong>{course.code}</strong>
           <EuiText size="s" color="subdued">
-            <p>{c.name}</p>
+            <p>{course.name}</p>
           </EuiText>
         </>
       ),

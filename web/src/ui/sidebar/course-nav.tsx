@@ -1,12 +1,11 @@
 import * as React from 'react';
 import ThreadSelect from './thread-select';
-import { useSelector } from 'react-redux';
-import { isResourcesOpen } from '../../redux/selectors';
+import { useIsResourcesOpen } from '../../providers/route';
 import { useAppNavigator } from '../hooks';
 import { EuiListGroup, EuiListGroupItem } from '@elastic/eui';
 
 const CourseNav = () => {
-  const resourcesOpen = useSelector(isResourcesOpen);
+  const resourcesOpen = useIsResourcesOpen();
   const appNav = useAppNavigator();
 
   return (
