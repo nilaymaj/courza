@@ -139,9 +139,13 @@ export const useMessageManager = () => {
   const [tempMessages, setTempMessages] = React.useState<Array<UIMessage>>([]);
   const tempMessageId = React.useRef<number>(1);
 
-  useNewMessageEvent(courseId, threadId, (message) => {
-    setMessages([...messages, message]);
-  });
+  useNewMessageEvent(
+    courseId,
+    (message) => {
+      setMessages([...messages, parseToUIMessage(message, profile._id)]);
+    },
+    threadId
+  );
 
   /**
    * Fetch thread messages and initiate message manager

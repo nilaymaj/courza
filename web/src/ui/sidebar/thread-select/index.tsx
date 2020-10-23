@@ -1,27 +1,29 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useAppNavigator } from '../hooks';
+import { useAppNavigator } from '../../hooks';
 import {
   getCourseThreads,
   getActiveThread,
   getActiveCourse,
-} from '../../redux/selectors';
-import { addNewThread } from '../../redux/actions';
-import CreateThreadDialog from '../dialogs/create-thread-dialog';
-import { createNewThread } from '../../utils/requests';
+} from '../../../redux/selectors';
+import { addNewThread } from '../../../redux/actions';
+import CreateThreadDialog from '../../dialogs/create-thread-dialog';
+import { createNewThread } from '../../../utils/requests';
 import {
   EuiCollapsibleNavGroup,
   EuiButtonIcon,
-  EuiListGroup,
-  EuiListGroupItem,
   EuiEmptyPrompt,
+  EuiDescriptionList,
 } from '@elastic/eui';
+import ThreadRow from './thread-row';
+import { Course } from '../../../types';
+import { useNewMessageEvent } from '../../../realtime/hooks';
 
 const ThreadSelect = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch();
   const threads = useSelector(getCourseThreads);
-  const activeCourse = useSelector(getActiveCourse);
+  const activeCourse = useSelector(getActiveCourse) as Course;
   const activeThread = useSelector(getActiveThread);
   const appNav = useAppNavigator();
 
@@ -33,6 +35,12 @@ const ThreadSelect = () => {
     dispatch(addNewThread(courseId, newThread));
     appNav.goToThread(newThread._id, courseId);
   };
+
+  useNewMessageEvent(activeCourse._id, (message) => {
+    if (activeThread && activeThread._id === message.threadId) return;
+
+    console.log('Message received: ', message);
+  });
 
   return (
     <>
@@ -51,29 +59,17 @@ const ThreadSelect = () => {
         }
       >
         {threads && threads.length ? (
-          <EuiListGroup maxWidth="none" color="subdued">
-            {threads.map((c) => {
-              const active = activeThread ? c._id === activeThread._id : false;
-              return (
-                <div onClick={() => appNav.goToThread(c._id)} key={c._id}>
-                  <EuiListGroupItem
-                    label={c.title}
-                    isActive={active}
-                    iconType="empty"
-                    value={c._id}
-                    key={c._id}
-                    onClick={() => {}}
-                    style={{
-                      padding: 10,
-                      background: active
-                        ? 'rgba(128, 128, 128, 0.07)'
-                        : undefined,
-                    }}
-                  ></EuiListGroupItem>
-                </div>
-              );
-            })}
-          </EuiListGroup>
+          <EuiDescriptionList>
+            {threads.map((t) => (
+              <ThreadRow
+                key={t._id}
+                onClick={() => appNav.goToThread(t._id)}
+                isActive={t._id === activeThread?._id}
+                hasUnread={false}
+                thread={t}
+              />
+            ))}
+          </EuiDescriptionList>
         ) : (
           <EuiEmptyPrompt
             iconType="asterisk"

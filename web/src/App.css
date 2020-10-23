@@ -148,4 +148,24 @@
   z-index: 10000 !important;
 }
 
+.cz-sidebar__threadlist {
+  cursor: pointer;
+  padding: 0.5em 1.5em;
+  margin: 0.4em 0;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+}
+
+.cz-sidebar__threadlist.unread {
+  background: rgba(30, 107, 255, 0.07);
+}
+
+.cz-sidebar__threadlist.active {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.cz-sidebar__threadlist:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
 @import './ui/thread-screen/style.css';
