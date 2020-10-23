@@ -1,6 +1,5 @@
 import { Request, Router } from 'express';
 import { IStudent } from '../models/student';
-import { ICourse } from '../models/course';
 import * as ResourceService from '../services/resourceService';
 import { Metafile } from '../types';
 import controller, { getByIdOrThrow } from './controller';

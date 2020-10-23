@@ -1,9 +1,7 @@
-import { CourseService, ThreadService } from '../services';
+import { ThreadService } from '../services';
 import { Request, Router } from 'express';
 import controller, { getByIdOrThrow } from './controller';
 import { IStudent } from '../models/student';
-import { ICourse } from '../models/course';
-import { IThread } from '../models/thread';
 const router = Router();
 
 // Create new thread

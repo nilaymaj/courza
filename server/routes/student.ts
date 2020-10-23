@@ -19,6 +19,7 @@ router.get(
 );
 
 // Get full student profile
+// TODO: Remove this!
 interface IFullProfileReq extends Request {
   user: IStudent;
   body: {};

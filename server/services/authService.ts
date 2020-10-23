@@ -1,5 +1,5 @@
 import { hash, compareHash } from '../utils/base';
-import Student, { IStudent, IStudentInfo } from '../models/student';
+import Student, { IStudent } from '../models/student';
 import { NotFoundError, CredentialsError } from '../utils/errors';
 
 /**

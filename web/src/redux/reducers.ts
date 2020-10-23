@@ -1,7 +1,6 @@
 import { Action } from './actions';
 
 export interface Store {
-  isLoggedIn: boolean;
   profile: IProfile | null;
   loading: boolean;
   courses: ICourse[];
@@ -12,7 +11,6 @@ export interface Store {
 }
 
 const initialState: Store = {
-  isLoggedIn: false,
   profile: null,
   loading: true,
   courses: [],
@@ -56,7 +54,6 @@ export default function (state = initialState, action: Action) {
       const { profile, courses } = action;
       return {
         ...state,
-        isLoggedIn: true,
         profile,
         courses,
       };
