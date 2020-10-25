@@ -28,7 +28,7 @@ const ThreadScreen = () => {
   React.useEffect(() => {
     threadsManager.clearThreadUnreads(activeThread._id);
     return () => threadsManager.clearThreadUnreads(activeThread._id);
-  }, [threadsManager, activeThread._id]);
+  }, [activeThread._id]);
 
   return (
     <div className="cz-thread__wrapper">

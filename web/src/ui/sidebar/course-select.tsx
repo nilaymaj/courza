@@ -1,17 +1,25 @@
 import * as React from 'react';
 import { useAppNavigator } from '../hooks';
-import { EuiText, EuiCollapsibleNavGroup, EuiSuperSelect } from '@elastic/eui';
+import {
+  EuiText,
+  EuiCollapsibleNavGroup,
+  EuiSuperSelect,
+  EuiNotificationBadge,
+  EuiHealth,
+} from '@elastic/eui';
 import { CoursesContext } from '../../providers/course-provider';
 import { useActiveCourse } from '../../providers/route';
 
 const CourseSelect = () => {
-  const courses = React.useContext(CoursesContext).courses;
+  const coursesManager = React.useContext(CoursesContext);
+  const courses = coursesManager.courses;
   const activeCourse = useActiveCourse();
   const appNav = useAppNavigator();
 
   const handleOpenCourse = (courseId: string) => {
     if (courseId === 'home') appNav.goToHome();
     else appNav.goToCourse(courseId);
+    coursesManager.clearCourseUnread(courseId);
   };
 
   const options = [
@@ -19,14 +27,20 @@ const CourseSelect = () => {
       value: 'home',
       inputDisplay: <EuiText>Dashboard</EuiText>,
     },
-    ...courses.map(({ course }) => ({
-      value: course._id,
-      inputDisplay: <EuiText>{course.code}</EuiText>,
+    ...courses.map((courseData) => ({
+      value: courseData.course._id,
+      inputDisplay: <EuiText>{courseData.course.code}</EuiText>,
       dropdownDisplay: (
         <>
-          <strong>{course.code}</strong>
+          {courseData.hasUnread ? (
+            <EuiHealth color="primary">
+              <strong>{courseData.course.code}</strong>
+            </EuiHealth>
+          ) : (
+            <strong>{courseData.course.code}</strong>
+          )}
           <EuiText size="s" color="subdued">
-            <p>{course.name}</p>
+            <p>{courseData.course.name}</p>
           </EuiText>
         </>
       ),
