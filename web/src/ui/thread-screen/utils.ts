@@ -6,7 +6,7 @@ import mdEmoji from 'markdown-it-emoji';
 import { useSelector } from 'react-redux';
 import { postMessage, getThreadMessages } from '../../utils/requests';
 import { getProfile } from '../../providers/redux/selectors';
-import { useNewMessageEvent } from '../../realtime/hooks';
+import { useNewMessageEvent } from '../../providers/realtime/hooks';
 import twemoji from 'twemoji';
 import { useActiveCourse, useActiveThread } from '../../providers/route';
 
@@ -16,7 +16,7 @@ export type RawMessage = {
     name: string;
     _id: string;
   };
-  threadId: string;
+  thread: string;
   content: string;
   createdAt: string;
   updatedAt: string;

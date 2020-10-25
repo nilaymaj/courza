@@ -9,14 +9,14 @@ import {
   EuiDescriptionList,
 } from '@elastic/eui';
 import ThreadRow from './thread-row';
-import { useNewMessageEvent } from '../../../realtime/hooks';
+import { useNewMessageEvent } from '../../../providers/realtime/hooks';
 import { ThreadsContext } from '../../../providers/thread-provider';
 import { useActiveCourse, useActiveThread } from '../../../providers/route';
 
 const ThreadSelect = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const threadsManager = React.useContext(ThreadsContext);
-  const threads = threadsManager.threads;
+  const threadsData = threadsManager.threads;
   const activeCourse = useActiveCourse() as ICourse;
   const activeThread = useActiveThread();
   const appNav = useAppNavigator();
@@ -31,7 +31,7 @@ const ThreadSelect = () => {
   };
 
   useNewMessageEvent(activeCourse._id, (message) => {
-    if (activeThread && activeThread._id === message.threadId) return;
+    if (activeThread && activeThread._id === message.thread) return;
     console.log('Message received: ', message);
   });
 
@@ -51,15 +51,15 @@ const ThreadSelect = () => {
           ></EuiButtonIcon>
         }
       >
-        {threads && threads.length ? (
+        {threadsData && threadsData.length ? (
           <EuiDescriptionList>
-            {threads.map(({ thread }) => (
+            {threadsData.map((threadData) => (
               <ThreadRow
-                key={thread._id}
-                onClick={() => appNav.goToThread(thread._id)}
-                isActive={thread._id === activeThread?._id}
-                hasUnread={false}
-                thread={thread}
+                key={threadData.thread._id}
+                onClick={() => appNav.goToThread(threadData.thread._id)}
+                isActive={threadData.thread._id === activeThread?._id}
+                hasUnread={threadData.isUnread}
+                threadData={threadData}
               />
             ))}
           </EuiDescriptionList>

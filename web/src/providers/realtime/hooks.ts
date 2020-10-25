@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { RawMessage } from '../ui/thread-screen/utils';
+import { RawMessage } from '../../ui/thread-screen/utils';
 import { useSelector } from 'react-redux';
-import { getProfile } from '../providers/redux/selectors';
+import { getProfile } from '../redux/selectors';
 import { RealtimeEventsContext } from './index';
 
 /**
@@ -9,7 +9,7 @@ import { RealtimeEventsContext } from './index';
  * socket, optionally corresponding to a particular thread
  */
 export const useNewMessageEvent = (
-  courseId: string,
+  courseId: string | undefined, // TODO: Remove this hack (see ThreadsProvider)
   handler: (payload: RawMessage) => void,
   threadId?: string
 ) => {
@@ -17,6 +17,7 @@ export const useNewMessageEvent = (
   const profile = useSelector(getProfile) as IProfile;
 
   React.useEffect(() => {
+    if (!courseId) return;
     socketManager.addListener(courseId, (payload) => {
       if (payload.type !== 'new-message') return;
       if (threadId && payload.payload.thread !== threadId) return;

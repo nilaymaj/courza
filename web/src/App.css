@@ -9,7 +9,7 @@
   --color-danger__highlight: #eb4646;
   --color-danger__faded: #ff8b8b;
 
-  --color-overlay: rgba(128, 128, 175, 0.1);
+  --color-overlay: rgba(100, 100, 150, 0.1);
 
   --font-heading: 'Oswald', sans-serif;
   --font-body: 'Source Sans Pro', sans-serif;
@@ -150,23 +150,23 @@
   z-index: 10000 !important;
 }
 
-.cz-sidebar__threadlist {
+.cz-sidebar__threadrow {
   cursor: pointer;
-  padding: 0.5em 1.5em;
-  margin: 0.4em 0;
+  padding: 0.2em 1.5em;
+  margin: 0.5em 0;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
 }
 
-.cz-sidebar__threadlist.unread {
-  background: rgba(30, 107, 255, 0.07);
+.cz-sidebar__threadrow.unread {
+  background: rgba(30, 107, 255, 0.2);
 }
 
-.cz-sidebar__threadlist.active {
+.cz-sidebar__threadrow.active {
   background: var(--color-overlay);
 }
 
-.cz-sidebar__threadlist:hover {
+.cz-sidebar__threadrow:hover {
   background: var(--color-overlay);
 }
 

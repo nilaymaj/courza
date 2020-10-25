@@ -4,9 +4,10 @@ import {
   EuiDescriptionListDescription,
 } from '@elastic/eui';
 import classes from 'classnames';
+import { ThreadData } from '../../../providers/thread-provider';
 
 type Props = {
-  thread: IThread;
+  threadData: ThreadData;
   hasUnread: boolean;
   isActive: boolean;
   onClick: () => void;
@@ -14,16 +15,18 @@ type Props = {
 
 const ThreadRow = (props: Props) => {
   const className = classes([
-    'cz-sidebar__threadlist',
+    'cz-sidebar__threadrow',
     { unread: props.hasUnread },
     { active: props.isActive },
   ]);
 
   return (
     <div className={className} onClick={props.onClick}>
-      <EuiDescriptionListTitle>{props.thread.title}</EuiDescriptionListTitle>
+      <EuiDescriptionListTitle>
+        {props.threadData.thread.title}
+      </EuiDescriptionListTitle>
       <EuiDescriptionListDescription>
-        The latest message of the thread
+        {props.threadData.latestMessage}
       </EuiDescriptionListDescription>
     </div>
   );

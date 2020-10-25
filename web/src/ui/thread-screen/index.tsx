@@ -3,11 +3,13 @@ import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
 import { useMessageManager } from './utils';
 import MessageList from './message-list';
 import ThreadInput from './thread-input';
+import { ThreadsContext } from '../../providers/thread-provider';
 import { usePageTitle } from '../hooks';
 import { useActiveThread } from '../../providers/route';
 
 const ThreadScreen = () => {
   const [loading, setLoading] = React.useState(true);
+  const threadsManager = React.useContext(ThreadsContext);
   const activeThread = useActiveThread() as IThread;
   const Manager = useMessageManager();
   usePageTitle(`${activeThread.title} | Courza`);
@@ -21,6 +23,12 @@ const ThreadScreen = () => {
     })();
     // eslint-disable-next-line
   }, [activeThread._id]);
+
+  // Clear thread unreads on open and close
+  React.useEffect(() => {
+    threadsManager.clearThreadUnreads(activeThread._id);
+    return () => threadsManager.clearThreadUnreads(activeThread._id);
+  }, [threadsManager, activeThread._id]);
 
   return (
     <div className="cz-thread__wrapper">

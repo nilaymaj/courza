@@ -5,7 +5,7 @@ import ThreadScreen from './thread-screen';
 import CourseHome from './course-home';
 import Dashboard from './dashboard';
 import ResourcesScreen from './resources-screen';
-import RealtimeEventsProvider from '../realtime';
+import RealtimeEventsProvider from '../providers/realtime';
 import CoursesProvider from '../providers/course-provider';
 import ThreadsProvider from '../providers/thread-provider';
 
