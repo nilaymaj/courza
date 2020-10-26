@@ -1,21 +1,31 @@
 import * as React from 'react';
-import { useActiveCourseId } from '../route';
-import { getCourseThreads } from '../../utils/requests';
+import { useActiveCourseId, useActiveThreadId } from '../route';
+import {
+  getCourseThreads,
+  getCourseTimestamps,
+  updateThreadTimestamp,
+} from '../../utils/requests';
 import LoadingPage from '../../ui/loading-page';
 import { useNewMessageEvent } from '../realtime/hooks';
 import { RawMessage } from '../../ui/thread-screen/utils';
 
-const SAMPLE_LATEST_MESSAGE = 'Latest message of the thread';
+type IThreadWithMessage = IThread & {
+  lastMessage: {
+    _id: string;
+    content: string;
+    createdAt: Date;
+  };
+};
 
 export type ThreadData = {
   thread: IThread;
   isUnread: boolean;
-  latestMessage: string;
+  lastMessage: string;
 };
 
 type ThreadsContextData = {
   threads: ThreadData[];
-  addNewThread: (thread: IThread) => void;
+  addNewThread: (thread: IThreadWithMessage) => void;
   clearThreadUnreads: (threadId: string) => void;
 };
 
@@ -34,31 +44,44 @@ export const ThreadsProvider = (props: { children: React.ReactNode }) => {
   const [threadsData, setThreadsData] = React.useState<ThreadData[]>([]);
   const [threadsLoading, setThreadsLoading] = React.useState(true);
   const activeCourseId = useActiveCourseId() as string;
+  const activeThreadId = useActiveThreadId();
 
   // React to new messages
-  useNewMessageEvent(activeCourseId, (message: RawMessage) => {
-    const newThreadsData = [...threadsData];
-    const messageThread = newThreadsData.find(
-      ({ thread }) => thread._id === message.thread
-    );
-    if (!messageThread) return;
-    messageThread.isUnread = true;
-    messageThread.latestMessage = message.content;
-    setThreadsData(newThreadsData);
-  });
+  useNewMessageEvent(
+    activeCourseId,
+    (message: RawMessage) => {
+      const newThreadsData = [...threadsData];
+      const messageThread = newThreadsData.find(
+        ({ thread }) => thread._id === message.thread
+      );
+      if (!messageThread) return;
+      messageThread.lastMessage = message.content;
+      if (message.thread !== activeThreadId) messageThread.isUnread = true;
+      setThreadsData(newThreadsData);
+    },
+    false
+  );
 
   // Fetch course threads
   React.useEffect(() => {
     (async () => {
       // Fetch threads of the course
       setThreadsLoading(true);
-      const threads: IThread[] = await getCourseThreads(activeCourseId);
+      const threads: IThreadWithMessage[] = await getCourseThreads(
+        activeCourseId
+      );
+      const timestamps: ILastRead[] = await getCourseTimestamps(activeCourseId);
       setThreadsData(
-        threads.map((thread) => ({
-          thread,
-          isUnread: false,
-          latestMessage: SAMPLE_LATEST_MESSAGE,
-        }))
+        threads.map((thread) => {
+          const lastRead = timestamps.find((t) => t.thread === thread._id);
+          const isUnread =
+            !lastRead || lastRead.timestamp < thread.lastMessage.createdAt;
+          return {
+            thread,
+            isUnread,
+            lastMessage: thread.lastMessage.content,
+          };
+        })
       );
       setThreadsLoading(false);
     })();
@@ -66,11 +89,11 @@ export const ThreadsProvider = (props: { children: React.ReactNode }) => {
 
   // Add new thread created by user to threads list
   const addNewThread = React.useCallback(
-    (thread: IThread) => {
+    (thread: IThreadWithMessage) => {
       threadsData.push({
         thread,
         isUnread: false,
-        latestMessage: SAMPLE_LATEST_MESSAGE,
+        lastMessage: thread.lastMessage.content,
       });
     },
     [threadsData]
@@ -78,7 +101,7 @@ export const ThreadsProvider = (props: { children: React.ReactNode }) => {
 
   // Clear unread status of specified thread
   const clearThreadUnreads = React.useCallback(
-    (threadId: string) => {
+    async (threadId: string) => {
       const newThreadsData = [...threadsData];
       const clearingThread = newThreadsData.find(
         ({ thread }) => thread._id === threadId
@@ -86,6 +109,7 @@ export const ThreadsProvider = (props: { children: React.ReactNode }) => {
       if (!clearingThread) return;
       clearingThread.isUnread = false;
       setThreadsData(newThreadsData);
+      await updateThreadTimestamp(threadId);
     },
     [threadsData]
   );

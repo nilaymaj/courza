@@ -26,7 +26,7 @@ const ThreadRow = (props: Props) => {
         {props.threadData.thread.title}
       </EuiDescriptionListTitle>
       <EuiDescriptionListDescription>
-        {props.threadData.latestMessage}
+        {props.threadData.lastMessage}
       </EuiDescriptionListDescription>
     </div>
   );

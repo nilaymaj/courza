@@ -10,6 +10,7 @@ import { RealtimeEventsContext } from './index';
 export const useNewMessageEvent = (
   courseId: string,
   handler: (payload: RawMessage) => void,
+  ignoreUserEvents: boolean,
   threadId?: string
 ) => {
   const socketManager = React.useContext(RealtimeEventsContext);
@@ -20,7 +21,8 @@ export const useNewMessageEvent = (
     (payload) => {
       if (payload.type !== 'new-message') return;
       if (threadId && payload.payload.thread !== threadId) return;
-      if (payload.payload.author._id === profile._id) return;
+      if (ignoreUserEvents && payload.payload.author._id === profile._id)
+        return;
       handler(payload.payload);
     },
     [profile._id, threadId, handler]

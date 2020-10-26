@@ -31,7 +31,11 @@ export const createThread = async (
   await thread.save();
 
   ioEmitter.emitToCourse(course._id, 'new-thread', thread);
-  return thread;
+  // @ts-ignore Inaccurate Document#populate typings
+  const threadWithMessage = await thread
+    .populate('lastMessage', ['content'])
+    .execPopulate();
+  return threadWithMessage;
 };
 
 /**
@@ -48,7 +52,7 @@ export const get = async (threadId: string, lean = false) => {
  */
 export const getAll = async (course: ICourse, lean = false) => {
   const threads = await Thread.find({ course: course._id })
-    .populate('lastMessage', ['content'])
+    .populate('lastMessage', ['content', 'createdAt'])
     .lean(lean);
   return threads;
 };

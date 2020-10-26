@@ -17,6 +17,14 @@ declare interface IThread {
   creator: string;
 }
 
+declare interface ILastRead {
+  _id: string;
+  student: string;
+  course: string;
+  thread: string;
+  timestamp: Date;
+}
+
 declare interface IProfile {
   _id: string;
   name: string;

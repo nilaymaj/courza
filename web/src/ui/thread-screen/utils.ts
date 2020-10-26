@@ -139,6 +139,7 @@ export const useMessageManager = () => {
     (message) => {
       setMessages([...messages, parseToUIMessage(message, profile._id)]);
     },
+    true,
     threadId
   );
 

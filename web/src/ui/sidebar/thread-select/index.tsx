@@ -30,11 +30,6 @@ const ThreadSelect = () => {
     appNav.goToThread(newThread._id, courseId);
   };
 
-  useNewMessageEvent(activeCourse._id, (message) => {
-    if (activeThread && activeThread._id === message.thread) return;
-    console.log('Message received: ', message);
-  });
-
   return (
     <>
       <EuiCollapsibleNavGroup

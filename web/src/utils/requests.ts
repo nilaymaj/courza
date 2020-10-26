@@ -1,5 +1,5 @@
 import axios from 'axios';
-type Method = 'POST' | 'GET';
+type Method = 'POST' | 'GET' | 'PUT';
 
 const request = async (method: Method, url: string, data?: any) => {
   const response = await axios({
@@ -40,15 +40,6 @@ export const getAllCourses = async () => {
  */
 export const getProfile = async () => {
   const res = await request('GET', '/students/profile');
-  return res;
-};
-
-/**
- * Gets the full profile, including courses and threads
- * TODO: Remove this!
- */
-export const getFullProfile = async () => {
-  const res = await request('GET', '/students/fullprofile');
   return res;
 };
 
@@ -120,5 +111,21 @@ export const postNewResource = async (
   formData.append('courseId', courseId);
   formData.append('file', file);
   const res = await request('POST', '/resources/new', formData);
+  return res;
+};
+
+/**
+ * Fetches the user's last pull timestamps for specified course
+ */
+export const getCourseTimestamps = async (courseId: string) => {
+  const res = await request('GET', `/lastreads/all?courseId=${courseId}`);
+  return res;
+};
+
+/**
+ * Updates the last pull timestamp for specified thread to current date and time
+ */
+export const updateThreadTimestamp = async (threadId: string) => {
+  const res = await request('PUT', `/lastreads/update?threadId=${threadId}`);
   return res;
 };
