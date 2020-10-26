@@ -8,6 +8,8 @@ import { IEnrolment } from '../models/enrolment';
 import { IResource } from '../models/resource';
 import { IThread } from '../models/thread';
 import { IMessage } from '../models/message';
+import { IResourceCategory } from '../models/resource-category';
+import { IUserTimestamp } from '../models/user-timestamp';
 
 type IHandler<T extends Request> = (
   arg0: T,
@@ -57,8 +59,10 @@ type AllModelDocs = {
   Student: IStudent;
   Thread: IThread;
   Resource: IResource;
+  ResourceCategory: IResourceCategory;
   Enrolment: IEnrolment;
   Message: IMessage;
+  UserTimestamp: IUserTimestamp;
 };
 
 type CreatedDoc<T extends keyof AllModelDocs> = AllModelDocs[T];
