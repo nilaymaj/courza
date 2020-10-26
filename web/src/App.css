@@ -3,7 +3,7 @@
 :root {
   --color-primary: #1e6bff;
   --color-primary__highlight: #5d96ff;
-  --color-primary__faded: #afcbff;
+  --color-primary__faded: #c1d6ff;
 
   --color-danger: #eb2f2f;
   --color-danger__highlight: #eb4646;
@@ -152,14 +152,15 @@
 
 .cz-sidebar__threadrow {
   cursor: pointer;
-  padding: 0.2em 1.5em;
-  margin: 0.5em 0;
-  border-radius: 5px;
+  padding: 0.6em 1.5em 0.6em 1em;
+  margin: 0em 0;
+  border-radius: 0 5px 5px 0;
+  border-left: solid 3px var(--color-primary__faded);
   transition: all 0.2s ease-in-out;
 }
 
 .cz-sidebar__threadrow.unread {
-  background: rgba(30, 107, 255, 0.2);
+  border-left: solid 4px var(--color-primary);
 }
 
 .cz-sidebar__threadrow.active {
