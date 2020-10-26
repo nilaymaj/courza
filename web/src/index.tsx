@@ -2,17 +2,16 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Store from './providers/redux/store';
-import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import { ProfileProvider } from './providers/profile-provider';
 
 ReactDOM.render(
-  <Provider store={Store}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <ProfileProvider>
       <App />
-    </BrowserRouter>
-  </Provider>,
+    </ProfileProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

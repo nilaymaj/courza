@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useActiveCourse } from '../route';
+import { useActiveCourseId } from '../route';
 import { getCourseThreads } from '../../utils/requests';
 import LoadingPage from '../../ui/loading-page';
 import { useNewMessageEvent } from '../realtime/hooks';
@@ -19,20 +19,24 @@ type ThreadsContextData = {
   clearThreadUnreads: (threadId: string) => void;
 };
 
-export const ThreadsContext = React.createContext<ThreadsContextData>({
+const ThreadsContext = React.createContext<ThreadsContextData>({
   threads: [],
   addNewThread: (_) => {},
   clearThreadUnreads: (_) => {},
 });
 
-// TODO:  Fix the "is a course active?" doubt here
-const ThreadsProvider = (props: { children: React.ReactNode }) => {
+export default ThreadsContext;
+
+/**
+ * Manages and provides data about the threads of a course
+ */
+export const ThreadsProvider = (props: { children: React.ReactNode }) => {
   const [threadsData, setThreadsData] = React.useState<ThreadData[]>([]);
   const [threadsLoading, setThreadsLoading] = React.useState(true);
-  const course = useActiveCourse();
+  const activeCourseId = useActiveCourseId() as string;
 
   // React to new messages
-  useNewMessageEvent(course?._id, (message: RawMessage) => {
+  useNewMessageEvent(activeCourseId, (message: RawMessage) => {
     const newThreadsData = [...threadsData];
     const messageThread = newThreadsData.find(
       ({ thread }) => thread._id === message.thread
@@ -46,14 +50,9 @@ const ThreadsProvider = (props: { children: React.ReactNode }) => {
   // Fetch course threads
   React.useEffect(() => {
     (async () => {
-      // If no course open, pass
-      if (!course) {
-        setThreadsData([]);
-        return setThreadsLoading(false);
-      }
       // Fetch threads of the course
       setThreadsLoading(true);
-      const threads: IThread[] = await getCourseThreads(course._id);
+      const threads: IThread[] = await getCourseThreads(activeCourseId);
       setThreadsData(
         threads.map((thread) => ({
           thread,
@@ -63,7 +62,7 @@ const ThreadsProvider = (props: { children: React.ReactNode }) => {
       );
       setThreadsLoading(false);
     })();
-  }, [course]);
+  }, [activeCourseId]);
 
   // Add new thread created by user to threads list
   const addNewThread = React.useCallback(
@@ -99,5 +98,3 @@ const ThreadsProvider = (props: { children: React.ReactNode }) => {
     </ThreadsContext.Provider>
   );
 };
-
-export default ThreadsProvider;

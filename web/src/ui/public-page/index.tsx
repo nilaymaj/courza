@@ -4,24 +4,23 @@ import { EuiText } from '@elastic/eui';
 import mainLogo from '../../assets/main-logo.png';
 import LoginForm from './login-form';
 import LoadingPage from '../loading-page';
-import { useDispatch } from 'react-redux';
-import { login } from '../../providers/redux/actions';
+import ProfileContext from '../../providers/profile-provider';
 import { getProfile } from '../../utils/requests';
 
 const PublicPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const profileManager = React.useContext(ProfileContext);
   const [loading, setLoading] = React.useState(false);
 
   // Fetch profile, send user to prev route or home
   const handleLogin = React.useCallback(async () => {
     setLoading(true);
     const profile = await getProfile();
-    dispatch(login(profile));
+    profileManager.setProfile(profile);
     const routeState = history.location.state;
-    if (routeState) history.replace((routeState as { from: string }).from);
+    if (routeState) history.replace((routeState as any).from.pathname);
     else history.replace('/home');
-  }, [history, dispatch]);
+  }, [history]);
 
   // Check if user is already logged in
   React.useEffect(() => {

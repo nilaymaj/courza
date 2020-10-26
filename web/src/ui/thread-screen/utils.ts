@@ -3,9 +3,8 @@ import { animateScroll, scroller } from 'react-scroll';
 import mdIt from 'markdown-it';
 import mdSlack from 'slack-markdown-it';
 import mdEmoji from 'markdown-it-emoji';
-import { useSelector } from 'react-redux';
 import { postMessage, getThreadMessages } from '../../utils/requests';
-import { getProfile } from '../../providers/redux/selectors';
+import ProfileContext from '../../providers/profile-provider';
 import { useNewMessageEvent } from '../../providers/realtime/hooks';
 import twemoji from 'twemoji';
 import { useActiveCourse, useActiveThread } from '../../providers/route';
@@ -128,7 +127,7 @@ export const parseContentToJsx = (content: string): string => {
  * including creating and validating optimistic messages
  */
 export const useMessageManager = () => {
-  const profile = useSelector(getProfile) as IProfile;
+  const profile = React.useContext(ProfileContext).profile as IProfile;
   const threadId = (useActiveThread() as IThread)._id;
   const courseId = (useActiveCourse() as ICourse)._id;
   const [messages, setMessages] = React.useState<Array<UIMessage>>([]);

@@ -4,10 +4,9 @@ import {
   EuiText,
   EuiCollapsibleNavGroup,
   EuiSuperSelect,
-  EuiNotificationBadge,
   EuiHealth,
 } from '@elastic/eui';
-import { CoursesContext } from '../../providers/course-provider';
+import CoursesContext from '../../providers/course-provider';
 import { useActiveCourse } from '../../providers/route';
 
 const CourseSelect = () => {
@@ -19,7 +18,6 @@ const CourseSelect = () => {
   const handleOpenCourse = (courseId: string) => {
     if (courseId === 'home') appNav.goToHome();
     else appNav.goToCourse(courseId);
-    coursesManager.clearCourseUnread(courseId);
   };
 
   const options = [

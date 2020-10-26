@@ -22,7 +22,7 @@ const Topbar = () => {
   const breadcrumbs = React.useMemo(() => {
     const bc: Breadcrumb[] = [
       {
-        text: course ? course.code : 'Home',
+        text: course ? course.code : 'Dashboard',
         onClick: course
           ? (e: React.MouseEvent) => {
               e.preventDefault();
@@ -31,9 +31,9 @@ const Topbar = () => {
           : () => {},
       },
     ];
-    if (thread) {
+    if (course) {
       bc.push({
-        text: thread ? thread.title : '',
+        text: thread ? thread.title : 'Home',
       });
     }
     return bc;

@@ -3,9 +3,10 @@ import { EuiPanel, EuiEmptyPrompt } from '@elastic/eui';
 import { useMessageManager } from './utils';
 import MessageList from './message-list';
 import ThreadInput from './thread-input';
-import { ThreadsContext } from '../../providers/thread-provider';
+import ThreadsContext from '../../providers/thread-provider';
 import { usePageTitle } from '../hooks';
 import { useActiveThread } from '../../providers/route';
+import Topbar from '../topbar';
 
 const ThreadScreen = () => {
   const [loading, setLoading] = React.useState(true);
@@ -31,27 +32,33 @@ const ThreadScreen = () => {
   }, [activeThread._id]);
 
   return (
-    <div className="cz-thread__wrapper">
-      <div className="cz-thread__messagepanel">
-        {/* Messages panel */}
-        <div className="cz-messages__wrapper">
-          <MessageList
-            messages={Manager.messages}
-            loading={loading}
-          ></MessageList>
-          <ThreadInput onPost={Manager.postNew} loading={loading}></ThreadInput>
+    <>
+      <Topbar />
+      <div className="cz-thread__wrapper">
+        <div className="cz-thread__messagepanel">
+          {/* Messages panel */}
+          <div className="cz-messages__wrapper">
+            <MessageList
+              messages={Manager.messages}
+              loading={loading}
+            ></MessageList>
+            <ThreadInput
+              onPost={Manager.postNew}
+              loading={loading}
+            ></ThreadInput>
+          </div>
+        </div>
+        <div className="cz-thread__threadpanel">
+          {/* Thread information panel */}
+          <EuiPanel style={{ height: '100%' }} hasShadow paddingSize="l">
+            <EuiEmptyPrompt
+              iconType="editorComment"
+              title={<h2>{activeThread.title}</h2>}
+            />
+          </EuiPanel>
         </div>
       </div>
-      <div className="cz-thread__threadpanel">
-        {/* Thread information panel */}
-        <EuiPanel style={{ height: '100%' }} hasShadow paddingSize="l">
-          <EuiEmptyPrompt
-            iconType="editorComment"
-            title={<h2>{activeThread.title}</h2>}
-          />
-        </EuiPanel>
-      </div>
-    </div>
+    </>
   );
 };
 

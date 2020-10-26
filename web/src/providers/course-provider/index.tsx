@@ -1,35 +1,32 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { getProfile } from '../redux/selectors';
+import ProfileContext from '../profile-provider';
 import { getStudentCourses } from '../../utils/requests';
 import LoadingPage from '../../ui/loading-page';
 import { useAllCourseEvents } from '../realtime/hooks';
-import { useActiveCourse } from '../route';
+import { useActiveCourseId } from '../route';
 
-type CourseData = {
+type CourseMetadata = {
   course: ICourse;
   hasUnread: boolean;
 };
 
-type CourseContextData = {
-  courses: CourseData[];
+type CoursesContainer = {
+  courses: CourseMetadata[];
   clearCourseUnread: (courseId: string) => void;
-  addCourse: (courseId: string) => void;
-  removeCourse: (courseId: string) => void;
 };
 
-export const CoursesContext = React.createContext<CourseContextData>({
+const CoursesContext = React.createContext<CoursesContainer>({
   courses: [],
   clearCourseUnread: (_) => {},
-  addCourse: (_) => {},
-  removeCourse: (_) => {},
 });
 
-const CoursesProvider = (props: { children: React.ReactNode }) => {
-  const profile = useSelector(getProfile) as IProfile;
-  const activeCourse = useActiveCourse();
+export default CoursesContext;
+
+export const CoursesProvider = (props: { children: React.ReactNode }) => {
+  const profile = React.useContext(ProfileContext).profile as IProfile;
   const [coursesLoading, setCoursesLoading] = React.useState(true);
-  const [coursesData, setCoursesData] = React.useState<CourseData[]>([]);
+  const [coursesData, setCoursesData] = React.useState<CourseMetadata[]>([]);
+  const activeCourseId = useActiveCourseId();
 
   // Fetch user's courses
   React.useEffect(() => {
@@ -45,7 +42,8 @@ const CoursesProvider = (props: { children: React.ReactNode }) => {
   useAllCourseEvents(
     coursesData.map((cData) => cData.course._id),
     (courseId) => {
-      if (courseId === activeCourse?._id) return;
+      console.log(courseId, activeCourseId);
+      if (courseId === activeCourseId) return;
       const newCoursesData = [...coursesData];
       const eventCourse = newCoursesData.find(
         (cData) => cData.course._id === courseId
@@ -56,6 +54,7 @@ const CoursesProvider = (props: { children: React.ReactNode }) => {
     }
   );
 
+  // Clears the unread status of specified course
   const clearCourseUnread = React.useCallback(
     (courseId: string) => {
       const newCoursesData = [...coursesData];
@@ -67,30 +66,14 @@ const CoursesProvider = (props: { children: React.ReactNode }) => {
     [coursesData]
   );
 
-  const addCourse = React.useCallback(async (courseId: string) => {
-    setCoursesLoading(true);
-    // TODO: Enrol in course here
-    setCoursesLoading(false);
-  }, []);
-
-  const removeCourse = React.useCallback(async (courseId: string) => {
-    setCoursesLoading(true);
-    // TODO: Unenrol from course here
-    setCoursesLoading(false);
-  }, []);
-
   return (
     <CoursesContext.Provider
       value={{
         courses: coursesData,
         clearCourseUnread,
-        addCourse,
-        removeCourse,
       }}
     >
       {coursesLoading ? <LoadingPage /> : props.children}
     </CoursesContext.Provider>
   );
 };
-
-export default CoursesProvider;

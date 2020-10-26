@@ -75,8 +75,8 @@ export const useStateFromRoute = (): RouteState => {
 };
 
 /**
- * Custom hook that provides functions for navigating across
- * the app and accordingly updating Redux state
+ * Custom hook that provides functions for
+ * navigating across the app
  */
 export const useAppNavigator = () => {
   const activeCourseId = useActiveCourse()?._id;

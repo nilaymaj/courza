@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { RawMessage } from '../../ui/thread-screen/utils';
-import { useSelector } from 'react-redux';
-import { getProfile } from '../redux/selectors';
+import ProfileContext from '../profile-provider';
 import { RealtimeEventsContext } from './index';
 
 /**
@@ -9,12 +8,12 @@ import { RealtimeEventsContext } from './index';
  * socket, optionally corresponding to a particular thread
  */
 export const useNewMessageEvent = (
-  courseId: string | undefined, // TODO: Remove this hack (see ThreadsProvider)
+  courseId: string,
   handler: (payload: RawMessage) => void,
   threadId?: string
 ) => {
   const socketManager = React.useContext(RealtimeEventsContext);
-  const profile = useSelector(getProfile) as IProfile;
+  const profile = React.useContext(ProfileContext).profile as IProfile;
 
   // Wrapping handler that filters away user's own events
   const eventHandler = React.useCallback(
@@ -29,7 +28,6 @@ export const useNewMessageEvent = (
 
   // Register and deregister socket handler
   React.useEffect(() => {
-    if (!courseId) return;
     socketManager.addListener(courseId, eventHandler);
     return () => socketManager.removeListener(courseId, eventHandler);
   }, [socketManager, eventHandler, courseId]);
@@ -39,11 +37,11 @@ export const useNewMessageEvent = (
  * Hook for responding to new thread events from socket
  */
 export const useNewThreadEvent = (
-  courseId: string | undefined,
+  courseId: string,
   handler: (payload: IThread) => void
 ) => {
   const socketManager = React.useContext(RealtimeEventsContext);
-  const profile = useSelector(getProfile) as IProfile;
+  const profile = React.useContext(ProfileContext).profile as IProfile;
 
   // Wrapping handler that filters away user's own events
   const eventHandler = React.useCallback(
@@ -57,7 +55,6 @@ export const useNewThreadEvent = (
 
   // Register and deregister socket handler
   React.useEffect(() => {
-    if (!courseId) return;
     socketManager.addListener(courseId, eventHandler);
     return () => socketManager.removeListener(courseId, eventHandler);
   }, [socketManager, eventHandler, courseId]);

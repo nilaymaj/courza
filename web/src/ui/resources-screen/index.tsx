@@ -4,6 +4,7 @@ import { getAllCourseResources, postNewResource } from '../../utils/requests';
 import UploadResourceDialog from './upload-resource-dialog';
 import { usePageTitle } from '../hooks';
 import ResourcesList from './resources-list';
+import Topbar from '../topbar';
 import { categoriseResources, CategorisedResources } from './utils';
 import { useActiveCourse } from '../../providers/route';
 
@@ -44,29 +45,34 @@ const ResourcesScreen = () => {
   }, [fetchResources]);
 
   return (
-    <div className="cz-course__wrapper">
-      <div className="cz-course__panel">
-        <EuiPanel>
-          <EuiEmptyPrompt title={<h2>{course && course.code} Resources</h2>} />
-          {resources ? (
-            <ResourcesList
-              categorisedResources={resources}
-              onUpload={openCategory}
-              onCreateCategory={onCreateCategory}
+    <>
+      <Topbar />
+      <div className="cz-course__wrapper">
+        <div className="cz-course__panel">
+          <EuiPanel>
+            <EuiEmptyPrompt
+              title={<h2>{course && course.code} Resources</h2>}
             />
-          ) : (
-            <EuiLoadingSpinner />
+            {resources ? (
+              <ResourcesList
+                categorisedResources={resources}
+                onUpload={openCategory}
+                onCreateCategory={onCreateCategory}
+              />
+            ) : (
+              <EuiLoadingSpinner />
+            )}
+          </EuiPanel>
+          {categoryOpen && (
+            <UploadResourceDialog
+              category={categoryOpen}
+              onUpload={onPostNewResource}
+              onClose={() => openCategory(null)}
+            />
           )}
-        </EuiPanel>
-        {categoryOpen && (
-          <UploadResourceDialog
-            category={categoryOpen}
-            onUpload={onPostNewResource}
-            onClose={() => openCategory(null)}
-          />
-        )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
