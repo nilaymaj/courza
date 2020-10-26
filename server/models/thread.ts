@@ -6,6 +6,7 @@ export interface IThread extends mng.Document {
   title: string;
   course: mng.Types.ObjectId;
   creator: mng.Types.ObjectId;
+  lastMessage: mng.Types.ObjectId;
 }
 
 // Statics interface
@@ -29,6 +30,10 @@ const threadSchema = new mng.Schema<IThread>(
       type: mng.Types.ObjectId,
       ref: 'Student',
       required: true,
+    },
+    lastMessage: {
+      type: mng.Types.ObjectId,
+      ref: 'Message',
     },
   },
   { timestamps: true }

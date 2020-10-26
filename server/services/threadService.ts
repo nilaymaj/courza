@@ -16,6 +16,7 @@ export const createThread = async (
   title: string,
   description: string
 ): Promise<IThread> => {
+  // Create the actual thread object
   validateThread({ title, description });
   const thread = new Thread({
     title: title,
@@ -23,7 +24,12 @@ export const createThread = async (
     course: course._id,
   });
   await thread.save();
-  await postNew(student, thread, description);
+
+  // Create first message and set as thread's latest message
+  const message = await postNew(student, thread, description);
+  thread.lastMessage = message._id;
+  await thread.save();
+
   ioEmitter.emitToCourse(course._id, 'new-thread', thread);
   return thread;
 };
@@ -41,7 +47,9 @@ export const get = async (threadId: string, lean = false) => {
  * Returns list of all threads from a course
  */
 export const getAll = async (course: ICourse, lean = false) => {
-  const threads = await Thread.find({ course: course._id }).lean(lean);
+  const threads = await Thread.find({ course: course._id })
+    .populate('lastMessage', ['content'])
+    .lean(lean);
   return threads;
 };
 
