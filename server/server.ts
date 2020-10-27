@@ -8,12 +8,13 @@ import MainRouter from './routes';
 import * as logger from './utils/logger';
 import { DEV_DB_URL } from './utils/constants';
 import { initStorage } from './utils/storage';
+import { initMailService } from './utils/email';
 import http from 'http';
 
 /**
  * Setup and initialize the Express server
  */
-const startHttpServer = () => {
+const startHttpServer = async () => {
   const server = http.createServer(app);
 
   // Middleware
@@ -44,6 +45,9 @@ const startHttpServer = () => {
     .catch((err) => {
       logger.err(`Couldn't load credentials: ${err}`, 'aws');
     });
+
+  // Connect to email service provider
+  initMailService();
 
   // Start listening
   const PORT = 8000;
