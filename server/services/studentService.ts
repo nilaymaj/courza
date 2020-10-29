@@ -9,3 +9,15 @@ export const get = async (studentId: string): Promise<IStudent> => {
   if (!student) throw new NotFoundError('Student does not exist.');
   return student;
 };
+
+/**
+ * Update settings of student
+ */
+export const updateSettings = async (
+  student: IStudent,
+  patches: {}
+): Promise<IStudent> => {
+  student.settings = { ...student.settings, ...patches };
+  await student.save();
+  return student;
+};

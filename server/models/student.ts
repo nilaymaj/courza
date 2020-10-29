@@ -10,6 +10,10 @@ export interface IStudent extends mng.Document {
   rollNo: number;
   password: string;
 
+  settings: {
+    useDarkMode: boolean;
+  };
+
   /**
    * Generate JWT token with student ID as payload
    * @returns {string} JWT token string
@@ -59,6 +63,13 @@ const studentSchema = new mng.Schema<IStudent>(
       required: true,
       minlength: 8,
       maxlength: 1024,
+    },
+    settings: {
+      useDarkMode: {
+        type: mng.Schema.Types.Boolean,
+        required: true,
+        default: false,
+      },
     },
   },
   { timestamps: true }
