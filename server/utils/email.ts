@@ -2,6 +2,8 @@ import mailJet from 'node-mailjet';
 import credentials from '../keys/mailjet-credentials.json';
 
 const SENDER_EMAIL = 'courza.dev@gmail.com';
+const URL_PREFIX = 'http://localhost:3000/verify?token='; // TODO: Write production logic for this
+
 let _mailService: mailJet.Email.Client;
 
 /**
@@ -10,7 +12,7 @@ let _mailService: mailJet.Email.Client;
  */
 const createVerificationMail = (
   userEmail: string,
-  verificationLink: string
+  verificationToken: string
 ) => {
   return {
     To: [{ Email: userEmail, Name: 'User' }],
@@ -19,14 +21,14 @@ const createVerificationMail = (
     TextPart: `
 Hey!
 Verify your account and start using Courza, by following the link given below:
-${verificationLink}
+${URL_PREFIX + verificationToken}
 
 The link will be active for only 30 minutes, so be quick!
     `,
     HTMLPart: `<html>
     Hey!<br><br>
     Verify your account and start using Courza, by following the link given below:<br>
-    <a href='${verificationLink}'>Verify your account</a>
+    <a href='${URL_PREFIX + verificationToken}'>Verify your account</a>
     <br><br>
     The link will be active for only 30 minutes, so be quick!
         </html>`,

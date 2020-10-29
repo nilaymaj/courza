@@ -1,18 +1,41 @@
-import { omit } from 'lodash';
 import { Router, Request } from 'express';
 import * as AuthService from '../services/authService';
 import controller from './controller';
 const router = Router();
 
-// Register new student
-interface IRegisterReq extends Request {
-  body: { name: string; iitkEmail: string; rollNo: number; password: string };
+// Create a verification ticket for new account
+interface IUnverifiedRegisterReq extends Request {
+  body: { iitkEmail: string };
 }
 router.post(
   '/register',
-  controller(async (req: IRegisterReq, res) => {
-    const student = await AuthService.register(req.body);
-    return res.send(omit(student.toObject(), ['__v', 'password']));
+  controller(async (req: IUnverifiedRegisterReq, res) => {
+    const ticket = await AuthService.registerUnverified(req.body.iitkEmail);
+    return res.send(ticket);
+  })
+);
+
+// Verify, create user account and login
+interface IVerifyAccountReq extends Request {
+  body: {
+    name: string;
+    rollNo: number;
+    password: string;
+  };
+  query: { token: string };
+}
+router.post(
+  '/verify',
+  controller(async (req: IVerifyAccountReq, res) => {
+    const student = await AuthService.verifyUserAccount(
+      req.query.token,
+      req.body
+    );
+
+    // Directly login to the app
+    const token = AuthService.getToken(student);
+    const profile = student.getInfo();
+    return res.cookie('cz-token', token).send(profile);
   })
 );
 
