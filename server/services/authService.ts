@@ -7,6 +7,7 @@ import {
   NotFoundError,
   CredentialsError,
   DuplicateError,
+  ValidationError,
 } from '../utils/errors';
 import { sendVerificationMail } from '../utils/email';
 
@@ -17,11 +18,17 @@ import { sendVerificationMail } from '../utils/email';
 export const registerUnverified = async (
   iitkEmail: string
 ): Promise<IVerificationTicket> => {
+  // Check if account already exists
+  const accountExists = await Student.exists({ iitkEmail });
+  if (accountExists) throw new ValidationError('Account already exists');
+
+  // Ensure ticket does not already exist, and create one
   let ticket = await VerificationTicket.findOne({ iitkEmail });
   if (ticket) throw new DuplicateError('Verification ticket already exists');
-
   ticket = new VerificationTicket({ iitkEmail });
   await ticket.save();
+
+  // Send verification mail
   await sendVerificationMail(iitkEmail, ticket.uniqueToken);
   return ticket.toObject();
 };

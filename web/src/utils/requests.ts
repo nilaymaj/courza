@@ -55,6 +55,31 @@ export const login = async (iitkEmail: string, password: string) => {
 };
 
 /**
+ * Create unverified account using email ID
+ */
+export const registerUnverified = async (iitkEmail: string) => {
+  const res = await request('POST', '/auth/register', { iitkEmail });
+  return res;
+};
+
+/**
+ * Verify and create user account
+ */
+export const verifyAccount = async (
+  token: string,
+  name: string,
+  rollNo: number,
+  password: string
+) => {
+  const res = await request('POST', `/auth/verify?token=${token}`, {
+    name,
+    rollNo,
+    password,
+  });
+  return res;
+};
+
+/**
  * Fetch all the messages of a thread
  */
 export const getThreadMessages = async (threadId: string) => {

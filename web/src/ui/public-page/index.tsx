@@ -6,6 +6,7 @@ import LoginForm from './login-form';
 import LoadingPage from '../loading-page';
 import ProfileContext from '../../providers/profile-provider';
 import { getProfile } from '../../utils/requests';
+import RegistrationForm from './register-form';
 
 const PublicPage = () => {
   const history = useHistory();
@@ -42,15 +43,26 @@ const PublicPage = () => {
           <img src={mainLogo} alt="Courza" className="public__logo"></img>
           <br></br>
           <EuiText>
-            Find and share course-related discussions and resources easily!
+            <h3>
+              Find and share course-related discussions and resources easily!
+            </h3>
           </EuiText>
         </div>
-        <div className="public__login">
-          <EuiText>
-            <h2>Login</h2>
-          </EuiText>
-          <br></br>
-          <LoginForm onLogin={handleLogin}></LoginForm>
+        <div className="public__side">
+          <div className="public__card login">
+            <EuiText>
+              <h2>Login</h2>
+            </EuiText>
+            <br></br>
+            <LoginForm onLogin={handleLogin}></LoginForm>
+          </div>
+          <div className="public__card register">
+            <EuiText>
+              <h2>Register</h2>
+            </EuiText>
+            <br />
+            <RegistrationForm />
+          </div>
         </div>
       </div>
     </div>

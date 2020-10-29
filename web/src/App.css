@@ -67,27 +67,47 @@
 
 .public__content {
   display: flex;
-  width: 80%;
+  width: 60%;
 }
 
 .public__text {
-  flex: 4;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 60px 30px;
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 5px;
   margin: 20px;
 }
 
-.public__login {
+.public__side {
   flex: 1;
   margin: 20px;
-  background: #ffffff;
-  border-radius: 20px;
   display: flex;
+  flex-direction: column;
+}
+
+.public__card {
+  display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  background: #ffffff;
+  border-radius: 5px;
+}
+
+.public__card.register {
+  margin: 10px 10px 0;
+  flex: 1;
+}
+
+.public__card.login {
+  margin: 0 10px 10px;
+  flex: 1;
 }
 
 .public__login form {
@@ -96,7 +116,7 @@
 }
 
 .public__logo {
-  width: 350px;
+  width: 400px;
 }
 
 .cz-thread__wrapper {
