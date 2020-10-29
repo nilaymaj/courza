@@ -60,11 +60,6 @@ const studentSchema = new mng.Schema<IStudent>(
       minlength: 8,
       maxlength: 1024,
     },
-    regStatus: {
-      type: String,
-      enum: ['unverified', 'done'],
-      default: 'unverified',
-    },
   },
   { timestamps: true }
 );
