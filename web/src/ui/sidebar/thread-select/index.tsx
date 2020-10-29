@@ -9,7 +9,6 @@ import {
   EuiDescriptionList,
 } from '@elastic/eui';
 import ThreadRow from './thread-row';
-import { useNewMessageEvent } from '../../../providers/realtime/hooks';
 import ThreadsContext from '../../../providers/thread-provider';
 import { useActiveCourse, useActiveThread } from '../../../providers/route';
 

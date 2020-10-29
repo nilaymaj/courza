@@ -25,7 +25,7 @@ export const useNewMessageEvent = (
         return;
       handler(payload.payload);
     },
-    [profile._id, threadId, handler]
+    [profile._id, threadId, handler, ignoreUserEvents]
   );
 
   // Register and deregister socket handler

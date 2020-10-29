@@ -6,6 +6,7 @@ import {
   EuiForm,
   EuiFormRow,
   EuiFieldText,
+  EuiFieldPassword,
   EuiButton,
   EuiCallOut,
   EuiSpacer,
@@ -85,9 +86,8 @@ const LoginForm = (props: Props) => {
         error={pswdError}
         fullWidth
       >
-        <EuiFieldText
-          name="text"
-          type="password"
+        <EuiFieldPassword
+          name="password"
           value={password}
           isInvalid={!!pswdError}
           fullWidth
