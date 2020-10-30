@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classes from 'classnames';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import Dashboard from './dashboard';
 import RealtimeEventsProvider from '../providers/realtime';
@@ -27,20 +28,22 @@ const MainContainer = () => {
   return (
     <RealtimeEventsProvider>
       <CoursesProvider>
-        <Switch>
-          <Route
-            path={match.url + '/'}
-            exact
-            render={() => <Dashboard />}
-          ></Route>
-          <Route
-            path={match.url + '/c/:courseId'}
-            render={() => <CourseContainer />}
-          ></Route>
-          <Route>
-            <Redirect to={match.url + '/abc'} />
-          </Route>
-        </Switch>
+        <div className={classes('cz-theme', { dark: useDarkMode.current })}>
+          <Switch>
+            <Route
+              path={match.url + '/'}
+              exact
+              render={() => <Dashboard />}
+            ></Route>
+            <Route
+              path={match.url + '/c/:courseId'}
+              render={() => <CourseContainer />}
+            ></Route>
+            <Route>
+              <Redirect to={match.url + '/abc'} />
+            </Route>
+          </Switch>
+        </div>
       </CoursesProvider>
     </RealtimeEventsProvider>
   );

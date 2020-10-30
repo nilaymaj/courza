@@ -3,6 +3,7 @@ import ThreadSelect from './thread-select';
 import { useIsResourcesOpen } from '../../providers/route';
 import { useAppNavigator } from '../hooks';
 import { EuiListGroup, EuiListGroupItem } from '@elastic/eui';
+import classes from 'classnames';
 
 const CourseNav = () => {
   const resourcesOpen = useIsResourcesOpen();
@@ -16,10 +17,9 @@ const CourseNav = () => {
           isActive={resourcesOpen}
           iconType="empty"
           onClick={() => appNav.goToResources()}
-          style={{
-            padding: 10,
-            background: resourcesOpen ? 'rgba(211, 218, 230, 0.25)' : undefined,
-          }}
+          className={classes('cz-sidebar__resources', {
+            active: resourcesOpen,
+          })}
         ></EuiListGroupItem>
       </EuiListGroup>
       <ThreadSelect></ThreadSelect>

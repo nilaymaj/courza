@@ -4,12 +4,13 @@
   --color-primary: #1e6bff;
   --color-primary__highlight: #5d96ff;
   --color-primary__faded: #c1d6ff;
+  --color-primary__faded-dark: #4c5361;
 
   --color-danger: #eb2f2f;
   --color-danger__highlight: #eb4646;
   --color-danger__faded: #ff8b8b;
 
-  --color-overlay: rgba(100, 100, 150, 0.1);
+  --color-overlay: rgba(100, 100, 150, 0.15);
 
   --font-heading: 'Oswald', sans-serif;
   --font-body: 'Source Sans Pro', sans-serif;
@@ -30,6 +31,10 @@
   display: inline-block !important;
   width: 16px !important;
   margin-bottom: 0 !important;
+}
+
+.cz-theme {
+  height: 100%;
 }
 
 /* width */
@@ -170,6 +175,14 @@
   z-index: 7001 !important;
 }
 
+.cz-sidebar__resources {
+  padding: 7px !important;
+}
+
+.cz-sidebar__resources.active {
+  background: var(--color-overlay);
+}
+
 .cz-sidebar__threadrow {
   cursor: pointer;
   padding: 0.6em 1.5em 0.6em 1em;
@@ -177,6 +190,10 @@
   border-radius: 0 5px 5px 0;
   border-left: solid 3px var(--color-primary__faded);
   transition: all 0.2s ease-in-out;
+}
+
+.dark .cz-sidebar__threadrow {
+  border-color: var(--color-primary__faded-dark);
 }
 
 .cz-sidebar__threadrow.unread {
