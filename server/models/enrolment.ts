@@ -27,5 +27,8 @@ const enrolmentSchema = new mng.Schema<IEnrolment>(
   { timestamps: true }
 );
 
+// Create compound unique index of student and course IDs
+enrolmentSchema.index({ student: 1, course: 1 }, { unique: true });
+
 const Enrolment = mng.model<IEnrolment, IStatics>('Enrolment', enrolmentSchema);
 export default Enrolment;
