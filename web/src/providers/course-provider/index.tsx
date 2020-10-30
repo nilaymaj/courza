@@ -9,6 +9,7 @@ import LoadingPage from '../../ui/loading-page';
 import { useAllCourseEvents } from '../realtime/hooks';
 import { useActiveCourseId } from '../route';
 import SettingsDialog from '../../ui/settings-dialog';
+import { useAppNavigator } from '../../ui/hooks';
 
 type CourseMetadata = {
   course: ICourse;
@@ -38,6 +39,7 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
   const [coursesLoading, setCoursesLoading] = React.useState(true);
   const [coursesData, setCoursesData] = React.useState<CourseMetadata[]>([]);
   const [settingsOpen, setSettingsOpen] = React.useState(true);
+  const appNav = useAppNavigator();
   const activeCourseId = useActiveCourseId();
 
   // Fetch user's courses
@@ -105,6 +107,7 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
       if (index === -1) return;
 
       await sendLeaveRequest(courseId);
+      if (courseId === activeCourseId) appNav.goToHome();
       const newCoursesData = [...coursesData];
       newCoursesData.splice(index, 1);
       setCoursesData(newCoursesData);

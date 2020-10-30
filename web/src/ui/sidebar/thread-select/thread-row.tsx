@@ -22,10 +22,10 @@ const ThreadRow = (props: Props) => {
 
   return (
     <div className={className} onClick={props.onClick}>
-      <EuiDescriptionListTitle>
+      <EuiDescriptionListTitle className="eui-textTruncate">
         {props.threadData.thread.title}
       </EuiDescriptionListTitle>
-      <EuiDescriptionListDescription>
+      <EuiDescriptionListDescription className="eui-textTruncate">
         {props.threadData.lastMessage}
       </EuiDescriptionListDescription>
     </div>
