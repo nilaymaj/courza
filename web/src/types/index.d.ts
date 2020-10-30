@@ -25,11 +25,16 @@ declare interface ILastRead {
   timestamp: Date;
 }
 
+declare interface ISettings {
+  useDarkMode: boolean;
+}
+
 declare interface IProfile {
   _id: string;
   name: string;
   iitkEmail: string;
   rollNo: number;
+  settings: ISettings;
 }
 
 declare interface IResource {

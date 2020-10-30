@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useAppNavigator } from '../../hooks';
-import CreateThreadDialog from '../../dialogs/create-thread-dialog';
+import CreateThreadDialog from './create-thread-dialog';
 import { createNewThread } from '../../../utils/requests';
 import {
   EuiCollapsibleNavGroup,

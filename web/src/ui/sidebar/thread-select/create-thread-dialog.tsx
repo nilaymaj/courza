@@ -1,7 +1,7 @@
 import { EuiTextArea } from '@elastic/eui';
 import React from 'react';
 import * as yup from 'yup';
-import { useFormField } from '../hooks';
+import { useFormField } from '../../hooks';
 
 import {
   EuiButton,

@@ -1,9 +1,14 @@
 import * as React from 'react';
 import ProfileContext from '../profile-provider';
-import { getStudentCourses } from '../../utils/requests';
+import {
+  getStudentCourses,
+  joinCourse as sendJoinRequest,
+  leaveCourse as sendLeaveRequest,
+} from '../../utils/requests';
 import LoadingPage from '../../ui/loading-page';
 import { useAllCourseEvents } from '../realtime/hooks';
 import { useActiveCourseId } from '../route';
+import SettingsDialog from '../../ui/settings-dialog';
 
 type CourseMetadata = {
   course: ICourse;
@@ -13,11 +18,17 @@ type CourseMetadata = {
 type CoursesContainer = {
   courses: CourseMetadata[];
   clearCourseUnread: (courseId: string) => void;
+  openSettingsDialog: (open: boolean) => void;
+  joinCourse: (courseId: string) => void;
+  leaveCourse: (courseId: string) => void;
 };
 
 const CoursesContext = React.createContext<CoursesContainer>({
   courses: [],
   clearCourseUnread: (_) => {},
+  openSettingsDialog: (_) => {},
+  joinCourse: (_) => {},
+  leaveCourse: (_) => {},
 });
 
 export default CoursesContext;
@@ -26,6 +37,7 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
   const profile = React.useContext(ProfileContext).profile as IProfile;
   const [coursesLoading, setCoursesLoading] = React.useState(true);
   const [coursesData, setCoursesData] = React.useState<CourseMetadata[]>([]);
+  const [settingsOpen, setSettingsOpen] = React.useState(true);
   const activeCourseId = useActiveCourseId();
 
   // Fetch user's courses
@@ -66,14 +78,58 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
     [coursesData]
   );
 
+  // Opens or closes the settings dialog
+  const openSettingsDialog = React.useCallback((open: boolean) => {
+    setSettingsOpen(open);
+  }, []);
+
+  // Join a course
+  const joinCourse = React.useCallback(
+    async (courseId: string) => {
+      const exists = coursesData.find((cData) => cData.course._id === courseId);
+      if (exists) return;
+
+      const course = await sendJoinRequest(courseId);
+      const newCoursesData = [...coursesData, { course, hasUnread: true }];
+      setCoursesData(newCoursesData);
+    },
+    [coursesData]
+  );
+
+  // Leave a course
+  const leaveCourse = React.useCallback(
+    async (courseId: string) => {
+      const index = coursesData.findIndex(
+        (cData) => cData.course._id === courseId
+      );
+      if (index === -1) return;
+
+      await sendLeaveRequest(courseId);
+      const newCoursesData = [...coursesData];
+      newCoursesData.splice(index, 1);
+      setCoursesData(newCoursesData);
+    },
+    [coursesData]
+  );
+
   return (
     <CoursesContext.Provider
       value={{
         courses: coursesData,
         clearCourseUnread,
+        openSettingsDialog,
+        joinCourse,
+        leaveCourse,
       }}
     >
-      {coursesLoading ? <LoadingPage /> : props.children}
+      {coursesLoading ? (
+        <LoadingPage />
+      ) : (
+        <>
+          {props.children}
+          {settingsOpen && <SettingsDialog />}
+        </>
+      )}
     </CoursesContext.Provider>
   );
 };

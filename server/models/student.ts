@@ -21,7 +21,7 @@ export interface IStudent extends mng.Document {
   generateToken(): string;
 
   /**
-   * Returns basic student info without courses
+   * Returns basic student info
    * @returns {IStudentInfo} Basic info of the student
    */
   getInfo(): IStudentInfo;
@@ -32,6 +32,9 @@ export interface IStudentInfo {
   name: string;
   iitkEmail: string;
   rollNo: number;
+  settings: {
+    useDarkMode: boolean;
+  };
 }
 
 // Statics interface
@@ -87,6 +90,7 @@ studentSchema.methods.getInfo = function (): IStudentInfo {
     name: this.name,
     iitkEmail: this.iitkEmail,
     rollNo: this.rollNo,
+    settings: this.settings,
   };
 };
 

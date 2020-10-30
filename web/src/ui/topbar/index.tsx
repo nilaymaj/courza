@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useActiveCourse, useActiveThread } from '../../providers/route';
 import Sidebar from '../sidebar';
+import ProfilePopoverButton from './profile-popover';
 import { useAppNavigator } from '../hooks';
 import * as mainIcon from '../../assets/icon-512.png';
 import {
@@ -41,9 +42,11 @@ const Topbar = () => {
 
   return (
     <EuiHeader position="fixed">
+      {/* Sidebar */}
       <EuiHeaderSection>
         <Sidebar></Sidebar>
       </EuiHeaderSection>
+      {/* App logo */}
       <EuiHeaderSection grow={false} onClick={() => appNav.goToHome()}>
         <EuiHeaderSectionItem border="right">
           <EuiHeaderLogo iconType={mainIcon} aria-label="Go to home page">
@@ -51,8 +54,14 @@ const Topbar = () => {
           </EuiHeaderLogo>
         </EuiHeaderSectionItem>
       </EuiHeaderSection>
+      {/* Breadcrumbs */}
       <EuiHeaderBreadcrumbs breadcrumbs={breadcrumbs} />
       <EuiHeaderSection side="right">
+        {/* Search button */}
+        <EuiHeaderSectionItem>
+          <ProfilePopoverButton />
+        </EuiHeaderSectionItem>
+        {/* Profile button */}
         <EuiHeaderSectionItem>
           <EuiHeaderSectionItemButton aria-label="Search">
             <EuiIcon type="search" size="m" />

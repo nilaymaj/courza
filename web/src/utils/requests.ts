@@ -80,6 +80,14 @@ export const verifyAccount = async (
 };
 
 /**
+ * Update user settings with the given patch
+ */
+export const updateUserSettings = async (patches: {}) => {
+  const res = await request('PUT', '/students/settings', patches);
+  return res;
+};
+
+/**
  * Fetch all the messages of a thread
  */
 export const getThreadMessages = async (threadId: string) => {
@@ -152,5 +160,21 @@ export const getCourseTimestamps = async (courseId: string) => {
  */
 export const updateThreadTimestamp = async (threadId: string) => {
   const res = await request('PUT', `/lastreads/update?threadId=${threadId}`);
+  return res;
+};
+
+/**
+ * Enrol in specified course
+ */
+export const joinCourse = async (courseId: string) => {
+  const res = await request('POST', '/enrol/join', { courseId });
+  return res;
+};
+
+/**
+ * Leave the specified course
+ */
+export const leaveCourse = async (courseId: string) => {
+  const res = await request('POST', '/enrol/leave', { courseId });
   return res;
 };

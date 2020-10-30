@@ -167,7 +167,7 @@
 
 .cz-overlay {
   /* Override EUI to keep modal over navbar */
-  z-index: 10000 !important;
+  z-index: 7001 !important;
 }
 
 .cz-sidebar__threadrow {
