@@ -38,7 +38,7 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
   const profile = React.useContext(ProfileContext).profile as IProfile;
   const [coursesLoading, setCoursesLoading] = React.useState(true);
   const [coursesData, setCoursesData] = React.useState<CourseMetadata[]>([]);
-  const [settingsOpen, setSettingsOpen] = React.useState(true);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
   const appNav = useAppNavigator();
   const activeCourseId = useActiveCourseId();
 

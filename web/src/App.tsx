@@ -4,9 +4,9 @@ import { PrivateRoute } from './utils/base';
 import PublicPage from './ui/public-page';
 import MainContainer from './ui/main-container';
 import ProfileContext from './providers/profile-provider';
+import AccountVerificationScreen from './ui/verify-account';
 import './App.css';
 import '@elastic/eui/dist/eui_theme_light.css';
-import AccountVerificationScreen from './ui/verify-account';
 
 const App = () => {
   const profile = React.useContext(ProfileContext).profile;
