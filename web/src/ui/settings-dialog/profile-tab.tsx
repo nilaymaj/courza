@@ -2,6 +2,7 @@ import {
   EuiAvatar,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiFormRow,
   EuiSpacer,
   EuiSwitch,
   EuiSwitchEvent,
@@ -50,11 +51,13 @@ const ProfileTab = () => {
         <h3>Preferences</h3>
       </EuiText>
       <EuiSpacer size="s" />
-      <EuiSwitch
-        label="Dark mode"
-        checked={profile.settings.useDarkMode}
-        onChange={(e) => updatePreference('useDarkMode', e)}
-      />
+      <EuiFormRow helpText="Refresh the page to see theme changes">
+        <EuiSwitch
+          label="Dark mode"
+          checked={profile.settings.useDarkMode}
+          onChange={(e) => updatePreference('useDarkMode', e)}
+        />
+      </EuiFormRow>
     </>
   );
 };
