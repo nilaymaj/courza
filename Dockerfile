@@ -1,6 +1,8 @@
 FROM node:12.18.3
 WORKDIR /app
 
+ARG REACT_APP_WS_HOST
+
 COPY ./server ./server
 COPY ./web ./web
 
