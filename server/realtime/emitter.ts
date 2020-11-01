@@ -4,9 +4,12 @@ import mng from 'mongoose';
 
 let _socketEmitter: socketIoEmitter.SocketIOEmitter;
 
+const REDIS_HOST =
+  process.env.NODE_ENV === 'production' ? 'redis' : 'localhost';
+
 const _getIo = () => {
   if (_socketEmitter) return _socketEmitter;
-  _socketEmitter = socketIoEmitter({ host: 'localhost', port: 6379 });
+  _socketEmitter = socketIoEmitter({ host: REDIS_HOST, port: 6379 });
   return _socketEmitter;
 };
 

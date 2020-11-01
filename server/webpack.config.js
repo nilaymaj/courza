@@ -3,7 +3,6 @@ const nodeExternals = require('webpack-node-externals');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 module.exports = {
-  mode: 'development',
   target: 'node',
   externals: [nodeExternals()],
   entry: ['./index.ts'],

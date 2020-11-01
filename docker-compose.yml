@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis
+  app:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - CZ_HTTP_HOST=http://localhost:8000
+      - CZ_WS_HOST=http://localhost:8001
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: courza
+        awslogs-region: ap-south-1
+        awslogs-stream-prefix: app

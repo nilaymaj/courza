@@ -51,30 +51,6 @@ export const useFormField = <T extends FieldValue>(
 };
 
 /**
- * Parses current location using react-router's matchPath
- * to return current course ID and thread ID
- */
-export const useStateFromRoute = (): RouteState => {
-  const history = useHistory();
-  const matchURLs = [
-    '/home/c/:courseId/:threadId',
-    '/home/c/:courseId',
-    '/home',
-  ];
-  let data;
-  for (const url of matchURLs) {
-    data = matchPath(history.location.pathname, { path: url });
-    if (data) break;
-  }
-
-  // TODO: Fix this please
-  // @ts-ignore
-  if (data.params.threadId === 'resources') data.params.resourcesOpen = true;
-  // @ts-ignore
-  return data && data.params;
-};
-
-/**
  * Custom hook that provides functions for
  * navigating across the app
  */

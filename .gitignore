@@ -2,6 +2,7 @@
 server/yarn-error.log
 server/keys
 server/uploads
+server/public
 
 # Ignore build output
 **/dist

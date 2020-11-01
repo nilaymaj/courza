@@ -5,7 +5,7 @@ const request = async (method: Method, url: string, data?: any) => {
   const response = await axios({
     method,
     data,
-    url,
+    url: '/api' + url,
     withCredentials: true,
   });
   return response.data;

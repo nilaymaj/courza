@@ -33,24 +33,6 @@ export const getUsernameFromEmail = (email: string): string => {
 };
 
 /**
- * Get the value of an environment variable
- *
- * @param {string} varName Name of the environment variable
- * @param {*} [defaultValue] Value to be returned if variable not found
- * @returns Value of the environment variable
- *
- */
-export const getEnvVariable = (
-  varName: string,
-  defaultValue?: string
-): string => {
-  const fullName = `COURZA_${varName.toUpperCase()}`;
-  let envValue = process.env[fullName];
-  if (!envValue) envValue = defaultValue;
-  return envValue;
-};
-
-/**
  * Hashes the given string
  *
  * @param {string} str String to be hashed

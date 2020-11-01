@@ -8,9 +8,10 @@
   "private": true,
   "scripts": {
     "watch": "webpack --watch",
-    "build": "webpack --hide-modules",
+    "build:dev": "webpack --hide-modules --mode=development",
+    "build:prod": "webpack --hide-modules --mode=production",
     "serve": "nodemon dist/main.js",
-    "start": "yarn build && (yarn watch & yarn serve)",
+    "start": "yarn build:dev && (yarn watch & yarn serve)",
     "db:populate": "tsc --esModuleInterop scripts/populate.ts && node scripts/populate.js && rm -f scripts/populate.js",
     "test": "jest --silent",
     "flow": "flow"

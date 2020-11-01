@@ -1,15 +1,17 @@
 import express from 'express';
 const app = express();
 import morgan from 'morgan';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connect } from 'mongoose';
 import MainRouter from './routes';
 import * as logger from './utils/logger';
-import { DEV_DB_URL } from './utils/constants';
 import { initStorage } from './utils/storage';
 import { initMailService } from './utils/email';
 import http from 'http';
+import path from 'path';
+
+const dbHost = process.env.NODE_ENV === 'production' ? 'mongo' : 'localhost';
+const DB_URL = `mongodb://${dbHost}:27017/courza`;
 
 /**
  * Setup and initialize the Express server
@@ -18,14 +20,17 @@ const startHttpServer = async () => {
   const server = http.createServer(app);
 
   // Middleware
-  app.use(cors({ origin: 'http://test.lclhost.com:3000', credentials: true }));
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.json());
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use('/api', MainRouter);
+  app.get('/*', (req, res) =>
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+  );
 
   // Connect to database
-  connect(DEV_DB_URL, {
+  connect(DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

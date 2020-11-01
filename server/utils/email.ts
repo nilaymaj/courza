@@ -1,8 +1,10 @@
 import mailJet from 'node-mailjet';
 import credentials from '../keys/mailjet-credentials.json';
 
+const hostDomain = process.env.CZ_HTTP_HOST || 'http://localhost:3000';
+
 const SENDER_EMAIL = 'courza.dev@gmail.com';
-const URL_PREFIX = 'http://localhost:3000/verify?token='; // TODO: Write production logic for this
+const URL_PREFIX = hostDomain + '/verify?token=';
 
 let _mailService: mailJet.Email.Client;
 
