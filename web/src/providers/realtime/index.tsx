@@ -1,7 +1,10 @@
 import * as React from 'react';
 import socketIo from 'socket.io-client';
 
-const socketEndpoint = process.env.CZ_WS_HOST || 'http://localhost:8001';
+const socketEndpoint =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_WS_HOST
+    : 'http://localhost:8001';
 
 /**
  * Wrapper class around Socket.IO socket instance, that
