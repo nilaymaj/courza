@@ -28,8 +28,8 @@ export const registerUnverified = async (
   ticket = new VerificationTicket({ iitkEmail });
   await ticket.save();
 
-  // Send verification mail
-  await sendVerificationMail(iitkEmail, ticket.uniqueToken);
+  // Send verification mail asynchronously
+  sendVerificationMail(iitkEmail, ticket.uniqueToken);
   return ticket.toObject();
 };
 
