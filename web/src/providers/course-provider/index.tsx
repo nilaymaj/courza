@@ -56,7 +56,6 @@ export const CoursesProvider = (props: { children: React.ReactNode }) => {
   useAllCourseEvents(
     coursesData.map((cData) => cData.course._id),
     (courseId) => {
-      console.log(courseId, activeCourseId);
       if (courseId === activeCourseId) return;
       const newCoursesData = [...coursesData];
       const eventCourse = newCoursesData.find(
