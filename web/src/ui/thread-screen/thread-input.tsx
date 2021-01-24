@@ -7,7 +7,7 @@ import {
   EuiButtonIcon,
 } from '@elastic/eui';
 import autosize from 'autosize';
-import { scrollToBottom } from './utils';
+import { scrollToBottom, parseContentToJsx } from './utils';
 
 type Props = {
   onPost: (text: string) => any;
@@ -16,7 +16,7 @@ type Props = {
 
 const ThreadInput = (props: Props) => {
   const [input, setInput] = React.useState<string>('');
-  const textareaRef = React.useRef<null | HTMLTextAreaElement>(null);
+  const textareaRef = React.useRef<null | HTMLDivElement>(null);
   const { loading, onPost } = props;
 
   const handlePostMessage = React.useCallback(() => {
@@ -35,7 +35,7 @@ const ThreadInput = (props: Props) => {
   // Ctrl+Enter keyboard shortcut
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.keyCode === 13 && e.ctrlKey) handlePostMessage();
+      if (e.keyCode === 13 && !e.ctrlKey && !e.shiftKey) handlePostMessage();
     };
     document.addEventListener('keyup', handler);
     return () => document.removeEventListener('keyup', handler);
@@ -46,7 +46,7 @@ const ThreadInput = (props: Props) => {
       <EuiPanel paddingSize="s" hasShadow>
         <EuiFlexGroup gutterSize="s" responsive={false}>
           <EuiFlexItem>
-            <EuiTextArea
+            {/* <EuiTextArea
               fullWidth
               value={input}
               rows={1}
@@ -55,7 +55,16 @@ const ThreadInput = (props: Props) => {
               aria-label="Enter your comment"
               onChange={(e) => setInput(e.target.value)}
               style={{ maxHeight: '9em' }}
-            />
+            /> */}
+            <div
+              contentEditable
+              placeholder="Type your message..."
+              className="cz-messages__box"
+              ref={(ref) => (textareaRef.current = ref)}
+              onChange={(e) => console.log(e)}
+            >
+              Hello
+            </div>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiButtonIcon
